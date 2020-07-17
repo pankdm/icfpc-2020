@@ -27,9 +27,10 @@ def dump_file(strings, output_filename='decode_progress/galaxy_{suffix}.txt'):
 def sorted_defs(defs):
   return sorted(defs, key=lambda _def: len(_def[1]))
 
-defs = parse_program(read_source())
-for token, operands in sorted_defs(defs)[:48]:
-  print(f'{token} = {" ".join(operands)}')
+if __name__ == "__main__":
+  defs = parse_program(read_source())
+  for token, operands in sorted_defs(defs)[:48]:
+    print(f'{token} = {" ".join(operands)}')
 
-sorted_strings = [f'{token} = {" ".join(operands)}' for token, operands in sorted_defs(defs)]
-dump_file(sorted_strings)
+  sorted_strings = [f'{token} = {" ".join(operands)}' for token, operands in sorted_defs(defs)]
+  dump_file(sorted_strings)
