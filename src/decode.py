@@ -1,6 +1,5 @@
 from datetime import datetime
 
-
 def read_source(filename='galaxy.txt'):
   with open(filename, 'r') as galaxy_txt:
     program = galaxy_txt.read()
@@ -12,11 +11,11 @@ def parse_program(code_lines):
   # ":1042 = ap ap cons 4 ap ap cons 63935 nil"
   #  ^       ^
   #  token   fn body
-  defs = []
+  defs = {}
   for ln in code_lines:
     [token, body] = [chunk.strip() for chunk in ln.split('=')]
-    operands = body.split()
-    defs.append([ token, operands])
+    lexems = body.split()
+    defs[token] = lexems
   return defs
 
 
@@ -25,7 +24,7 @@ def dump_file(strings, output_filename='decode_progress/galaxy_{suffix}.txt'):
     output.write('\n'.join(strings))
 
 def sorted_defs(defs):
-  return sorted(defs, key=lambda _def: len(_def[1]))
+  return sorted(defs.items(), key=lambda _def: len(_def[1]))
 
 if __name__ == "__main__":
   defs = parse_program(read_source())
@@ -34,3 +33,10 @@ if __name__ == "__main__":
 
   sorted_strings = [f'{token} = {" ".join(operands)}' for token, operands in sorted_defs(defs)]
   dump_file(sorted_strings)
+
+def usage():
+  return '''
+  `decode` usage:
+    defs = parse_program(read_source())
+    galaxy_lexems = defs['galaxy']
+  '''

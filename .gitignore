@@ -241,3 +241,5 @@ pip-selfcheck.json
 
 messages-from-space/target/
 .DS_Store
+
+.vscode
