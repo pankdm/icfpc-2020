@@ -8,7 +8,7 @@ def _parse(s):
 
 class ParseModulatedTest(unittest.TestCase):
     def test_empty(self):
-        self.assertEqual("[]", _parse("00"))
+        self.assertEqual([], _parse("00"))
 
     def test_0(self):
         self.assertEqual(0, _parse("010"))
