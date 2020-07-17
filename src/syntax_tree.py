@@ -18,8 +18,12 @@ class Expr:
       x0 = self.args[0].evaluate()
       x1 = self.args[1].evaluate()
       return x0(x1)
-    if self.name == "cons":
+    elif self.name == "cons":
       return lambda x: lambda y: (x, y)
+    elif self.name == "car":
+      return lambda x: x[0]
+    elif self.name == "cdr":
+      return lambda x: x[-1]
     else:
       return self.name
 
