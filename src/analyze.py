@@ -22,11 +22,7 @@ def inline(defs, token, max_iterations=None):
   if not defs.get(token):
     raise Exception(f'Token "{token}" not found')
 
-  unfold_stats = {
-    'calls': 0,
-  }
-  def unfold(token, max_iterations=None, stats=unfold_stats):
-    unfold_stats['calls'] = unfold_stats['calls'] + 1
+  def unfold(token, max_iterations=None):
     lexems = defs.get(token)
     iterations_left = None
     if type(max_iterations) == int:
@@ -37,7 +33,7 @@ def inline(defs, token, max_iterations=None):
     unfolded = []
     for lexem in lexems:
       if is_token(lexem):
-        unfolded_lexem = unfold(lexem, iterations_left, stats=stats)
+        unfolded_lexem = unfold(lexem, iterations_left)
         if len(unfolded_lexem) == 1:
           unfolded.append(unfolded_lexem[0])
         else:
@@ -47,5 +43,4 @@ def inline(defs, token, max_iterations=None):
     return unfolded
 
   result = unfold(token, max_iterations)
-  print(f'Called `unfold()` {unfold_stats["calls"]} times')
   return result

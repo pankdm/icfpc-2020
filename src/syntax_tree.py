@@ -32,7 +32,7 @@ class TokenStream:
   def __init__(self, vec):
     self.vec = vec
     self.index = 0
-  
+
   def read(self):
     res = self.vec[self.index]
     self.index += 1
@@ -61,4 +61,3 @@ if __name__ == "__main__":
     print (ev)
     print()
     # import pdb; pdb.set_trace()
-  
