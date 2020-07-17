@@ -37,6 +37,13 @@ class ParseModulatedTest(unittest.TestCase):
     def test_min256(self):
         self.assertEqual(-256, _parse("101110000100000000"))
 
+    def test_trivial_list(self):
+        self.assertEqual([0], _parse("1101000"))
+
+    def test_moar(self):
+        self.assertEqual([1, 76800], _parse("110110000111011111100001001011000000000000"))
+        self.assertEqual([1, 76790], _parse("110110000111011111100001001010111111011000"))
+
     def test_empty(self):
         self.skipTest("TODO: should not be blocking on malformed input")
         _parse("01")
