@@ -11,7 +11,7 @@ class CurriedFunction():
     self.required_args_cnt = required_args_cnt
     self.body = body
     if applied_args:
-      self.applied_args = applied_args
+      self.applied_args = applied_args[:]
     else:
       self.applied_args = []
   def __add__(self, other):
@@ -33,7 +33,8 @@ class CurriedFunction():
     if len(fn.applied_args) < fn.required_args_cnt:
       fn.applied_args.append(arg)
     else:
-      raise Exception(f'Function already had all args applied. Start to panic!!')
+      raise Exception(f'Function already had all args applied. Start to panic!!'
+                      f' fn={fn} fn.applied_args={fn.applied_args} arg={arg}')
     if len(fn.applied_args) == fn.required_args_cnt:
       return fn.body(*fn.applied_args)
     else:
