@@ -243,3 +243,4 @@ messages-from-space/target/
 .DS_Store
 .vscode
 .ipynb_checkpoints
+annotations/eval/

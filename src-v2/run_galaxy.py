@@ -10,22 +10,29 @@ import shutil
 
 ID_COUNTER = 0
 GLOBAL_LOG_COUNTER = 0
+
+DEBUG_OUTPUT = False
+DUMP_ALL_LOGS = False
   
 def create_ap_node(left, right):
   expr = Expr("ap", left, right)
   left.parent = expr
-  right.parent = expr
   return expr
 
-def update_args_in_ap_node(ap_node, left, right):
-  ap_node.left = left
-  ap_node.right = right
-  left.parent = ap_node
-  right.parent = ap_node
+def update_node_in_place(node, name, left, right):
+  node.left = left
+  if left:
+    left.parent = node
+  node.right = right
+  node.name = name
 
 
 class Expr:
   def __init__(self, name, left, right):
+    assert isinstance(name, str), f"type mismatch: {name}"
+    assert left is None or isinstance(left, Expr), f"type mismatch {left}"
+    assert right is None or isinstance(right, Expr), f"type mismatch {right}"
+
     global ID_COUNTER
     self.name = name
     self.left = left
@@ -37,6 +44,14 @@ class Expr:
   def __repr__(self):
     return f'({self.name}, id={self.id})'
 
+  def __eq__(self, other):
+    if self.name != other.name:
+      return False
+    if self.name == "ap":
+      return (self.left == other.left) and (self.right == other.right)
+    else:
+      return True
+
   def deep_clone(self):
     if self.name == "ap":
         left = self.left.deep_clone()
@@ -45,10 +60,17 @@ class Expr:
     return Expr(self.name, None, None)
 
   def count(self):
+    return len(self.collect_ids())
+    # if self.name == "ap":
+    #   return self.left.count() + self.right.count() + 1
+    # else:
+    #   return 1
+
+  def collect_ids(self):
     if self.name == "ap":
-      return self.left.count() + self.right.count() + 1
+      return set.union(self.left.collect_ids(), self.right.collect_ids(), {self.id})
     else:
-      return 1
+      return {self.id}
 
 
   def dump(self):
@@ -62,8 +84,8 @@ class Expr:
   def dump_with_indent(self, indent = 0):
     shift = ' ' * indent
     if self.name == "ap":
-      left = self.left.dump_with_indent(indent + 2)
-      right = self.right.dump_with_indent(indent + 2)
+      left = self.left.dump_with_indent(indent + 4)
+      right = self.right.dump_with_indent(indent + 4)
       return f'{shift}({self.name}[{self.id}]\n{left}\n{right} \n{shift})'
     else:
       return f'{shift}{self.name}'
@@ -75,16 +97,30 @@ class Expr:
     return self
 
   def validate_parents(self):
+    if DEBUG_OUTPUT:
+        print (f"{self}, parent = {self.parent}")
     if self.name == "ap":
       assert self.left.get_parent().id == self.id, f"Mismatched id at {self.left}"
-      assert self.right.get_parent().id == self.id, f"Mismatched id at {self.right}"
+      # assert self.right.get_parent().id == self.id, f"Mismatched id at {self.right}"
       self.left.validate_parents()
       self.right.validate_parents()
+
+  def get_num_parents(self, num):
+    if num == 1:
+      return (self.parent, )
+    if not self.parent:
+      return None
+    res = self.parent.get_num_parents(num - 1)
+    if res is None:
+      return None
+    return (self.parent, ) + res
+    
 
   def get_parent(self):
     # print (f"calling parent on {self}")
     if not self.parent:
-        print (self.dump())
+        print ('Error: \n', self.dump())
+        # print ('Error: \n', self.dump_with_indent())
         assert False, f"Error while calling parent on {self}"
     return self.parent
 
@@ -154,10 +190,8 @@ class TreeState:
 
 
   def dump(self, counter):
-    global GLOBAL_LOG_COUNTER
-    GLOBAL_LOG_COUNTER += 1
     with self.create_eval_log(counter) as output:
-      output.write(f"Main: {self.main_expr.count()}\n")
+      output.write(f"Function {self.tag}: {self.main_expr.count()}\n")
       output.write(f"{self.main_expr.dump()}\n")
       output.write(f"{self.main_expr.dump_with_indent()}\n")
 
@@ -165,60 +199,113 @@ class TreeState:
   
   def validate(self):
     self.main_expr.validate_parents()
-    print ("  Validation passed")
+    if DEBUG_OUTPUT:
+      print ("  Validation passed")
 
   def reduce(self, max_iter=100):
+    global GLOBAL_LOG_COUNTER
     # now we have a state
     # let's start doing substitutions
     self.dump(counter=0)
     for counter in range(1, max_iter):
       print ()
-      print (f"iter = {counter}, main -> {self.main_expr.count()}")
-      self.replace_left()
+      print (f"{GLOBAL_LOG_COUNTER}: iter = {counter}, {self.tag} -> {self.main_expr.count()}")
+      changed = self.replace_left()
+      if changed is None:
+        assert False, "Got None from replace_left()!"
+      if not changed:
+        print (" >> Noting to replace, breaking")
+        break
       # validate to make sure we updated parents correctly
+      print ("Running validation after replacemenet")
       self.validate()
-      self.dump(counter)    
+      if DUMP_ALL_LOGS:
+        self.dump(counter)    
 
-  def replace_c_combinator(self, c_node):
-    p0 = c_node.get_parent()
-    p1 = p0.get_parent()
-    p2 = p1.get_parent()
+  def replace_c(self, c_node):
+    parents = c_node.get_num_parents(3)
+    if not parents:
+      return False
+    p0, p1, p2 = parents
 
     x0 = p0.right
     x1 = p1.right
     x2 = p2.right
 
     new_left = create_ap_node(x0, x2)
-    update_args_in_ap_node(p2, new_left, x1)
+    update_node_in_place(p2, "ap", new_left, x1)
+    return True
 
-  def replace_b_combinator(self, b_node):
-    p0 = b_node.get_parent()
-    p1 = p0.get_parent()
-    p2 = p1.get_parent()
+  def replace_b(self, b_node):
+    parents = b_node.get_num_parents(3)
+    if not parents:
+      return False
+    p0, p1, p2 = parents
 
     x0 = p0.right
     x1 = p1.right
     x2 = p2.right
 
     new_right = create_ap_node(x1, x2)
-    update_args_in_ap_node(p2, x0, new_right)
+    update_node_in_place(p2, "ap", x0, new_right)
+    return True
 
-  def replace_s_combinator(self, s_node):
-    p0 = s_node.get_parent()
-    p1 = p0.get_parent()
-    p2 = p1.get_parent()
+  def replace_s(self, s_node):
+    parents = s_node.get_num_parents(3)
+    if not parents:
+      return False
+    p0, p1, p2 = parents
 
     x0 = p0.right
     x1 = p1.right
     x2 = p2.right
 
-    new_left = create_ap_node(x0, x2.deep_clone())
-    new_right = create_ap_node(x1, x2.deep_clone())
-    update_args_in_ap_node(p2, new_left, new_right)
+    new_left = create_ap_node(x0, x2)
+    new_right = create_ap_node(x1, x2)
+    update_node_in_place(p2, "ap", new_left, new_right)
+    return True
 
-  def replace_eq_combinator(self, eq_node):
-    p0 = eq_node.get_parent()
-    p1 = eq_node.get_parent()
+  def replace_t(self, t_node):
+    parents = t_node.get_num_parents(2)
+    if not parents:
+      return False
+    p0, p1 = parents
+
+    x0 = p0.right
+    # x1 = p1.right
+
+    update_node_in_place(p1, x0.name, x0.left, x0.right)
+    return True
+
+  def replace_f(self, f_node):
+    parents = f_node.get_num_parents(2)
+    if not parents:
+      return False
+    p0, p1 = parents
+
+    # x0 = p0.right
+    x1 = p1.right
+
+    update_node_in_place(p1, x1.name, x1.left, x1.right)
+    return True
+
+  def replace_i(self, i_node):
+    parents = i_node.get_num_parents(1)
+    if not parents:
+      return False
+    p0 = parents[0]
+
+    x0 = p0.right
+
+    update_node_in_place(p0, x0.name, x0.left, x0.right)
+    return True
+
+
+  def replace_eq(self, eq_node):
+    parents = eq_node.get_num_parents(2)
+    if not parents:
+      return False
+    p0, p1 = parents
     
     x0 = p0.right
     x1 = p1.right
@@ -231,28 +318,49 @@ class TreeState:
     left_state.defs_expr = self.defs_expr
     left_state.reduce(max_iter=10)
 
+    right_state = TreeState(str(x1.id))
+    right_state.main_expr = x1
+    right_state.defs_expr = self.defs_expr
+    right_state.reduce(max_iter=10)
 
+    if left_state.main_expr == right_state.main_expr:
+      new_name = "t"
+    else:
+      new_name = "f"
+    update_node_in_place(p1, new_name, None, None)
+    return True
+
+
+  # returns True/False is there was replacement
   def replace_left(self):
+    global GLOBAL_LOG_COUNTER
+    GLOBAL_LOG_COUNTER += 1
+
     # find left-most node
     left_most = self.main_expr.find_left()
     print (f'Found {left_most} node, parent = {left_most.parent}')
     if left_most.name.startswith(":"):
-      parent = left_most.parent
-      assert parent, f"No parent found: {parent}"
+      # parent = left_most.parent
+      # assert parent, f"No parent found: {parent}"
       # do a substitution
+      # ref = self.defs_expr[left_most.name].deep_clone()
       ref = self.defs_expr[left_most.name]
-      subtree = ref.deep_clone()
-
-      subtree.parent = parent
-      parent.left = subtree
+      update_node_in_place(left_most, ref.name, ref.left, ref.right)
+      return True
     elif left_most.name == "c":
-      self.replace_c_combinator(left_most)
+      return self.replace_c(left_most)
     elif left_most.name == "b":
-      self.replace_b_combinator(left_most)
+      return self.replace_b(left_most)
     elif left_most.name == "s":
-      self.replace_s_combinator(left_most)
-    # elif left_most.name == "eq":
-    #   self.replace_eq_combinator(left_most)
+      return self.replace_s(left_most)
+    elif left_most.name == "eq":
+      return self.replace_eq(left_most)
+    elif left_most.name == "f":
+      return self.replace_f(left_most)
+    elif left_most.name == "t":
+      return self.replace_t(left_most)
+    elif left_most.name == "i":
+      return self.replace_i(left_most)
     else:
       assert False, f"Unimplemented op: {left_most}"
 
@@ -266,15 +374,18 @@ def tree_eval(defs):
   #   vector = (0, 0)
   # ap ap ap interact x0 nil ap ap vec 0 0
   # ap ap ap interact x2 x4 x3 = ap (ap f38 x2) (ap (ap x2 x4) x3)
-  galaxy = " ".join(defs["galaxy"])
-  main_expr_tokens = f"ap ap {galaxy} nil ap ap cons 0 0".split(" ")
+  if "galaxy" in defs:
+    galaxy = " ".join(defs["galaxy"])
+    main_expr_tokens = f"ap ap {galaxy} nil ap ap cons 0 0".split(" ")
+  else:
+    main_expr_tokens = defs["main"]
 
   state.main_expr = parse_from_tokens(main_expr_tokens)
   state.defs_expr = {}
   for name, tokens in defs.items():
     state.defs_expr[name] = parse_from_tokens(tokens)
 
-  state.reduce(max_iter=100)
+  state.reduce(max_iter=1000)
 
 
 def main():
