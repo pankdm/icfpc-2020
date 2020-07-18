@@ -1,5 +1,6 @@
 
 import sys
+import re
 from decode import parse_program, read_source, sorted_defs
 
 from funcs import *
@@ -11,9 +12,18 @@ def sorted_by_id(defs):
 def try_eval(expr):
   if expr.name.startswith(":"):
     raise RuntimeError("Dereferencing is not supported")
-  if expr.name.isdigit():
+  if re.match('-?\d+', expr.name):
     return int(expr.name)
+  if expr.name == "ap":
+    left = try_eval(expr.args[0])
+    right = try_eval(expr.args[1])
+    return AP(left, right)
+  else:
+    func = FUNCTIONS.get(expr.name, None)
+    assert func, f'Unknown func: {expr.name}'
+    return func
 
+  
 
 
 class Expr:

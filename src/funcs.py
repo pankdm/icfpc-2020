@@ -64,6 +64,28 @@ CDR = CurriedFunction('CDR', 1, lambda x0: AP(x0, F))
 NEG = CurriedFunction('NEG', 1, lambda x0: -x0)
 DEAD_RECUR_LOOP = CurriedFunction('DEAD_RECUR_LOOP', 1, lambda x0: AP(DEAD_RECUR_LOOP, x0))
 
+FUNCTIONS = {
+  'ap': AP,
+  'add': ADD,
+  'inc': INC,
+  'dec': DEC,
+  'mul': MUL,
+  'div': DIV,
+  's': S,
+  'b': B,
+  'c': C,
+  't': T,
+  'f': F,
+  'i': I,
+  'eq': EQ,
+  'lt': LT,
+  'cons': CONS,
+  'nil': NIL,
+  'isnil': ISNIL,
+  'car': CAR,
+  'cdr': CDR,
+  'neg': NEG,
+}
 
 
 class Node():
