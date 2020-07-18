@@ -1,0 +1,496 @@
+:1115 = cons
+      <CONS() (0 of 3 args applied)>
+:1162 = cons
+      <CONS() (0 of 3 args applied)>
+:1167 = cons
+      <CONS() (0 of 3 args applied)>
+:1233 = 0
+      0
+:1234 = 1
+      1
+:1235 = 2
+      2
+:1236 = 3
+      3
+:1237 = 4
+      4
+:1238 = 5
+      5
+:1239 = 6
+      6
+:1240 = 7
+      7
+:1241 = 8
+      8
+:1242 = 9
+      9
+:1243 = 10
+      10
+:1244 = 11
+      11
+:1245 = 12
+      12
+:1246 = 13
+      13
+:1249 = 19
+      19
+:1303 = 8
+      8
+:1307 = 0
+      0
+:1308 = 1
+      1
+:1328 = 0
+      0
+:1329 = 1
+      1
+:1330 = 2
+      2
+:1331 = 3
+      3
+:1332 = 4
+      4
+:1333 = 5
+      5
+:1334 = 6
+      6
+:1335 = 10
+      10
+:1345 = 13
+      13
+:1352 = :1374
+      ???
+:1378 = 0
+      0
+:1379 = 8
+      8
+:1380 = 13
+      13
+:1381 = 14
+      14
+:1382 = 16
+      16
+:1383 = 17
+      17
+:1384 = 18
+      18
+:1385 = 20
+      20
+:1386 = 7
+      7
+:1421 = 0
+      0
+:1422 = 1
+      1
+:1423 = 2
+      2
+:1424 = 3
+      3
+:1425 = 4
+      4
+:1426 = 5
+      5
+galaxy = :1338
+      ???
+:1248 = (ap neg 14)
+      -14
+:1484 = (ap :1115 nil)
+      <CONS() (1 of 3 args applied)>
+:1109 = (ap (ap cons 0) nil)
+      <CONS() (2 of 3 args applied)>
+:1175 = (ap (ap c i) t)
+      <C() (2 of 3 args applied)>
+:1214 = (ap :1212 (ap s t))
+      ???
+:1217 = (ap :1213 (ap s t))
+      ???
+:1251 = (ap (ap add -2) :1249)
+      17
+:1284 = (ap (ap c :1340) :1256)
+      ???
+:1388 = (ap (ap :1162 :1386) 0)
+      <CONS() (2 of 3 args applied)>
+:1390 = (ap (ap :1162 0) :1386)
+      <CONS() (2 of 3 args applied)>
+:1178 = (ap (ap c i) (ap t i))
+      <C() (2 of 3 args applied)>
+:1250 = (ap (ap add -2) (ap neg :1249))
+      -21
+:1387 = (ap (ap :1162 (ap neg :1386)) 0)
+      <CONS() (2 of 3 args applied)>
+:1389 = (ap (ap :1162 0) (ap neg :1386))
+      <CONS() (2 of 3 args applied)>
+:1029 = (ap (ap cons 7) (ap (ap cons 123229502148636) nil))
+      <CONS() (2 of 3 args applied)>
+:1030 = (ap (ap cons 2) (ap (ap cons 7) nil))
+      <CONS() (2 of 3 args applied)>
+:1031 = (ap (ap cons 4) (ap (ap cons 21855) nil))
+      <CONS() (2 of 3 args applied)>
+:1032 = (ap (ap cons 7) (ap (ap cons 560803991675135) nil))
+      <CONS() (2 of 3 args applied)>
+:1034 = (ap (ap cons 5) (ap (ap cons 33554431) nil))
+      <CONS() (2 of 3 args applied)>
+:1035 = (ap (ap cons 5) (ap (ap cons 30309607) nil))
+      <CONS() (2 of 3 args applied)>
+:1036 = (ap (ap cons 3) (ap (ap cons 463) nil))
+      <CONS() (2 of 3 args applied)>
+:1037 = (ap (ap cons 4) (ap (ap cons 48063) nil))
+      <CONS() (2 of 3 args applied)>
+:1038 = (ap (ap cons 7) (ap (ap cons 10880) nil))
+      <CONS() (2 of 3 args applied)>
+:1039 = (ap (ap cons 5) (ap (ap cons 15265326) nil))
+      <CONS() (2 of 3 args applied)>
+:1040 = (ap (ap cons 5) (ap (ap cons 18472561) nil))
+      <CONS() (2 of 3 args applied)>
+:1041 = (ap (ap cons 4) (ap (ap cons 64959) nil))
+      <CONS() (2 of 3 args applied)>
+:1042 = (ap (ap cons 4) (ap (ap cons 63935) nil))
+      <CONS() (2 of 3 args applied)>
+:1080 = (ap (ap cons 5) (ap (ap cons 14711822) nil))
+      <CONS() (2 of 3 args applied)>
+:1081 = (ap (ap cons 5) (ap (ap cons 18404913) nil))
+      <CONS() (2 of 3 args applied)>
+:1082 = (ap (ap cons 7) (ap (ap cons 560819095462143) nil))
+      <CONS() (2 of 3 args applied)>
+:1083 = (ap (ap cons 3) (ap (ap cons 256) nil))
+      <CONS() (2 of 3 args applied)>
+:1084 = (ap (ap cons 4) (ap (ap cons 42144) nil))
+      <CONS() (2 of 3 args applied)>
+:1085 = (ap (ap cons 5) (ap (ap cons 18299345) nil))
+      <CONS() (2 of 3 args applied)>
+:1086 = (ap (ap cons 5) (ap (ap cons 29342715) nil))
+      <CONS() (2 of 3 args applied)>
+:1087 = (ap (ap cons 3) (ap (ap cons 256) nil))
+      <CONS() (2 of 3 args applied)>
+:1088 = (ap (ap cons 4) (ap (ap cons 19008) nil))
+      <CONS() (2 of 3 args applied)>
+:1089 = (ap (ap cons 5) (ap (ap cons 4681156) nil))
+      <CONS() (2 of 3 args applied)>
+:1090 = (ap (ap cons 5) (ap (ap cons 15724526) nil))
+      <CONS() (2 of 3 args applied)>
+:1093 = (ap (ap cons 5) (ap (ap cons 18411057) nil))
+      <CONS() (2 of 3 args applied)>
+:1097 = (ap (ap cons 5) (ap (ap cons 22369621) nil))
+      <CONS() (2 of 3 args applied)>
+:1098 = (ap (ap cons 5) (ap (ap cons 32537631) nil))
+      <CONS() (2 of 3 args applied)>
+:1099 = (ap (ap cons 5) (ap (ap cons 22730421) nil))
+      <CONS() (2 of 3 args applied)>
+:1100 = (ap (ap cons 5) (ap (ap cons 33084991) nil))
+      <CONS() (2 of 3 args applied)>
+:1101 = (ap (ap cons 5) (ap (ap cons 1538126) nil))
+      <CONS() (2 of 3 args applied)>
+:1116 = (ap (ap s (ap (ap b c) isnil)) car)
+      <S() (2 of 3 args applied)>
+:1143 = (ap (ap c (ap (ap c :1132) 0)) add)
+      ???
+:1176 = (ap (ap b :1146) (ap (ap c :1126) :1178))
+      ???
+:1232 = (ap (ap cons :1253) (ap (ap cons :1231) nil))
+      ???
+:1354 = (ap (ap c (ap (ap b b) :1369)) :1366)
+      ???
+:1364 = (ap (ap c (ap (ap b b) :1369)) :1366)
+      ???
+:1399 = (ap (ap b :1476) (ap (ap c :1126) :1400))
+      ???
+:1411 = (ap (ap b :1134) (ap (ap c :1126) :1412))
+      ???
+:1472 = (ap (ap cons nil) (ap (ap cons nil) nil))
+      <CONS() (2 of 3 args applied)>
+:1110 = (ap (ap b (ap cons 1)) (ap (ap c cons) nil))
+      <B() (2 of 3 args applied)>
+:1114 = (ap (ap b (ap cons 5)) (ap (ap c cons) nil))
+      <B() (2 of 3 args applied)>
+:1134 = (ap (ap c (ap (ap c :1133) nil)) (ap c :1131))
+      ???
+:1183 = (ap (ap c (ap (ap b b) :1126)) (ap c :1172))
+      ???
+:1377 = (ap (ap b (ap b :1189)) (ap (ap c :1144) 1))
+      ???
+:1461 = (ap (ap b c) (ap (ap c :1137) (ap eq 0)))
+      ???
+:1487 = (ap (ap c (ap (ap b b) :1126)) (ap c :1183))
+      ???
+:1096 = (ap (ap (ap (ap :1201 (ap neg 16)) (ap neg 16)) 33) 33)
+      ???
+:1137 = (ap (ap b (ap b c)) (ap (ap b (ap b isnil)) :1135))
+      ???
+:1155 = (ap (ap c (ap (ap b :1153) (ap (ap c :1152) lt))) lt)
+      ???
+:1218 = (ap (ap c (ap (ap b :1220) (ap (ap c :1126) :1214))) 0)
+      ???
+:1445 = (ap (ap cons :1446) (ap (ap cons (ap (ap cons 0) nil)) nil))
+      ???
+:1189 = (ap (ap b (ap cons 0)) (ap (ap c cons) (ap (ap cons nil) nil)))
+      <B() (2 of 3 args applied)>
+:1209 = (ap (ap s (ap (ap c (ap eq 0)) (ap (ap cons 0) nil))) :1207)
+      ???
+:1227 = (ap (ap cons :1228) (ap (ap cons (ap (ap cons (ap neg 1)) nil)) nil))
+      ???
+:1375 = (ap (ap b (ap b (ap c (ap c :1191)))) (ap (ap c :1144) 1))
+      ???
+:1376 = (ap (ap b (ap b (ap c (ap c :1190)))) (ap (ap c :1144) 1))
+      ???
+:1091 = (ap (ap cons :1083) (ap (ap cons :1084) (ap (ap cons :1085) (ap (ap cons :1086) nil))))
+      <CONS() (2 of 3 args applied)>
+:1092 = (ap (ap cons :1087) (ap (ap cons :1088) (ap (ap cons :1089) (ap (ap cons :1090) nil))))
+      <CONS() (2 of 3 args applied)>
+:1102 = (ap (ap cons :1097) (ap (ap cons :1098) (ap (ap cons :1099) (ap (ap cons :1100) nil))))
+      <CONS() (2 of 3 args applied)>
+:1121 = (ap (ap s (ap (ap b c) (ap (ap c (ap (ap b s) lt)) i))) i)
+      <S() (2 of 3 args applied)>
+:1122 = (ap (ap c (ap (ap b s) (ap (ap s (ap (ap b c) lt)) i))) i)
+      <C() (2 of 3 args applied)>
+:1179 = (ap (ap c b) (ap (ap b (ap c (ap (ap b b) :1162))) (ap c add)))
+      <C() (2 of 3 args applied)>
+:1188 = (ap (ap c (ap (ap b b) :1126)) (ap (ap b (ap c :1172)) (ap :1162 0)))
+      ???
+:1252 = (ap (ap cons 1) (ap (ap cons 4) (ap (ap cons 12) (ap (ap cons 2) nil))))
+      <CONS() (2 of 3 args applied)>
+:1338 = (ap (ap c (ap (ap b c) (ap (ap c (ap (ap b c) :1342)) :1328))) :1336)
+      ???
+:1369 = (ap (ap c (ap (ap b s) :1376)) (ap (ap c (ap (ap b :1141) :1392)) 1))
+      ???
+:1403 = (ap (ap s (ap (ap c isnil) nil)) (ap (ap b :1198) (ap (ap c :1141) 1)))
+      ???
+:1128 = (ap (ap s (ap (ap c isnil) 0)) (ap (ap b (ap add 1)) (ap (ap b :1128) cdr)))
+      ???
+:1187 = (ap (ap c (ap (ap b b) :1126)) (ap (ap b (ap c :1172)) (ap (ap c :1162) 0)))
+      ???
+:1392 = (ap (ap s (ap (ap s (ap (ap b (ap eq 4)) (ap (ap c :1141) 1))) :1393)) :1394)
+      ???
+:1398 = (ap (ap (ap (ap :1490 (ap (ap :1162 (ap neg 3)) (ap neg 3))) (ap :1225 :1029)) :1378) 0)
+      ???
+:1420 = (ap (ap cons :1427) (ap (ap cons (ap (ap cons :1421) (ap (ap cons (ap neg 1)) nil))) nil))
+      ???
+:1473 = (ap (ap b (ap b :1476)) (ap (ap c (ap (ap b b) cons)) (ap (ap c cons) nil)))
+      ???
+:1111 = (ap (ap b (ap b (ap cons 2))) (ap (ap c (ap (ap b b) cons)) (ap (ap c cons) nil)))
+      <B() (2 of 3 args applied)>
+:1112 = (ap (ap b (ap b (ap cons 3))) (ap (ap c (ap (ap b b) cons)) (ap (ap c cons) nil)))
+      <B() (2 of 3 args applied)>
+:1113 = (ap (ap b (ap b (ap cons 4))) (ap (ap c (ap (ap b b) cons)) (ap (ap c cons) nil)))
+      <B() (2 of 3 args applied)>
+:1190 = (ap (ap b (ap b (ap cons 0))) (ap (ap c (ap (ap b b) cons)) (ap (ap c cons) nil)))
+      <B() (2 of 3 args applied)>
+:1191 = (ap (ap b (ap b (ap cons 1))) (ap (ap c (ap (ap b b) cons)) (ap (ap c cons) nil)))
+      <B() (2 of 3 args applied)>
+:1222 = (ap (ap s (ap (ap c isnil) nil)) (ap (ap c (ap (ap b :1220) (ap (ap c :1126) :1225))) 0))
+      ???
+:1266 = (ap (ap c (ap (ap b :1162) (ap (ap b (ap mul (ap neg 18))) (ap (ap c add) 1)))) 0)
+      <C() (2 of 3 args applied)>
+:1463 = (ap (ap b (ap b i)) (ap (ap b (ap b cdr)) (ap (ap c (ap (ap b c) :1460)) 3)))
+      ???
+:1117 = (ap (ap s (ap (ap c (ap eq 0)) 1)) (ap (ap b (ap mul 2)) (ap (ap b :1117) (ap add -1))))
+      ???
+:1139 = (ap (ap s (ap (ap b :1126) :1138)) (ap (ap b (ap b (ap add -1))) (ap c (ap (ap b add) neg))))
+      ???
+:1195 = (ap (ap b (ap b (ap c (ap (ap b :1126) :1138)))) (ap (ap b c) (ap (ap b (ap b :1162)) add)))
+      ???
+:1478 = (ap (ap b (ap cons nil)) (ap (ap c (ap (ap b cons) (ap (ap b :1484) (ap (ap c :1141) 1)))) nil))
+      ???
+:1131 = (ap (ap s (ap (ap b s) isnil)) (ap (ap c b) (ap (ap b (ap c (ap (ap b b) :1115))) (ap c :1131))))
+      ???
+:1150 = (ap (ap c (ap (ap b b) :1152)) (ap (ap s (ap (ap b c) (ap (ap b (ap b b)) (ap b lt)))) i))
+      ???
+:1197 = (ap (ap b (ap b (ap c (ap (ap b :1126) :1138)))) (ap (ap c (ap (ap b b) (ap (ap b b) :1162))) add))
+      ???
+:1339 = (ap (ap b (ap b (ap c (ap (ap b (ap b :1189)) (ap c (ap (ap c :1144) 1)))))) (ap (ap c :1144) 0))
+      ???
+:1341 = (ap (ap b (ap (ap b :1189) (ap (ap c (ap (ap c :1144) 1)) nil))) (ap (ap c (ap (ap c :1144) 0)) :1335))
+      ???
+:1366 = (ap (ap b (ap (ap b i) (ap (ap c (ap (ap c :1144) 8)) 4))) (ap (ap c (ap (ap c :1144) 6)) nil))
+      ???
+:1451 = (ap (ap cons :1471) (ap (ap cons (ap (ap cons 0) (ap (ap cons :1450) (ap (ap cons nil) (ap (ap cons 0) nil))))) nil))
+      ???
+:1118 = (ap (ap s (ap (ap c (ap (ap c lt) 2)) 0)) (ap (ap b (ap add 1)) (ap (ap b :1118) (ap (ap c div) 2))))
+      ???
+:1166 = (ap (ap c (ap (ap b c) (ap (ap b (ap b b)) (ap (ap b (ap b b)) (ap (ap b (ap b cons)) :1162))))) :1162)
+      <C() (2 of 3 args applied)>
+:1169 = (ap (ap c b) (ap (ap c (ap (ap b c) (ap (ap b (ap b b)) (ap (ap b (ap b :1167)) (ap c :1172))))) i))
+      <C() (2 of 3 args applied)>
+:1174 = (ap (ap c b) (ap (ap c (ap (ap b c) (ap (ap b (ap b b)) (ap (ap b (ap b :1162)) (ap c add))))) i))
+      <C() (2 of 3 args applied)>
+:1257 = (ap (ap b (ap (ap b c) isnil)) (ap (ap b (ap :1135 :1247)) (ap (ap c (ap (ap b b) eq)) (ap (ap c :1141) 1))))
+      ???
+:1453 = (ap (ap s (ap (ap c isnil) 0)) (ap (ap c i) (ap (ap c (ap (ap b b) add)) (ap (ap b (ap mul 7)) :1453))))
+      ???
+:1467 = (ap (ap c (ap (ap b b) (ap (ap c (ap (ap b b) (ap (ap c (ap eq 2)) nil))) (ap (ap c cons) nil)))) :1465)
+      <C() (2 of 3 args applied)>
+:1486 = (ap (ap b (ap b i)) (ap (ap s (ap (ap b b) (ap (ap c :1144) 0))) (ap (ap b :1169) (ap (ap c :1141) 0))))
+      ???
+:1141 = (ap (ap c b) (ap (ap s (ap (ap b c) (ap (ap b (ap b b)) (ap eq 0)))) (ap (ap b (ap c :1141)) (ap add -1))))
+      ???
+:1180 = (ap (ap c b) (ap (ap s (ap (ap b c) (ap (ap b (ap b b)) (ap (ap b (ap b :1162)) (ap c mul))))) (ap c mul)))
+      <C() (2 of 3 args applied)>
+:1290 = (ap t (ap (ap c (ap (ap c (ap (ap b (ap :1492 (ap (ap :1162 (ap neg 14)) (ap neg 4)))) (ap (ap c :1141) 1))) :1237)) :1239))
+      ???
+:1393 = (ap (ap s (ap (ap c (ap (ap b (ap eq 0)) (ap (ap c :1141) 0))) :1398)) (ap (ap b (ap :1473 :1398)) (ap (ap c :1419) nil)))
+      ???
+:1412 = (ap (ap s (ap (ap b (ap b :1134)) (ap (ap b (ap c :1126)) (ap (ap b :1414) (ap (ap c :1141) 0))))) (ap (ap c :1141) 1))
+      ???
+:1479 = (ap (ap s (ap (ap b cons) (ap (ap c :1141) 0))) (ap (ap c (ap (ap b cons) (ap (ap b :1484) (ap (ap c :1141) 1)))) nil))
+      ???
+:1258 = (ap (ap b (ap (ap s (ap (ap c isnil) nil)) car)) (ap (ap b (ap :1135 :1247)) (ap (ap c (ap (ap b b) eq)) (ap (ap c :1141) 1))))
+      ???
+:1287 = (ap (ap c (ap (ap b b) (ap (ap b (ap b (ap (ap c :1191) :1109))) (ap (ap c :1144) 1)))) (ap (ap c (ap (ap c :1144) 0)) 1))
+      ???
+:1305 = (ap (ap cons :1309) (ap (ap cons (ap (ap cons 0) (ap (ap cons :1304) (ap (ap cons (ap neg 1)) (ap (ap cons 0) (ap (ap cons nil) nil)))))) nil))
+      ???
+:1314 = (ap (ap c (ap (ap b s) (ap (ap b (ap b (ap c (ap c :1190)))) (ap (ap c :1144) 1)))) (ap (ap c (ap (ap b :1141) :1315)) 1))
+      ???
+:1466 = (ap (ap c (ap (ap b b) (ap (ap c (ap (ap b c) (ap (ap c (ap (ap b b) (ap eq 1))) (ap (ap c cons) nil)))) nil))) :1465)
+      <C() (2 of 3 args applied)>
+:1120 = (ap (ap s (ap (ap s (ap (ap c (ap c (ap (ap s (ap (ap b s) (ap (ap b (ap b (ap (ap s i) i))) lt))) eq))) 0)) i)) neg)
+      <S() (2 of 3 args applied)>
+:1149 = (ap (ap c i) (ap (ap c (ap (ap b c) (ap c :1132))) (ap (ap s (ap (ap b c) (ap (ap c (ap (ap b s) (ap c lt))) i))) i)))
+      ???
+:1231 = (ap (ap cons 0) (ap (ap cons 0) (ap (ap cons nil) (ap (ap cons nil) (ap (ap cons nil) (ap (ap cons nil) (ap (ap cons nil) (ap (ap cons 0) nil))))))))
+      <CONS() (2 of 3 args applied)>
+:1286 = (ap (ap c (ap (ap b b) (ap (ap b (ap b (ap (ap c :1191) (ap :1110 0)))) (ap (ap c :1144) 1)))) (ap (ap c (ap (ap c :1144) 0)) 5))
+      ???
+:1430 = (ap (ap b (ap s (ap (ap b (ap s :1190)) (ap (ap c (ap (ap b c) (ap (ap b (ap b :1141)) (ap c :1432)))) 1)))) (ap (ap c :1144) 1))
+      ???
+:1474 = (ap (ap b (ap b (ap b :1476))) (ap (ap c (ap (ap b b) (ap (ap b b) cons))) (ap (ap c (ap (ap b b) cons)) (ap (ap c cons) nil))))
+      ???
+:1126 = (ap (ap s (ap (ap b b) (ap (ap c isnil) nil))) (ap (ap c b) (ap (ap s (ap (ap b c) (ap (ap b (ap b b)) (ap b :1115)))) (ap c :1126))))
+      ???
+:1146 = (ap (ap c i) (ap (ap c (ap (ap b c) (ap c :1132))) (ap (ap s (ap (ap b c) (ap (ap c (ap (ap b s) (ap c (ap c lt)))) i))) i)))
+      ???
+:1278 = (ap (ap c (ap (ap c (ap (ap b (ap :1490 (ap (ap :1162 (ap neg 14)) (ap neg 4)))) (ap (ap c (ap (ap b :1217) (ap (ap c :1141) 1))) 8))) :1236)) 0)
+      ???
+:1340 = (ap (ap b (ap c (ap (ap b s) (ap (ap b (ap b (ap s (ap (ap c (ap (ap b b) :1190)) (ap (ap c :1141) 1))))) c)))) (ap (ap c :1144) 1))
+      ???
+:1462 = (ap (ap c (ap (ap b :1126) (ap (ap c (ap (ap b :1135) (ap (ap c (ap (ap c :1127) cons)) 0))) (ap (ap b (ap eq 0)) car)))) (ap (ap b i) cdr))
+      ???
+:1135 = (ap (ap c (ap (ap b b) (ap (ap c :1133) nil))) (ap (ap c (ap (ap b s) (ap (ap b (ap b c)) (ap (ap c (ap (ap b b) s)) (ap c :1115))))) i))
+      ???
+:1172 = (ap (ap c b) (ap (ap c (ap (ap b b) b)) (ap (ap c (ap (ap b b) (ap (ap b c) (ap (ap b (ap b b)) (ap (ap b (ap b :1162)) add))))) add)))
+      <C() (2 of 3 args applied)>
+:1173 = (ap (ap c (ap (ap b b) b)) (ap (ap c (ap (ap b b) (ap (ap b c) (ap (ap b (ap b b)) (ap (ap b (ap b :1162)) (ap c add)))))) (ap c add)))
+      <C() (2 of 3 args applied)>
+:1198 = (ap (ap s (ap (ap s (ap (ap s (ap (ap b :1200) neg)) neg)) (ap (ap c (ap (ap b add) (ap mul 2))) 1))) (ap (ap c (ap (ap b add) (ap mul 2))) 1))
+      ???
+:1199 = (ap (ap s (ap (ap s (ap (ap s (ap (ap b :1201) neg)) neg)) (ap (ap c (ap (ap b add) (ap mul 2))) 1))) (ap (ap c (ap (ap b add) (ap mul 2))) 1))
+      ???
+:1215 = (ap (ap b (ap (ap s (ap (ap c (ap (ap b b) :1183)) (ap (ap c (ap (ap b :1162) neg)) 0))) (ap (ap b :1146) (ap (ap c :1126) :1175)))) (ap :1212 (ap s t)))
+      ???
+:1216 = (ap (ap b (ap (ap s (ap (ap c (ap (ap b b) :1183)) (ap (ap s (ap (ap b :1162) neg)) neg))) (ap (ap b :1146) (ap (ap c :1126) :1175)))) (ap :1212 (ap s t)))
+      ???
+:1401 = (ap (ap cons (ap (ap cons (ap (ap cons (ap (ap (ap (ap :1166 (ap neg 2048)) (ap neg 2048)) 4096) 4096)) (ap (ap cons :1381) (ap (ap cons 0) nil)))) nil)) (ap (ap cons nil) nil))
+      <CONS() (2 of 3 args applied)>
+:1450 = (ap (ap cons 0) (ap (ap cons 0) (ap (ap cons 0) (ap (ap cons 0) (ap (ap cons 0) (ap (ap cons 0) (ap (ap cons 0) (ap (ap cons 0) (ap (ap cons 0) nil)))))))))
+      <CONS() (2 of 3 args applied)>
+:1119 = (ap (ap s (ap (ap b s) (ap (ap c (ap (ap b c) lt)) 0))) (ap (ap b (ap b (ap add 1))) (ap (ap c (ap (ap b s) (ap (ap b (ap b :1119)) div))) i)))
+      ???
+:1465 = (ap (ap s (ap (ap b :1162) (ap (ap c (ap (ap s (ap (ap b b) (ap (ap c (ap (ap b b) add)) neg))) (ap (ap b (ap s mul)) div))) 3))) (ap (ap c div) 3))
+      <S() (2 of 3 args applied)>
+:1477 = (ap (ap b (ap b (ap (ap c :1116) nil))) (ap (ap c (ap (ap b b) (ap (ap b :1135) (ap (ap c :1141) 0)))) (ap (ap c (ap (ap b b) :1204)) (ap (ap c :1141) 0))))
+      ???
+:1483 = (ap (ap b (ap b (ap cons nil))) (ap (ap c (ap (ap b c) (ap (ap b (ap b cons)) (ap (ap c (ap (ap b c) (ap (ap b (ap b cons)) (ap c :1183)))) nil)))) nil))
+      ???
+:1142 = (ap (ap s (ap (ap b b) (ap (ap c isnil) nil))) (ap (ap c b) (ap (ap s (ap (ap b c) (ap (ap b (ap b b)) (ap eq 0)))) (ap (ap b (ap c :1142)) (ap add -1)))))
+      ???
+:1269 = (ap (ap c (ap (ap b s) (ap (ap c (ap (ap b b) (ap (ap s (ap (ap b (ap (ap s i) i)) isnil)) (ap (ap b c) (ap (ap c :1141) 6))))) (ap eq 1)))) (ap eq 0))
+      ???
+:1288 = (ap (ap c (ap (ap b b) (ap (ap b (ap s (ap (ap b (ap c :1191)) (ap (ap b :1114) (ap (ap c :1141) 1))))) (ap (ap c :1144) 1)))) (ap (ap c (ap (ap c :1144) 0)) 10))
+      ???
+:1449 = (ap (ap b (ap s (ap (ap b (ap c (ap (ap c (ap (ap b b) :1190)) (ap (ap c :1141) 1)))) :1447))) (ap (ap c (ap (ap b b) (ap (ap c :1144) 1))) (ap (ap c cons) nil)))
+      ???
+:1201 = (ap (ap c (ap (ap b c) (ap (ap b (ap b b)) (ap (ap b (ap b s)) (ap (ap c (ap (ap b c) (ap (ap b (ap b b)) :1202))) i))))) (ap (ap b (ap b (ap add -1))) mul))
+      ???
+:1205 = (ap (ap s (ap (ap b :1131) (ap (ap c (ap (ap b :1126) :1138)) (ap (ap c (ap (ap b :1162) (ap add 1))) 0)))) (ap (ap c (ap (ap b :1126) :1138)) (ap (ap b (ap :1162 0)) (ap add 1))))
+      ???
+:1264 = (ap (ap s (ap (ap c (ap eq (ap neg 2))) (ap :1225 :1041))) (ap (ap s (ap (ap c (ap eq (ap neg 1))) (ap :1225 :1042))) (ap (ap b :1226) (ap (ap c (ap (ap b :1141) (ap :1141 :1079))) 2))))
+      ???
+:1203 = (ap (ap s (ap (ap b c) (ap (ap b (ap b b)) (ap (ap b (ap b (ap (ap s c) i))) (ap c (ap (ap s (ap (ap b s) (ap (ap b (ap b (ap (ap s i) i))) lt))) eq)))))) lt)
+      <S() (2 of 3 args applied)>
+:1254 = (ap (ap c (ap (ap b b) (ap (ap b b) (ap (ap c (ap (ap b b) :1284)) (ap (ap c (ap (ap c :1144) 0)) 2))))) (ap (ap c (ap (ap b b) (ap (ap c :1144) 7))) (ap (ap c :1141) 1)))
+      ???
+:1397 = (ap (ap c (ap (ap b c) (ap (ap b (ap b c)) (ap (ap b (ap b (ap b b))) (ap (ap c (ap (ap b c) (ap (ap b (ap b b)) (ap (ap c (ap (ap b b) :1490)) :1214)))) i))))) i)
+      ???
+:1124 = (ap (ap s (ap (ap b b) (ap (ap c isnil) (ap s t)))) (ap (ap c b) (ap (ap s (ap (ap b c) (ap (ap b (ap b b)) (ap (ap b (ap b (ap (ap s i) i))) (ap c eq))))) (ap c :1124))))
+      ???
+:1136 = (ap (ap c (ap (ap b c) (ap (ap b (ap b :1126)) (ap (ap c (ap (ap b b) (ap (ap b :1135) (ap (ap c (ap (ap c :1127) cons)) 0)))) (ap (ap c (ap (ap b s) (ap (ap c b) car))) cdr))))) car)
+      ???
+:1138 = (ap (ap s (ap (ap c (ap (ap c (ap (ap s (ap (ap b s) (ap (ap b (ap b (ap (ap s i) i))) lt))) eq)) 0)) nil)) (ap (ap s (ap (ap b :1115) (ap add -1))) (ap (ap b :1138) (ap add -1))))
+      ???
+:1259 = (ap t (ap t (ap :1476 (ap (ap cons (ap (ap (ap (ap :1490 (ap (ap :1162 (ap neg 3)) (ap neg 3))) (ap :1225 :1082)) :1246) 0)) (ap (ap cons (ap (ap :1482 (ap (ap :1162 (ap neg 2)) (ap neg 9))) (ap :1225 :1041))) nil)))))
+      ???
+:1482 = (ap (ap b (ap b (ap cons nil))) (ap (ap c (ap (ap b c) (ap (ap b (ap b cons)) (ap (ap b (ap b (ap cons nil))) (ap (ap c (ap (ap b c) (ap (ap b (ap b cons)) (ap c :1183)))) nil))))) nil))
+      ???
+:1277 = (ap (ap b (ap s (ap (ap b (ap c (ap (ap c (ap (ap b c) (ap (ap c (ap (ap b c) (ap (ap b (ap b b)) :1474))) i))) (ap (ap (ap (ap :1490 (ap (ap :1162 6) (ap neg 3))) (ap :1225 :1029)) :1235) 0)))) :1278))) :1279)
+      ???
+:1475 = (ap (ap b (ap b (ap b (ap b :1476)))) (ap (ap c (ap (ap b b) (ap (ap b b) (ap (ap b b) cons)))) (ap (ap c (ap (ap b b) (ap (ap b b) cons))) (ap (ap c (ap (ap b b) cons)) (ap (ap c cons) nil)))))
+      ???
+:1207 = (ap (ap s (ap (ap c (ap eq 0)) nil)) (ap (ap s (ap (ap b :1115) (ap (ap c (ap (ap s (ap (ap b b) (ap (ap c (ap (ap b b) add)) neg))) (ap (ap b (ap s mul)) div))) 2))) (ap (ap b :1207) (ap (ap c div) 2))))
+      ???
+:1289 = (ap (ap c (ap (ap b b) (ap (ap b (ap s (ap (ap b (ap s :1191)) (ap (ap c (ap (ap b b) (ap (ap b :1111) (ap (ap c :1141) 1)))) (ap (ap c :1141) 3))))) (ap (ap c :1144) 1)))) (ap (ap c (ap (ap c :1144) 0)) 9))
+      ???
+:1336 = (ap (ap cons :1227) (ap (ap cons :1445) (ap (ap cons :1420) (ap (ap cons :1451) (ap (ap cons :1305) (ap (ap cons :1232) (ap (ap cons :1344) (ap (ap cons nil) (ap (ap cons nil) (ap (ap cons nil) (ap (ap cons (ap (ap cons :1337) (ap (ap cons nil) nil))) nil)))))))))))
+      ???
+:1133 = (ap (ap s (ap (ap b s) (ap (ap b (ap b b)) isnil))) (ap (ap c (ap (ap b b) b)) (ap (ap c (ap (ap b c) (ap (ap b (ap b b)) (ap (ap b (ap b c)) (ap (ap b (ap s b)) (ap (ap b c) (ap c :1133))))))) i)))
+      ???
+:1147 = (ap (ap c b) (ap (ap b (ap c (ap (ap b c) (ap c :1132)))) (ap (ap c (ap (ap b s) (ap (ap b (ap b c)) (ap (ap c (ap (ap b c) (ap (ap b (ap b s)) (ap (ap c (ap (ap b c) (ap b b))) i)))) i)))) i)))
+      ???
+:1374 = (ap (ap c (ap (ap b b) (ap (ap c (ap (ap b s) (ap (ap c (ap (ap b c) (ap (ap b (ap b b)) (ap (ap c (ap (ap b b) :1375)) :1366)))) i))) (ap (ap b :1110) (ap (ap c :1141) 0))))) (ap (ap c (ap (ap c :1144) 1)) 5))
+      ???
+:1410 = (ap (ap c (ap (ap b c) (ap (ap b (ap b b)) (ap (ap c (ap (ap b c) (ap (ap b (ap b c)) (ap (ap c (ap (ap b c) (ap (ap b (ap b b)) (ap (ap c (ap (ap b b) :1490)) :1225)))) i)))) 0)))) (ap (ap c add) 1))
+      ???
+:1458 = (ap (ap s (ap (ap b (ap (ap s i) i)) (ap (ap s (ap (ap b (ap (ap s i) i)) (ap (ap c :1455) 1))) (ap (ap c :1455) 2)))) (ap (ap b (ap eq 9)) (ap (ap b :1128) (ap (ap c :1135) (ap (ap b c) (ap (ap c eq) 0))))))
+      ???
+:1485 = (ap (ap s (ap (ap b s) (ap (ap b (ap b cons)) (ap (ap c (ap (ap b b) (ap (ap b :1126) (ap (ap c :1141) 0)))) (ap c :1486))))) (ap (ap c (ap (ap b c) (ap (ap b (ap b cons)) (ap (ap b :1487) (ap (ap c :1141) 1))))) nil))
+      ???
+:1373 = (ap (ap c (ap (ap b b) (ap (ap s (ap (ap b s) (ap (ap c (ap (ap b c) (ap (ap b (ap b b)) :1375))) i))) (ap (ap b (ap c (ap (ap b :1111) (ap (ap c :1141) 2)))) (ap (ap c :1141) 3))))) (ap (ap c (ap (ap c :1144) 1)) 6))
+      ???
+:1168 = (ap (ap c (ap (ap b s) (ap (ap b (ap b cons)) (ap (ap c (ap (ap b b) :1172)) (ap (ap s (ap (ap b :1162) neg)) neg))))) (ap (ap s (ap (ap b :1162) (ap (ap c (ap (ap b add) (ap mul 2))) 1))) (ap (ap c (ap (ap b add) (ap mul 2))) 1)))
+      <C() (2 of 3 args applied)>
+:1260 = (ap (ap b (ap (ap s (ap (ap c isnil) (ap (ap cons (ap neg 2)) (ap neg 1)))) (ap (ap b (ap (ap s (ap (ap b cons) (ap (ap c :1141) 2))) (ap (ap c :1141) 3))) car))) (ap (ap b (ap :1135 :1247)) (ap (ap c (ap (ap b b) eq)) (ap (ap c :1141) 1))))
+      ???
+:1344 = (ap (ap cons :1346) (ap (ap cons (ap (ap cons 1) (ap (ap cons 0) (ap (ap cons 0) (ap (ap cons 1) (ap (ap cons 0) (ap (ap cons 0) (ap (ap cons nil) (ap (ap cons nil) (ap (ap cons 4) (ap (ap cons nil) (ap (ap cons nil) (ap (ap cons nil) (ap (ap cons nil) nil)))))))))))))) nil))
+      ???
+:1370 = (ap (ap c (ap (ap b s) (ap (ap c (ap (ap b s) (ap (ap b (ap b b)) (ap (ap c (ap (ap b b) (ap (ap b c) (ap (ap b c) :1375)))) (ap (ap c (ap (ap c :1144) 1)) 7))))) (ap (ap b (ap c :1112)) (ap (ap c :1141) 12))))) (ap (ap c :1141) 2))
+      ???
+:1456 = (ap (ap s (ap (ap b s) (ap (ap b (ap b (ap (ap s i) i))) (ap (ap s (ap (ap b s) (ap (ap b (ap b (ap (ap s i) i))) (ap (ap c (ap (ap c :1454) 0)) 1)))) (ap (ap c (ap (ap c :1454) 3)) 1))))) (ap (ap c (ap (ap c :1454) 6)) 1))
+      ???
+:1457 = (ap (ap s (ap (ap b s) (ap (ap b (ap b (ap (ap s i) i))) (ap (ap s (ap (ap b s) (ap (ap b (ap b (ap (ap s i) i))) (ap (ap c (ap (ap c :1454) 0)) 3)))) (ap (ap c (ap (ap c :1454) 1)) 3))))) (ap (ap c (ap (ap c :1454) 2)) 3))
+      ???
+:1196 = (ap (ap b (ap b (ap c (ap (ap b :1126) (ap (ap c (ap (ap b :1135) :1138)) (ap (ap b (ap eq 0)) (ap (ap c (ap (ap s (ap (ap b b) (ap (ap c (ap (ap b b) add)) neg))) (ap (ap b (ap s mul)) div))) 2))))))) (ap (ap b c) (ap (ap b (ap b :1162)) add)))
+      ???
+:1226 = (ap (ap b i) (ap (ap c :1126) (ap (ap s (ap (ap b :1162) (ap (ap b (ap add (ap neg 2048))) (ap (ap c div) 4096)))) (ap (ap b (ap add (ap neg 2048))) (ap (ap c (ap (ap s (ap (ap b b) (ap (ap c (ap (ap b b) add)) neg))) (ap (ap b (ap s mul)) div))) 4096)))))
+      ???
+:1045 = (ap (ap cons 8398849) (ap (ap cons 8407041) (ap (ap cons 8390658) (ap (ap cons 8394754) (ap (ap cons 8398850) (ap (ap cons 8407042) (ap (ap cons 8411138) (ap (ap cons 8415234) (ap (ap cons 8394755) (ap (ap cons 8398851) (ap (ap cons 8407043) (ap (ap cons 8411139) (ap (ap cons 8394756) (ap (ap cons 8407044) (ap (ap cons 8415236) (ap (ap cons 8398853) nil))))))))))))))))
+      <CONS() (2 of 3 args applied)>
+:1427 = (ap (ap s (ap (ap b c) (ap (ap s (ap (ap b b) (ap (ap b s) (ap (ap b (ap s (ap (ap b (ap eq 0)) (ap (ap c :1141) 0)))) (ap (ap c (ap (ap b b) :1430)) (ap (ap c (ap (ap c :1144) 0)) 1)))))) (ap (ap b c) :1428)))) (ap (ap b i) (ap (ap c :1141) 1)))
+      ???
+:1429 = (ap (ap s (ap (ap b b) (ap (ap b s) (ap (ap b (ap c (ap eq 0))) (ap (ap c (ap (ap c :1339) :1331)) (ap (ap :1141 :1451) 1)))))) (ap (ap s (ap (ap b b) (ap (ap b c) (ap (ap b (ap c (ap eq 1))) (ap (ap c (ap (ap c :1339) :1332)) (ap (ap :1141 :1305) 1)))))) :1430))
+      ???
+:1431 = (ap (ap s (ap (ap b c) (ap (ap s (ap (ap b c) (ap (ap b (ap b c)) (ap (ap b c) (ap (ap c (ap (ap b b) (ap (ap b :1490) (ap (ap c :1141) 1)))) :1226))))) (ap (ap c :1141) 0)))) (ap (ap c (ap (ap b :1141) (ap (ap b (ap :1141 :1079)) (ap (ap c :1141) 0)))) 2))
+      ???
+:1144 = (ap (ap c (ap (ap b b) b)) (ap (ap s (ap (ap b s) (ap (ap b (ap b b)) (ap (ap b (ap b s)) (ap (ap c (ap (ap b b) (ap (ap b b) (ap eq 0)))) :1115))))) (ap (ap b (ap b (ap c (ap (ap b b) :1115)))) (ap (ap b c) (ap (ap b (ap c :1144)) (ap add -1))))))
+      ???
+:1361 = (ap (ap c (ap (ap b b) (ap (ap b b) :1135))) (ap (ap c (ap (ap b b) (ap (ap b s) (ap (ap b (ap b (ap (ap s i) i))) (ap (ap b (ap b c)) (ap c (ap (ap b eq) (ap (ap c :1141) 1)))))))) (ap (ap b (ap b c)) (ap c (ap (ap b eq) (ap (ap c :1141) 0))))))
+      ???
+:1047 = (ap (ap cons 8407041) (ap (ap cons 8411137) (ap (ap cons 8415233) (ap (ap cons 8398850) (ap (ap cons 8402946) (ap (ap cons 8411138) (ap (ap cons 8390659) (ap (ap cons 8394755) (ap (ap cons 8398851) (ap (ap cons 8402947) (ap (ap cons 8411139) (ap (ap cons 8398852) (ap (ap cons 8402948) (ap (ap cons 8411140) (ap (ap cons 8407045) (ap (ap cons 8411141) (ap (ap cons 8415237) nil)))))))))))))))))
+      <CONS() (2 of 3 args applied)>
+:1208 = (ap (ap b (ap s (ap (ap c (ap eq 0)) nil))) (ap (ap s (ap (ap b b) (ap (ap b :1115) (ap (ap c (ap (ap s (ap (ap b b) (ap (ap c (ap (ap b b) add)) neg))) (ap (ap b (ap s mul)) div))) 2)))) (ap (ap c (ap (ap b b) (ap (ap b :1208) (ap (ap c div) 2)))) (ap add -1))))
+      ???
+:1132 = (ap (ap s (ap (ap b s) (ap (ap b (ap b b)) isnil))) (ap (ap c (ap (ap b b) b)) (ap (ap c (ap (ap b s) (ap (ap b (ap b c)) (ap (ap b (ap b (ap b c))) (ap (ap b (ap b (ap b (ap c :1132)))) (ap (ap c (ap (ap b c) (ap (ap b (ap b b)) (ap c i)))) i)))))) i)))
+      ???
+:1418 = (ap (ap s (ap (ap c isnil) nil)) (ap (ap s (ap (ap c (ap (ap b (ap eq 16)) (ap (ap c :1141) 0))) :1096)) (ap (ap b (ap (ap s (ap (ap s (ap (ap s (ap (ap b :1201) neg)) neg)) (ap (ap c (ap (ap b add) (ap mul 2))) 1))) (ap (ap c (ap (ap b add) (ap mul 2))) 1))) (ap (ap c :1141) 0))))
+      ???
+:1455 = (ap (ap s (ap (ap b s) (ap (ap b (ap b (ap (ap s i) i))) (ap (ap s (ap (ap b s) (ap (ap b (ap b (ap (ap s i) i))) (ap (ap s (ap (ap b s) (ap (ap b (ap b (ap (ap s i) i))) :1456))) :1457)))) (ap (ap c (ap (ap c :1454) 0)) 4))))) (ap (ap c (ap (ap c :1454) 2)) 2))
+      ???
+:1127 = (ap (ap s (ap (ap b b) (ap (ap b b) (ap (ap c isnil) nil)))) (ap (ap c (ap (ap b b) b)) (ap (ap s (ap (ap b s) (ap (ap b (ap b c)) (ap (ap b (ap b (ap b b))) (ap (ap b (ap b (ap b :1115))) c))))) (ap (ap c (ap (ap b b) (ap (ap b c) (ap c :1127)))) (ap (ap c add) 1)))))
+      ???
+:1220 = (ap (ap s (ap (ap b b) (ap (ap c isnil) nil))) (ap (ap c b) (ap (ap b (ap b (ap c (ap (ap c (ap (ap b s) (ap (ap b (ap c (ap (ap b b) :1131))) :1220))) (ap (ap c (ap (ap b add) (ap (ap b :1146) (ap (ap c :1126) (ap (ap b i) car))))) 3))))) (ap (ap b (ap c :1183)) (ap (ap c :1162) 0)))))
+      ???
+:1281 = (ap (ap s (ap (ap b b) (ap (ap b s) (ap (ap b (ap c (ap (ap b c) (ap (ap c (ap (ap b eq) (ap (ap c :1141) 0))) 1)))) :1341)))) (ap (ap c (ap (ap b b) (ap (ap b c) (ap (ap c (ap (ap b b) (ap (ap b b) :1284))) (ap c (ap (ap c :1144) 3)))))) (ap (ap c (ap (ap c :1144) 0)) 6)))
+      ???
+:1313 = (ap (ap b (ap b (ap b isnil))) (ap (ap b (ap b (ap b (ap :1135 (ap :1139 9))))) (ap (ap b (ap b (ap b (ap b c)))) (ap (ap c (ap (ap b b) (ap (ap b b) (ap (ap b s) (ap (ap b (ap b eq)) :1141))))) (ap (ap c (ap (ap b b) (ap (ap b b) :1141))) (ap (ap b (ap b (ap add -1))) :1141))))))
+      ???
+:1309 = (ap (ap s (ap (ap b c) (ap (ap s (ap (ap b b) (ap (ap b s) (ap (ap b (ap s (ap (ap b (ap eq 0)) (ap (ap c :1141) 0)))) (ap (ap c (ap (ap b b) :1314)) (ap (ap c (ap (ap c :1144) 0)) 1)))))) (ap (ap c (ap (ap b c) (ap (ap b (ap b b)) :1311))) i)))) (ap (ap b i) (ap (ap c :1141) 1)))
+      ???
+:1362 = (ap (ap b (ap b (ap b c))) (ap (ap b (ap b (ap b isnil))) (ap (ap c (ap (ap b b) (ap (ap b b) :1135))) (ap (ap c (ap (ap b b) (ap (ap b s) (ap (ap b (ap b (ap (ap s c) i))) (ap (ap c (ap (ap b b) eq)) (ap (ap c :1141) 1)))))) (ap (ap c (ap (ap b b) eq)) (ap (ap c :1141) 0))))))
+      ???
