@@ -4,6 +4,15 @@ def sorted_defs(defs):
   defs_list = [[token, lexems] for token, lexems in defs.items()]
   return sorted(defs_list, key=lambda _def: len(_def[1]))
 
+def get_trivial_and_nontrivial_defs(defs, iterations=10):
+  inlined_defs = [[token, inline(defs, token, iterations)] for token, lexems in sorted_defs(defs)]
+  trivial_defs = [[token, lexems] for token, lexems in inlined_defs if not get_unique_refs(lexems)]
+  trivial_tokens = set([token for token, lexems in trivial_defs])
+  nontrivial_tokens = [token for token, lexems in defs.items() if token not in trivial_tokens]
+  nontrivial_defs = { token: lexems for token, lexems in defs.items() if token in nontrivial_tokens }
+  nontrivial_defs = sorted_defs(nontrivial_defs)
+  return trivial_defs, nontrivial_defs
+
 def get_unique_fns(lexems, acc=None):
   acc = acc if acc else set()
   for l in lexems:
