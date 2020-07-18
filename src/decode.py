@@ -1,10 +1,17 @@
 from datetime import datetime
+from .funcs import FUNCTIONS, Ref
+import re
 
 def read_source(filename='galaxy.txt'):
   with open(filename, 'r') as galaxy_txt:
     program = galaxy_txt.read()
-    return program.split('\n')
+    lines = program.split('\n')
+    non_empty_lines = filter(lambda l: len(l), lines)
+    return non_empty_lines
 
+
+def read_test_source():
+  return read_source('test_galaxy.txt')
 
 def parse_program(code_lines):
   # example code line:
@@ -18,6 +25,22 @@ def parse_program(code_lines):
     defs[token] = lexems
   return defs
 
+def parse_lexem(lexem):
+  if re.match(r'^-?\d', lexem):
+    return int(lexem)
+  elif lexem[0] == ':':
+    return Ref(lexem)
+  else:
+    return FUNCTIONS.get(lexem, lexem)
+
+def parse_program_with_types(code_lines):
+  defs = parse_program(code_lines)
+  defs_with_tyles = {
+    Ref(token): [ parse_lexem(l) for l in lexems]
+    for token, lexems
+    in defs.items()
+  }
+  return defs_with_tyles
 
 def dump_file(strings, output_filename='decode_progress/galaxy_{suffix}.txt'):
   with open(output_filename.format(suffix=datetime.utcnow().isoformat()), 'w') as output:

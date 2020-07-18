@@ -1,0 +1,9 @@
+:1 = 1
+:2 = 2
+:3 = 3
+:4 = inc
+:5 = add
+:6 = ap add 2
+:7 = ap ap cons 4 5
+:8 = ap ap :5 ap car :7 3
+galaxy = :8
