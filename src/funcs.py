@@ -114,12 +114,12 @@ class AP():
       return '...'
     self_repr = 'AP'
     def leaf_repr(leaf):
-      if not leaf:
+      if leaf is None:
         return None
       return leaf.to_str(max_depth-1) if type(leaf) == AP else f'{leaf}'
     left_repr = leaf_repr(self.left_leaf)
     right_repr = leaf_repr(self.right_leaf)
-    if left_repr or right_repr:
+    if left_repr is not None or right_repr is not None:
       return '(' + " ".join(filter(lambda x: x, [self_repr, left_repr, right_repr])) + ')'
     else:
       return self_repr
@@ -175,13 +175,13 @@ class AP():
     # -> Tree complete: True
     # -> (AP (AP <ADD()> (AP <INC()> 2)) (AP <INC()> 4))
     '''
-    if not self.left_leaf:
+    if self.left_leaf is None:
       self.add_left(leaf)
       return True
     if type(self.left_leaf) == AP and \
         self.left_leaf.add_edge(leaf):
       return True
-    if not self.right_leaf:
+    if self.right_leaf is None:
       self.add_right(leaf)
       return True
     if type(self.right_leaf) == AP and \
@@ -238,6 +238,7 @@ FUNCTIONS = {
   'eq': EQ,
   'lt': LT,
   'cons': CONS,
+  'vec': CONS,
   'nil': NIL,
   'isnil': ISNIL,
   'car': CAR,

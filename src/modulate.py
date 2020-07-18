@@ -19,7 +19,7 @@ def modulate(val):
         res += modulate(val[1:])     
 
     else:
-        raise ValueError("Not implemented")
+        raise ValueError(f"Not implemented for val={val}")
     
 
     return res
