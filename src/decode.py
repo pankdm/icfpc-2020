@@ -1,5 +1,5 @@
 from datetime import datetime
-from .funcs import FUNCTIONS, Ref, AP
+from funcs import FUNCTIONS, Ref, AP
 import re
 
 def read_source(filename='galaxy.txt'):
