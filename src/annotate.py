@@ -27,9 +27,9 @@ def try_eval(expr, whitelist):
     if maybe_eval:
       return maybe_eval
     raise RuntimeError("Dereferencing is not supported")
-  if re.match('-?\d+', expr.name):
+  elif re.match(r'-?\d+', expr.name):
     return int(expr.name)
-  if expr.name == "ap":
+  elif expr.name == "ap":
     left = try_eval(expr.args[0], whitelist)
     right = try_eval(expr.args[1], whitelist)
     return AP(left, right)
