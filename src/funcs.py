@@ -124,6 +124,11 @@ class AP():
   def __str__(self):
     return self.to_str(5)
 
+  def __eq__(self, other):
+    if type(other) != AP:
+      raise TypeError(f"unsupported operand type(s) for ==: '{type(self).__name__}' and '{type(other).__name__}'")
+    return self.left_leaf == other.left_leaf and self.right_leaf == other.right_leaf
+
   def __add__(self, other):
     raise TypeError(f"unsupported operand type(s) for +: '{type(self).__name__}' and '{type(other).__name__}'")
   def __sub__(self, other):
