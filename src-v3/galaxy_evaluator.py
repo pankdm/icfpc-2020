@@ -2,19 +2,23 @@ import sys
 
 # See video course https://icfpcontest2020.github.io/#/post/2054
 class Expr:
-    def __init__(self):
-        self.Evaluated = None
+    Evaluated = None
 
 class Atom(Expr):
+    Name = None
     def __init__(self, name):
         self.Name = name
 
 class Ap(Expr):
+    Fun = None
+    Arg = None
     def __init__(self, fun, arg):
         self.Fun = fun
         self.Arg = arg
 
 class Vect:
+    X = None
+    Y = None
     def __init__(self, x, y):
         self.X = x
         self.Y = y
@@ -61,7 +65,7 @@ def eval(expr: Expr) -> Expr :
 def tryEval(expr: Expr) -> Expr:
     if expr.Evaluated:
         return expr.Evaluated
-    if (isinstance(expr, Atom) and functions[expr.Name]):
+    if (isinstance(expr, Atom) and functions.get(expr.Name)):
         return functions[expr.Name]
     if (isinstance(expr,Ap)):
         fun = eval(expr.Fun)
