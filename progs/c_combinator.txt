@@ -1,0 +1,2 @@
+:2048 = ap ap ap c add 1 2
+galaxy = :2048

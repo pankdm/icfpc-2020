@@ -19,7 +19,7 @@ class Expr:
       arg.show(indent + 2)
 
   def evaluate(self, depth=0):
-    if depth > 5:
+    if depth > 100:
       raise RuntimeError("Infinite recursion")
     print("{}evaluating {}, {}".format(" " * 2 * depth, self.name, self.args))
     if self.name == "ap":
@@ -44,10 +44,20 @@ class Expr:
       return lambda x: lambda y: lambda z: x(z)(y(z))
     elif self.name == "i":
       return lambda x: x
+    elif self.name == "c":
+      return lambda x: lambda y: lambda z: x(z)(y)
+    elif self.name == "b":
+      return lambda x: lambda y: lambda z: x(y(z))
     elif self.name == "mul":
       return lambda x: lambda y: x * y
     elif self.name == "add":
       return lambda x: lambda y: x + y
+    elif self.name == "inc":
+      return lambda x: x + 1
+    elif self.name == "dec":
+      return lambda x: x - 1
+    elif self.name == "eq":
+      return lambda x: lambda y: "t" if x == y else "f"
     elif self.name.startswith(":"):
       expr = ALL_DEFS.get(self.name, None)
       return expr.evaluate(depth + 1)
