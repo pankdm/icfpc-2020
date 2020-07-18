@@ -1,6 +1,8 @@
 
-from decode import parse_program, read_source
+import sys
+from decode import parse_program, read_source, sorted_defs
 
+ALL_DEFS = {}
 
 
 class Expr:
@@ -8,15 +10,25 @@ class Expr:
     self.name = name
     self.args = args
 
+  def __repr__(self):
+    return self.name
+
   def show(self, indent = 0):
     print("{}{}".format(" " * indent, self.name))
     for arg in self.args:
       arg.show(indent + 2)
 
-  def evaluate(self):
+  def evaluate(self, depth=0):
+    if depth > 5:
+      raise RuntimeError("")
+    print("{}evaluating {}, {}".format(" " * depth, self.name, self.args))
     if self.name == "ap":
-      x0 = self.args[0].evaluate()
-      x1 = self.args[1].evaluate()
+      op0 = self.args[0]
+      op1 = self.args[1]
+      if op0.name == "f":
+        return lambda y: y
+      x0 = op0.evaluate(depth + 1)
+      x1 = op1.evaluate(depth + 1)
       return x0(x1)
     elif self.name == "cons":
       return lambda x: lambda y: (x, y)
@@ -26,6 +38,12 @@ class Expr:
       return lambda x: x[-1]
     else:
       return self.name
+    if self.name == "f":
+      return lambda x: lambda y: y
+    if self.name.startswith(":"):
+      expr = ALL_DEFS.get(self.name, None)
+      return expr.evaluate(depth + 1)    
+    return self.name
 
 
 class TokenStream:
@@ -50,14 +68,25 @@ def parse_next_expr(s):
 
 
 if __name__ == "__main__":
-  defs = parse_program(read_source())
-  for name, tokens in defs[:10]:
+  sys.setrecursionlimit(10000)
+  defs = parse_program(read_source(sys.argv[1]))
+  for name, tokens in sorted_defs(defs):
     stream = TokenStream(tokens)
     expr = parse_next_expr(stream)
+    ALL_DEFS[name] = expr
     print(f'{name} = {tokens}')
 
     expr.show()
-    ev = expr.evaluate()
-    print (ev)
+    # ev = expr.evaluate()
+    # print (ev)
     print()
     # import pdb; pdb.set_trace()
+
+  galaxy = ALL_DEFS["galaxy"]
+  res = galaxy.evaluate()
+  print (res)
+  # all_names = sorted(defs.keys())
+  # for name in all_names:
+  #   expr = ALL_DEFS[name]
+  #   expr.evaluate()
+  
