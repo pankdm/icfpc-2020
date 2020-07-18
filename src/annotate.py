@@ -1,3 +1,5 @@
+# Usage:
+#    python3 src/annotate.py galaxy.txt
 
 import sys
 import re
