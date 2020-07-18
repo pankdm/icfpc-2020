@@ -2,8 +2,17 @@
 import sys
 from decode import parse_program, read_source, sorted_defs
 
+from funcs import *
+
 def sorted_by_id(defs):
   return sorted(defs.items(), key=lambda _def: _def[0])
+
+
+def try_eval(expr):
+  if expr.name.startswith(":"):
+    raise RuntimeError("Dereferencing is not supported")
+  if expr.name.isdigit():
+    return int(expr.name)
 
 
 
@@ -52,6 +61,12 @@ if __name__ == "__main__":
     stream = TokenStream(tokens)
     expr = parse_next_expr(stream)
     dump = expr.dump()
+
+    try:
+      maybe_eval = try_eval(expr)
+    except RuntimeError:
+      maybe_eval = "???"
     print (f'{name} = {dump}')
+    print (f'      {maybe_eval}')
 
 
