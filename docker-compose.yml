@@ -1,0 +1,9 @@
+version: '2.0'
+services:
+  jupyter_server:
+    container_name: icfpc2020_jupyter
+    image: jupyter/scipy-notebook
+    ports:
+    - "8888:8888"
+    volumes:
+    - .:/home/jovyan/icfpc-2020
