@@ -20,8 +20,8 @@ class Expr:
 
   def evaluate(self, depth=0):
     if depth > 5:
-      raise RuntimeError("")
-    print("{}evaluating {}, {}".format(" " * depth, self.name, self.args))
+      raise RuntimeError("Infinite recursion")
+    print("{}evaluating {}, {}".format(" " * 2 * depth, self.name, self.args))
     if self.name == "ap":
       op0 = self.args[0]
       op1 = self.args[1]
@@ -36,14 +36,18 @@ class Expr:
       return lambda x: x[0]
     elif self.name == "cdr":
       return lambda x: x[-1]
-    else:
-      return self.name
-    if self.name == "f":
+    elif self.name == "f":
       return lambda x: lambda y: y
-    if self.name.startswith(":"):
+    elif self.name == "t":
+      return lambda x: lambda x: x
+    elif self.name.startswith(":"):
       expr = ALL_DEFS.get(self.name, None)
-      return expr.evaluate(depth + 1)    
-    return self.name
+      return expr.evaluate(depth + 1)
+    elif self.name.isdigit():
+      return int(self.name)
+    else:
+      assert False, f"unimpleted op: {self.name}"
+      return self.name
 
 
 class TokenStream:
@@ -74,7 +78,7 @@ if __name__ == "__main__":
     stream = TokenStream(tokens)
     expr = parse_next_expr(stream)
     ALL_DEFS[name] = expr
-    print(f'{name} = {tokens}')
+    print(f'Added {name} = {tokens}')
 
     expr.show()
     # ev = expr.evaluate()
