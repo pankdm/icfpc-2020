@@ -1,3 +1,0 @@
-Main: 
-(ap (ap (ap (ap c (ap (ap b c) (ap (ap c (ap (ap b c) :1342)) :1328))) :1336) nil) (ap (ap cons 0) 0))
-

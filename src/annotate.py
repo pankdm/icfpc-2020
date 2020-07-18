@@ -228,7 +228,8 @@ def tree_eval(defs):
   #   vector = (0, 0)
   # ap ap ap interact x0 nil ap ap vec 0 0
   # ap ap ap interact x2 x4 x3 = ap (ap f38 x2) (ap (ap x2 x4) x3)
-  main_expr_tokens = "ap ap :1338 nil ap ap cons 0 0".split(" ")
+  galaxy = " ".join(defs["galaxy"])
+  main_expr_tokens = f"ap ap {galaxy} nil ap ap cons 0 0".split(" ")
 
   state.main_expr = parse_from_tokens(main_expr_tokens)
   state.defs_expr = {}
