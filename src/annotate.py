@@ -44,15 +44,14 @@ def parse_next_expr(s):
   return Expr(token, [])
 
 
-
 if __name__ == "__main__":
   sys.setrecursionlimit(10000)
   defs = parse_program(read_source(sys.argv[1]))
-  sorted_defs = sorted_by_id(defs)
+  sorted_defs = sorted_defs(defs)
   for name, tokens in sorted_defs:
     stream = TokenStream(tokens)
     expr = parse_next_expr(stream)
     dump = expr.dump()
-    print (f'{name} = {dump} ### {" ".join(tokens)}')
+    print (f'{name} = {dump}')
 
 
