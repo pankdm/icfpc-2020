@@ -73,13 +73,13 @@ class AP():
     '''
     return AP.calc(f)(x)
 
-  def resolve(self):
+  def compute(self):
     return AP.apply(self.left_leaf, self.right_leaf)
 
   @staticmethod
   def calc(node):
     if type(node) == AP:
-      return node.resolve()
+      return node.compute()
     return node
 
   def __init__(self, left_node=None, right_node=None):
@@ -87,15 +87,15 @@ class AP():
     AP tree node. Example usage:
 
     tree = AP(INC, 1)
-    tree.resolve()
+    tree.compute()
     # -> 2
 
     tree = AP(ADD, 1)
-    tree.resolve()
+    tree.compute()
     # -> <ADD() (1 of 2 args applied)>
 
     tree = AP(AP(ADD, 1), 2)
-    tree.resolve()
+    tree.compute()
     # -> 3
 
     tree = AP(AP(ADD, 1), 2)
