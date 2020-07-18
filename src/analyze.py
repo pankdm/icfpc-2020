@@ -4,13 +4,29 @@ def sorted_defs(defs):
   defs_list = [[token, lexems] for token, lexems in defs.items()]
   return sorted(defs_list, key=lambda _def: len(_def[1]))
 
-def get_unique_lexems(defs):
-  unique_lexems = set()
+def get_unique_fns(lexems, acc=None):
+  acc = acc if acc else set()
+  for l in lexems:
+    if type(l) == list:
+      acc = acc.union(get_unique_fns(l))
+    elif type(l) == str and not re.match(r'^[\-:0-9]', l):
+      acc.add(l)
+  return acc
+
+def get_unique_refs(lexems, acc=None):
+  acc = acc if acc else set()
+  for l in lexems:
+    if type(l) == list:
+      acc = acc.union(get_unique_refs(l))
+    elif type(l) == str and l[0] == ':':
+      acc.add(l)
+  return acc
+
+def get_all_unique_fns(defs):
+  unique_fns = set()
   for token, lexems in defs.items():
-    for lexem in lexems:
-      if not re.match(r'^[:\-0-9]', lexem):
-        unique_lexems.add(lexem)
-  return unique_lexems
+    unique_fns = unique_fns.union(get_unique_fns(lexems))
+  return unique_fns
 
 def is_token(lexem):
   return type(lexem) == str and lexem[0] == ':'
