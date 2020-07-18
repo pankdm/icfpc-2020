@@ -8,12 +8,23 @@ import time
 import copy
 import shutil
 
+from collections import defaultdict
+
 ID_COUNTER = 0
 GLOBAL_LOG_COUNTER = 0
+GLOBAL_DEEP_COPY_COUNTER = 0
 
 DEBUG_OUTPUT = False
 DUMP_ALL_LOGS = False
+DEBUG_RUN = False
+
+REDUCE_STATS = defaultdict(int)
   
+def print_stats():
+  print(f" # deep copy = {GLOBAL_DEEP_COPY_COUNTER}")
+  for op, num in sorted(REDUCE_STATS.items(), key = lambda x: x[1]):
+    print (f"  >> {op} -> {num}")
+
 def create_ap_node(left, right):
   expr = Expr("ap", left, right)
   left.parent = expr
@@ -52,19 +63,19 @@ class Expr:
     else:
       return True
 
-  def deep_clone(self):
+  def deep_copy(self):
     if self.name == "ap":
-        left = self.left.deep_clone()
-        right = self.right.deep_clone()
+        left = self.left.deep_copy()
+        right = self.right.deep_copy()
         return create_ap_node(left, right)
     return Expr(self.name, None, None)
 
   def count(self):
-    return len(self.collect_ids())
-    # if self.name == "ap":
-    #   return self.left.count() + self.right.count() + 1
-    # else:
-    #   return 1
+    # return len(self.collect_ids())
+    if self.name == "ap":
+      return self.left.count() + self.right.count() + 1
+    else:
+      return 1
 
   def collect_ids(self):
     if self.name == "ap":
@@ -198,26 +209,32 @@ class TreeState:
       output.write("\n\n")
   
   def validate(self):
-    self.main_expr.validate_parents()
-    if DEBUG_OUTPUT:
-      print ("  Validation passed")
+    if DEBUG_RUN:
+      print ("Running validation after replacemenet")
+      self.main_expr.validate_parents()
+      if DEBUG_OUTPUT:
+        print ("  Validation passed")
 
-  def reduce(self, max_iter=100):
+  def reduce(self, max_iter=10000):
     global GLOBAL_LOG_COUNTER
+    print (f"{GLOBAL_LOG_COUNTER}: started reduce on tag={self.tag}, size = {self.main_expr.count()}")
     # now we have a state
     # let's start doing substitutions
-    self.dump(counter=0)
+    if DUMP_ALL_LOGS:
+      self.dump(counter=0)
     for counter in range(1, max_iter):
-      print ()
-      print (f"{GLOBAL_LOG_COUNTER}: iter = {counter}, {self.tag} -> {self.main_expr.count()}")
-      changed = self.replace_left()
+      if GLOBAL_LOG_COUNTER % 1000 == 0:
+        print ()
+        print (f"{GLOBAL_LOG_COUNTER}: iter = {counter}, tag={self.tag} -> {self.main_expr.count()}")
+        print_stats()
+
+      changed = self.reduce_left()
       if changed is None:
-        assert False, "Got None from replace_left()!"
+        assert False, "Got None from reduce_left()!"
       if not changed:
-        print (" >> Noting to replace, breaking")
+        print (f" >> Noting to replace, breaking at {counter} iter")
         break
       # validate to make sure we updated parents correctly
-      print ("Running validation after replacemenet")
       self.validate()
       if DUMP_ALL_LOGS:
         self.dump(counter)    
@@ -330,23 +347,33 @@ class TreeState:
     update_node_in_place(p1, new_name, None, None)
     return True
 
+  def replace_ref(self, ref_node):
+      # parent = left_most.parent
+      # assert parent, f"No parent found: {parent}"
+      # do a substitution
+      ref = self.defs_expr[ref_node.name].deep_copy()
+      # ref = self.defs_expr[ref_node.name]
+      global GLOBAL_DEEP_COPY_COUNTER
+      GLOBAL_DEEP_COPY_COUNTER += 1
+      update_node_in_place(ref_node, ref.name, ref.left, ref.right)
+      return True
 
   # returns True/False is there was replacement
-  def replace_left(self):
+  def reduce_left(self):
     global GLOBAL_LOG_COUNTER
     GLOBAL_LOG_COUNTER += 1
 
     # find left-most node
     left_most = self.main_expr.find_left()
-    print (f'Found {left_most} node, parent = {left_most.parent}')
+    if DEBUG_RUN:
+      print (f'Found {left_most} node, parent = {left_most.parent}')
+
+    if not left_most.name.startswith(":"):
+      global REDUCE_STATS
+      REDUCE_STATS[left_most.name] += 1
+
     if left_most.name.startswith(":"):
-      # parent = left_most.parent
-      # assert parent, f"No parent found: {parent}"
-      # do a substitution
-      # ref = self.defs_expr[left_most.name].deep_clone()
-      ref = self.defs_expr[left_most.name]
-      update_node_in_place(left_most, ref.name, ref.left, ref.right)
-      return True
+      return self.replace_ref(left_most)
     elif left_most.name == "c":
       return self.replace_c(left_most)
     elif left_most.name == "b":
@@ -385,7 +412,7 @@ def tree_eval(defs):
   for name, tokens in defs.items():
     state.defs_expr[name] = parse_from_tokens(tokens)
 
-  state.reduce(max_iter=1000)
+  state.reduce(max_iter=100000)
 
 
 def main():
