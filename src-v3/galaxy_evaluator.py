@@ -4,17 +4,26 @@ import sys
 class Expr:
     Evaluated = None
 
+
 class Atom(Expr):
     Name = None
     def __init__(self, name):
+        super().__init__()
         self.Name = name
+    
+    def __repr__(self):
+        return str(self.Name)
 
 class Ap(Expr):
     Fun = None
     Arg = None
     def __init__(self, fun, arg):
+        super().__init__()
         self.Fun = fun
         self.Arg = arg
+
+    def __repr__(self):
+        return f"{self.Fun}, {self.Arg}"
 
 class Vect:
     X = None
@@ -65,7 +74,7 @@ def eval(expr: Expr) -> Expr :
 def tryEval(expr: Expr) -> Expr:
     if expr.Evaluated:
         return expr.Evaluated
-    if (isinstance(expr, Atom) and functions.get(expr.Name)):
+    if (isinstance(expr, Atom) and expr.Name in functions):
         return functions[expr.Name]
     if (isinstance(expr,Ap)):
         fun = eval(expr.Fun)
