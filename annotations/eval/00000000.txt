@@ -1,0 +1,3 @@
+Main: 
+(ap (ap :1338 nil) (ap (ap cons 0) 0))
+

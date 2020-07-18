@@ -1,10 +1,17 @@
 from datetime import datetime
+from funcs import FUNCTIONS, Ref, AP
+import re
 
 def read_source(filename='galaxy.txt'):
   with open(filename, 'r') as galaxy_txt:
     program = galaxy_txt.read()
-    return program.split('\n')
+    lines = program.split('\n')
+    non_empty_lines = filter(lambda l: len(l), lines)
+    return non_empty_lines
 
+
+def read_test_source():
+  return read_source('test_galaxy.txt')
 
 def parse_program(code_lines):
   # example code line:
@@ -18,6 +25,37 @@ def parse_program(code_lines):
     defs[token] = lexems
   return defs
 
+def parse_lexem(defs, lexem):
+  if re.match(r'^-?\d', lexem):
+    return int(lexem)
+  elif lexem[0] == ':':
+    return Ref(defs, lexem)
+  elif lexem == 'ap':
+    return AP()
+  else:
+    return FUNCTIONS.get(lexem, lexem)
+
+def parse_program_with_types(code_lines):
+  defs = parse_program(code_lines)
+  defs_with_types = {}
+  for token, lexems in defs.items():
+    defs_with_types[token] = [ parse_lexem(defs_with_types, l) for l in lexems]
+  return defs_with_types
+
+def parse_program_with_ast(code_lines):
+  defs = parse_program(code_lines)
+  defs_with_ast = {}
+  for token, lexems in defs.items():
+    first_lexem, *other_lexems = lexems
+    first_lexem = parse_lexem(defs_with_ast, first_lexem)
+    if type(first_lexem) != AP:
+      defs_with_ast[token] = first_lexem
+    else:
+      ast = AP()
+      for l in other_lexems:
+        ast.add_edge(parse_lexem(defs_with_ast, l))
+      defs_with_ast[token] = ast
+  return defs_with_ast
 
 def dump_file(strings, output_filename='decode_progress/galaxy_{suffix}.txt'):
   with open(output_filename.format(suffix=datetime.utcnow().isoformat()), 'w') as output:
