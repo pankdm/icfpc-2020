@@ -39,7 +39,15 @@ class Expr:
     elif self.name == "f":
       return lambda x: lambda y: y
     elif self.name == "t":
-      return lambda x: lambda x: x
+      return lambda x: lambda y: x
+    elif self.name == "s":
+      return lambda x: lambda y: lambda z: x(z)(y(z))
+    elif self.name == "i":
+      return lambda x: x
+    elif self.name == "mul":
+      return lambda x: lambda y: x * y
+    elif self.name == "add":
+      return lambda x: lambda y: x + y
     elif self.name.startswith(":"):
       expr = ALL_DEFS.get(self.name, None)
       return expr.evaluate(depth + 1)
