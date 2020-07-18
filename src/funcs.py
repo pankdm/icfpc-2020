@@ -46,12 +46,14 @@ class CurriedFunction():
 
 class Ref():
   name = None
-  def __init__(self, name):
+  defs = None
+  def __init__(self, defs, name):
     self.name = name
+    self.defs = defs
   def __repr__(self):
     return f'ref:{self.name}'
-  def resolve(self, refs):
-    ref_value = refs.get(self)
+  def resolve(self):
+    ref_value = self.defs.get(self.name)
     if type(ref_value) is Ref:
       return ref_value.resolve()
     return ref_value
@@ -78,6 +80,8 @@ class AP():
 
   @staticmethod
   def calc(node):
+    if type(node) == Ref:
+      node = node.resolve()
     if type(node) == AP:
       return node.compute()
     return node
