@@ -1,7 +1,4 @@
-from src.decode import read_source, parse_program
 import re
-
-defs = parse_program(read_source())
 
 def sorted_defs(defs):
   defs_list = [[token, lexems] for token, lexems in defs.items()]
@@ -16,7 +13,7 @@ def get_unique_lexems(defs):
   return unique_lexems
 
 def is_token(lexem):
-  return lexem[0] == ':'
+  return type(lexem) == str and lexem[0] == ':'
 
 def inline(defs, token, max_iterations=None):
   if not defs.get(token):
