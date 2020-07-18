@@ -1,3 +1,5 @@
+import sys
+
 # See video course https://icfpcontest2020.github.io/#/post/2054
 class Expr:
     def __init__(self):
@@ -22,11 +24,11 @@ t = Atom("t")
 f = Atom("f")
 nil = Atom("nil")
 
-Map<string, Expr> functions = PARSE_FUNCTIONS("galaxy.txt")
+functions = {}
 
 # See https://message-from-space.readthedocs.io/en/latest/message39.html
-# state: Expr = nil
-# vector = Vect(0, 0)
+state: Expr = nil
+vector = Vect(0, 0)
 
 # while(True):
 #     click = Ap(Ap(cons, Atom(vector.X)), Atom(vector.Y))
@@ -64,7 +66,7 @@ def tryEval(expr: Expr) -> Expr:
     if (isinstance(expr,Ap)):
         fun = eval(expr.Fun)
         x = expr.Arg
-        if (isinstance(fun,Atom)):
+        if (isinstance(fun, Atom)):
             if (fun.Name == "neg"): return Atom(-asNum(eval(x)))
             if (fun.Name == "i"): return x
             if (fun.Name == "nil"): return t
@@ -80,8 +82,8 @@ def tryEval(expr: Expr) -> Expr:
                 if (fun2.Name == "add"): return Atom(asNum(eval(x)) + asNum(eval(y)))
                 if (fun2.Name == "mul"): return Atom(asNum(eval(x)) * asNum(eval(y)))
                 if (fun2.Name == "div"): return Atom(asNum(eval(y)) / asNum(eval(x)))
-                if (fun2.Name == "lt"): return asNum(eval(y)) < asNum(eval(x)) ? t : f
-                if (fun2.Name == "eq"): return asNum(eval(x)) == asNum(eval(y)) ? t : f
+                if (fun2.Name == "lt"): return t if asNum(eval(y)) < asNum(eval(x)) else f
+                if (fun2.Name == "eq"): return t if asNum(eval(x)) == asNum(eval(y)) else f
                 if (fun2.Name == "cons"): return evalCons(y, x)
             if (isinstance(fun2,Ap)):
                 fun3 = eval(fun2.Fun)
@@ -104,51 +106,56 @@ def asNum(n: Expr) -> int:
         return int(n.Name)
     raise TypeError("not a number")
 
+class TokenStream:
+  def __init__(self, vec):
+    self.vec = vec
+    self.index = 0
 
+  def read(self):
+    res = self.vec[self.index]
+    self.index += 1
+    return res
 
+def parse_from_tokens(tokens) -> Expr :
+  stream = TokenStream(tokens)
+  expr = parse_next_expr(stream)
+  return expr
 
-# class TokenStream:
-#   def __init__(self, vec):
-#     self.vec = vec
-#     self.index = 0
+def parse_next_expr(s) -> Expr :
+  token = s.read()
+  if token == "ap":
+    fun = parse_next_expr(s)
+    arg = parse_next_expr(s)
 
-#   def read(self):
-#     res = self.vec[self.index]
-#     self.index += 1
-#     return res
+    return Ap(fun, arg)
+  else:
+    return Atom(token)
 
-# def parse_from_tokens(tokens):
-#   stream = TokenStream(tokens)
-#   expr = parse_next_expr(stream)
-#   return expr
+def read_source(filename='galaxy.txt'):
+  with open(filename, 'r') as galaxy_txt:
+    program = galaxy_txt.read()
+    lines = program.split('\n')
+    non_empty_lines = filter(lambda l: len(l), lines)
+    return non_empty_lines
 
-# def parse_next_expr(s):
-#   token = s.read()
-#   if token == "ap":
-#     x0 = parse_next_expr(s)
-#     x1 = parse_next_expr(s)
+def parse_program(code_lines):
+  defs = {}
+  for ln in code_lines:
+    [token, body] = [chunk.strip() for chunk in ln.split('=')]
+    lexems = body.split()
+    defs[token] = lexems
+  return defs
 
-#     expr = create_ap_node(x0, x1)
-#     return expr
-#   return Expr(token, left=None, right=None)
+def main():
+  sys.setrecursionlimit(10000)
+  defs = parse_program(read_source(sys.argv[1]))
+  for name, tokens in defs.items():
+    functions[name] = parse_from_tokens(tokens)
 
-# def read_source(filename='galaxy.txt'):
-#   with open(filename, 'r') as galaxy_txt:
-#     program = galaxy_txt.read()
-#     lines = program.split('\n')
-#     non_empty_lines = filter(lambda l: len(l), lines)
-#     return non_empty_lines
+  click = Ap(Ap(cons, Atom("0")), Atom("0"))
+  expr = Ap(Ap(Atom("galaxy"), nil), click)
+  res = eval(expr)
+  print(res)
 
-
-
-# def parse_program(code_lines):
-#   # example code line:
-#   # ":1042 = ap ap cons 4 ap ap cons 63935 nil"
-#   #  ^       ^
-#   #  token   fn body
-#   defs = {}
-#   for ln in code_lines:
-#     [token, body] = [chunk.strip() for chunk in ln.split('=')]
-#     lexems = body.split()
-#     defs[token] = lexems
-#   return defs
+if __name__ == "__main__":
+  main()
