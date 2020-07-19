@@ -70,21 +70,25 @@ class SpaceUI:
     left = -48
     right = 48
     step = 32
-    green = "#3CB043"
     for cc in range(left, right + step, step):
-      self.canvas.create_line(
-        self.map_x_coord(cc),
-        self.map_y_coord(left),
-        self.map_x_coord(cc),
-        self.map_y_coord(right), 
-        fill=green)
-      self.canvas.create_line(
-        self.map_x_coord(left),
-        self.map_y_coord(cc),
-        self.map_x_coord(right),
-        self.map_y_coord(cc), 
-        fill=green)
+      self.draw_line(cc, left, cc, right)
+      self.draw_line(left, cc, right, cc)
+    
+    coords = [(-48, -16), (48, 16)]
+    for a, b in coords:
+      self.draw_line(a, -a, b, -b)
+      self.draw_line(a, a, b, b)
       
+
+  def draw_line(self, x0, y0, x1, y1):
+      green = "#3CB043"
+      self.canvas.create_line(
+        self.map_x_coord(x0),
+        self.map_y_coord(y0),
+        self.map_x_coord(x1),
+        self.map_y_coord(y1), 
+        fill=green)
+
 
   def draw_rectangular(self, p0, p1, **varargs):
     index = 0
