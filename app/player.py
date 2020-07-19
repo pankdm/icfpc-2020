@@ -28,8 +28,8 @@ def flatten_cons(data):
     return [flatten_cons(first)] + flat_tail
 
 
-def join_and_play_the_game(key, bot, proxy, name):
-    player = Player(key, bot, proxy=proxy, log=True, display_name=name)
+def join_and_play_the_game(proxy, key, bot, name):
+    player = Player(proxy, key, bot, log=True, display_name=name)
     player_loop(player)
 
 def player_loop(player):
@@ -64,7 +64,7 @@ class Proxy:
         # print(f"sending {raw_request}")
         request = mod(raw_request)
         # print(f"encoded as {request}")
-        res = requests.post(full_url, data=request)
+        res = requests.post(self.full_url, data=request)
         if res.status_code != 200:
             print('Unexpected server response:')
             print('HTTP code:', res.status_code)
@@ -80,8 +80,8 @@ class Proxy:
 
 
 class Player:
-    def __init__(self, player_key, bot, proxy, log=False, display_name=None):
-        self.player_key = player_key
+    def __init__(self, proxy, key, bot, log=False, display_name=None):
+        self.player_key = key
         self.bot = bot
         self.log = log
         self.proxy = proxy

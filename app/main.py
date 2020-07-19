@@ -15,7 +15,7 @@ def main():
     # NOTE: fix here for different algorithms
     bot = DoNothingBot()
 
-    join_and_play_the_game(player_key, bot, proxproxy, name="Me")
+    join_and_play_the_game(proxy, player_key, bot, name="Me")
     print("Done.")
 
 if __name__ == '__main__':

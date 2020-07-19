@@ -31,11 +31,9 @@ def main():
     key2 = create[1][1][1]
 
     bot1 = DoNothingBot()
-
     bot2 = DoNothingBot()
-    player2 = Player(key2, bot=bot2, proxy=proxy, log=True, display_name="Player 2")
-
-    t = threading.Thread(target=player_loop, args=(player1,))
+    
+    t = threading.Thread(target=join_and_play_the_game, args=(proxy, key2, bot2, "Player 2"))
     t.start()
 
     join_and_play_the_game(proxy, key1, bot1, "Player 1")
