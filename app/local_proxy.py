@@ -11,6 +11,9 @@ from bots import *
 from models import *
 from player import *
 
+KONTUR_URL = "https://icfpc2020-api.testkontur.ru"
+API_KEY = "apiKey=6e1336a2ffa94971b5f74715a85708b9"
+
 
 def main():
     # a = [1, [[[0, [8278679430195342144, None]], [[1, [8541530479718220884, None]], None]], None]]
@@ -18,43 +21,24 @@ def main():
     # a = [1, [1, [[256, [0, [[512, [1, [64, None]]], [[16, [128, None]], [[446, [0, [0, [1, None]]]], None]]]]], [[0, [[16, [128, None]], [[[[1, [0, [[-48, -29], [[0, 0], [[446, [0, [0, [1, None]]]], [0, [64, [1, None]]]]]]]], [None, None]], [[[0, [1, [[48, 29], [[0, 0], [[446, [0, [0, [1, None]]]], [0, [64, [1, None]]]]]]]], [None, None]], None]], None]]], None]]]]
     # print (flatten_cons(a))
     # return
+    full_url = f'{KONTUR_URL}/aliens/send?{API_KEY}'
 
-    # if sys.argv[1] == "create":
-    #     create = send_to_proxy(make_create_request())
-    #     print (create)
-    #     key1 = create[1][0][1]
-    #     key2 = create[1][1][1]
-    #     print (f'joining as key1: {key1}')
-    #     print (f'key2: {key2}')
+    proxy = Proxy(full_url)
+    create = proxy.create_new_game()
 
-    #     bot = DoNothingBot()
-    #     player = Player(key1, bot, log=True)
-    #     player_loop(player)
-    #     player.output.close()
-    # if sys.argv[1] == "join":
-    #     key = sys.argv[2]
-
-    #     bot = DoNothingBot()
-    #     player = Player(key, bot)
-    #     player_loop(player)
-    # bot2 = DoNothingBot()
-    # assert False, f"invalid usage: {sys.argv}"
-
-    create = send_to_proxy(get_create_data())
     print (create)
     key1 = create[1][0][1]
     key2 = create[1][1][1]
 
     bot1 = DoNothingBot()
-    player1 = Player(key1, bot1, log=True, display_name="Player 1")
 
     bot2 = DoNothingBot()
-    player2 = Player(key2, bot2, log=True, display_name="Player 2")
+    player2 = Player(key2, bot=bot2, proxy=proxy, log=True, display_name="Player 2")
 
     t = threading.Thread(target=player_loop, args=(player1,))
     t.start()
 
-    player_loop(player2)
+    join_and_play_the_game(proxy, key1, bot1, "Player 1")
 
 
 if __name__ == '__main__':
