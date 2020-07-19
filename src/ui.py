@@ -35,7 +35,10 @@ class TkUI:
     # self.current_state = nil
     #
     #  show galaxy, click around to see races:
-    self.current_state = list_to_cons([1, [11], 0, []])
+    self.current_state = list_to_cons(
+      [5, [1, 0, [], [], [], [], [], 16701], 8, []]  # before tutorials
+      # [1, [11], 0, []]
+      )
     #
     #  some picture with increasing boxes
     # self.current_state = list_to_cons([2, [4, 5], 0, []])

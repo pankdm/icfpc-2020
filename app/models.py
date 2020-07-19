@@ -157,7 +157,7 @@ class GameResponse:
 
   @staticmethod
   def from_list(l):
-    print(f"GameResponse {l}")
+    print(f"Parsing GameResponse {l}")  # keep to see raw data in server logs
     # (1, gameStage, staticGameInfo, gameState)
     if l == [0]:
       return GameResponse(is_valid=False, game_stage=None, static_game_info=None, game_state=None)
