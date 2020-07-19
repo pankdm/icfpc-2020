@@ -15,7 +15,7 @@ class TkUI:
   def __init__(self):
     self.root = Tk()
 
-    self.canvas = Canvas(self.root, width=1000, height=1000)
+    self.canvas = Canvas(self.root, width=1000, height=1000, bg='black')
     self.center = (500, 500)
     self.canvas.bind("<Button-1>", self.handle_click)
     self.canvas.bind("<Double-Button-1>", self.handle_double_click)
@@ -69,14 +69,18 @@ class TkUI:
       multipledraw_helper(img_data, draw_dot_impl=self.add_pixel)
 
   def add_pixel(self, x, y, index):
-    colors = ["black", "blue", "red", "green"]
-    fill = colors[index % len(colors)]
+    # colors = ["white", "blue", "red", "green"]
+    fade = 0.5**index
+    intensity = round(255.0*fade)
+    intensity_hex = hex(intensity)[2:].zfill(2)
+    fill_color = f'#{intensity_hex*3}'
     self.canvas.create_rectangle(
       x * UI_SCALE + self.center[0],
       y * UI_SCALE + self.center[1],
       (x + 1) * UI_SCALE + self.center[1],
       (y + 1) * UI_SCALE + self.center[1],
-      fill=fill)
+      activefill='#ff7f00',
+      fill=fill_color)
 
   def mainloop(self):
     self.root.mainloop()

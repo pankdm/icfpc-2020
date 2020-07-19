@@ -44,8 +44,11 @@ def draw_helper(functional_data, img_index=0, draw_dot_impl=None):
 
 def multipledraw_helper(functional_data, draw_dot_impl=None):
   data = cons_list_to_py_list(functional_data)
+  layers = 0
   for (index, item) in enumerate(data):
+    layers = layers + 1
     draw_helper(item, img_index=index, draw_dot_impl=draw_dot_impl)
+  print(f'{layers} layers drawn!')
 
 # https://message-from-space.readthedocs.io/en/latest/message38.html
 def interact(protocol_evaluator, state, vector):
@@ -59,4 +62,3 @@ def interact(protocol_evaluator, state, vector):
       return (newState, data)
 
   return interact(protocol_evaluator, newState, _send_to_alien_proxy(data))
-
