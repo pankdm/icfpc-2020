@@ -26,7 +26,7 @@ def main():
     proxy = Proxy(full_url)
     create = proxy.create_new_game()
 
-    print (create)
+    print (f"keys: {create}")
     key1 = create[1][0][1]
     key2 = create[1][1][1]
 
