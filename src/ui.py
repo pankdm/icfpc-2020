@@ -4,9 +4,10 @@
 from tkinter import *
 from protocols import *
 from funcs import *
+from galaxy_evaluator import *
 
 UI_SCALE=2
-PROTOCOL=statefuldraw
+PROTOCOL=evaluate_galaxy #statefuldraw
 
 class TkUI:
   def __init__(self):
@@ -16,7 +17,7 @@ class TkUI:
     self.canvas.bind("<Button-1>", self.handle_click)
     self.canvas.pack()
 
-    self.current_state = NIL
+    self.current_state = nil
     self.interact(0, 0)
 
   def handle_click(self, event):
@@ -28,7 +29,8 @@ class TkUI:
       self.interact(x, y)
 
   def interact(self, x, y):
-      (new_state, img_data) = interact(PROTOCOL, self.current_state, [x, y])
+      click = Ap(Ap(cons, Atom(str(x))), Atom(str(y)))
+      (new_state, img_data) = interact(PROTOCOL, self.current_state, click)
       print(f"new_state = {new_state} img_data={img_data}")
       self.current_state = new_state
 
@@ -40,5 +42,19 @@ class TkUI:
   def mainloop(self):
     self.root.mainloop()
 
-ui = TkUI()
-ui.mainloop()
+
+def main():
+  # as_expr = list_to_cons([1,2,3,[4]])
+  # print(f"as_expr {as_expr}")
+  # as_list = recursive_list_convert(as_expr)
+  # print(f"as_list {as_list}")
+  # exit()
+
+  sys.setrecursionlimit(10000)
+  load_galaxy_from_source(sys.argv[1])
+
+  ui = TkUI()
+  ui.mainloop()
+
+if __name__ == "__main__":
+  main()

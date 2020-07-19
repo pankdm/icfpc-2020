@@ -1,7 +1,7 @@
 from interact import *
+from lists import *
 from annotate import *
 from funcs import *
-from lists import *
 
 STATELESSDRAW_CODE = "ap ap c ap ap b b ap ap b ap b ap cons 0 ap ap c ap ap b b cons ap ap c cons nil ap ap c ap ap b cons ap ap c cons nil nil"
 STATEFULDRAW_CODE = "ap ap b ap b ap ap s ap ap b ap b ap cons 0 ap ap c ap ap b b cons ap ap c cons nil ap ap c cons nil ap c cons"

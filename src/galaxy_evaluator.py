@@ -23,7 +23,7 @@ class Ap(Expr):
         self.Arg = arg
 
     def __repr__(self):
-        return f"{self.Fun}, {self.Arg}"
+        return f"Ap({self.Fun}, {self.Arg})"
 
 class Vect:
     X = None
@@ -119,6 +119,16 @@ def asNum(n: Expr) -> int:
         return int(n.Name)
     raise TypeError("not a number")
 
+def isnil(value):
+  return isinstance(value, Atom) and value.Name == "nil"
+
+def isnum(value):
+    try:
+        _ = asNum(value)
+        return True
+    except:
+        return False
+
 class TokenStream:
   def __init__(self, vec):
     self.vec = vec
@@ -159,16 +169,24 @@ def parse_program(code_lines):
     defs[token] = lexems
   return defs
 
-def main():
-  sys.setrecursionlimit(10000)
-  defs = parse_program(read_source(sys.argv[1]))
+def load_galaxy_from_source(filename):
+  defs = parse_program(read_source(filename))
   for name, tokens in defs.items():
     functions[name] = parse_from_tokens(tokens)
 
-  click = Ap(Ap(cons, Atom("0")), Atom("0"))
-  expr = Ap(Ap(Atom("galaxy"), nil), click)
+def evaluate_galaxy(state, vector):
+  print(f"# evaluate_galaxy state={state} vector={vector}")
+  expr = Ap(Ap(Atom("galaxy"), state), vector)
   res = eval(expr)
-  print(res)
+  # print(res)
+  return res
+
+def main():
+  sys.setrecursionlimit(10000)
+  load_galaxy_from_source(sys.argv[1])
+
+  click = Ap(Ap(cons, Atom("0")), Atom("0"))
+  evaluate_galaxy(nil, click)
 
 if __name__ == "__main__":
   main()
