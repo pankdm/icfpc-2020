@@ -1,4 +1,5 @@
 
+from datetime import datetime
 import io
 import requests
 import sys
@@ -7,18 +8,14 @@ import threading
 from modulate import modulate as mod
 from parse_modulated import parse as dem
 from bots import *
+from models import *
 
-from datetime import datetime
 
 from main import (
     make_join_request,
     make_start_request,
     make_commands_request
 )
-
-GAME_STAGE_NOT_STARTED=0
-GAME_STAGE_HAS_STARTED=1
-GAME_STAGE_HAS_FINISHED=2
 
 
 def make_create_request():
@@ -74,7 +71,7 @@ class Player:
         response = send_to_proxy(request_data)
         if self.log:
             self.output.write(f"join: {response}\n")
-        return response
+        return GameResponse.from_list(response)
 
     def make_start_request(self, game_response):
         data = self.bot.get_start_data(game_response)
@@ -82,15 +79,16 @@ class Player:
         response = send_to_proxy(request_data)
         if self.log:
             self.output.write(f"start: {response}\n")
-        return response
+        return GameResponse.from_list(response)
 
     def make_commands_request(self, game_response):
-        data = self.bot.get_commands_data(game_response)
+        commands = self.bot.get_commands(game_response)
+        data = [c.to_list() for c in commands]
         request_data = [4, int(self.player_key), data]
         response = send_to_proxy(request_data)
         if self.log:
             self.output.write(f"commands: {response}\n")
-        return response
+        return GameResponse.from_list(response)
 
 
 def get_game_stage(game_response):
@@ -101,8 +99,14 @@ def get_game_stage(game_response):
 def player_loop(player):
     print (f'Starting loop for player {player.player_key}')
     game_response = player.make_join_request()
+    if not game_response.is_valid:
+        print("Got invalid response")
+        return
+    if game_response.game_stage == GAME_STAGE_HAS_FINISHED:
+        print("Game has already finished.")
+        return
     game_response = player.make_start_request(game_response)
-    while get_game_stage(game_response) != GAME_STAGE_HAS_FINISHED:
+    while game_response.is_valid and game_response.game_stage != GAME_STAGE_HAS_FINISHED:
         game_response = player.make_commands_request(game_response)
 
 
