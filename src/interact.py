@@ -63,6 +63,8 @@ def interact(protocol_evaluator, state, vector):
   print(f"flag={flag}\nnewState={after}")  # data={recursive_list_convert(data)}
   if before == after:
     print("State remained unchanged")
+  else:
+    print (" >>> NEW STATE!!!")
 
   if asNum(flag) == 0:
       return (newState, data)
