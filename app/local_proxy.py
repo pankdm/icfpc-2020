@@ -8,6 +8,7 @@ from modulate import modulate as mod
 from parse_modulated import parse as dem
 from bots import *
 
+from datetime import datetime
 
 from main import (
     make_join_request,
@@ -65,7 +66,8 @@ class Player:
         self.log = log
         self.output = None
         if self.log:
-            self.output = open("game-log.txt", "w")
+            ts = datetime.utcnow().isoformat()
+            self.output = open(f"game-logs/{ts}.txt", "w")
 
     def make_join_request(self):
         request_data = [2, int(self.player_key), []]
