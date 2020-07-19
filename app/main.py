@@ -15,7 +15,7 @@ def main():
     # NOTE: fix here for different algorithms
     bot = FlyingBot()
 
-    player = Player(proxy, key, bot, display_name="Me")
+    player = Player(proxy, player_key, bot, display_name="Me")
     player_loop(player)
 
     print("Done.")
