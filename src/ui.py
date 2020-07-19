@@ -21,6 +21,7 @@ class TkUI:
     self.center = (width / 2, height / 2)
     self.canvas.bind("<Button-1>", self.handle_click)
     self.canvas.bind("<Shift-A>", self.handle_click_all_pixels)
+    self.canvas.bind("<BackSpace>", self.handle_rewind)
     self.canvas.pack()
 
     # Initial states:
@@ -52,7 +53,18 @@ class TkUI:
     # end game?
     # self.current_state = list_to_cons([10, [], 8, []])
 
+    self.state_history = []
     self.interact(0, 0)
+
+  def handle_rewind(self, event):
+      print(f'\n\nAttempting time travel...')
+      self.rewind_state()
+      short_display_len = 3
+      state_history_slice = self.state_history[-short_display_len:]
+      prefix = '... ' if len(state_history_slice) > short_display_len else ''
+      state_history_repr = "; ".join([f':state {recursive_list_convert(state)} :click {click}' for state, click in state_history_slice])
+      state_history_repr = f'<{prefix}{state_history_repr} '
+      print(f'current state stack: {state_history_repr}')
 
   def handle_click_all_pixels(self, event):
       print(f"click all pixels")
@@ -80,12 +92,28 @@ class TkUI:
       self.interact(x, y)
       self.canvas.focus_set()
 
+  def update_state(self, current_state, click, next_state):
+      if recursive_list_convert(current_state) != recursive_list_convert(next_state):
+          self.state_history.append([current_state, click])
+          self.current_state = next_state
+
+  def rewind_state(self):
+      if (len(self.state_history) > 1):
+          print('Rewind state, time travel, Morty!')
+          prev_state, last_click = self.state_history.pop()
+          pre_prev_state, prev_click = self.state_history.pop()
+          self.current_state = pre_prev_state
+          self.interact(*prev_click)
+      else:
+          print('Already at the earliest state.')
+
+
   def interact(self, x, y):
       click = Ap(Ap(cons, Atom(str(x))), Atom(str(y)))
       (new_state, img_data) = interact(PROTOCOL, self.current_state, click)
       # print(f"new_state = {new_state} img_data={img_data}")
       self.current_img_data = img_data
-      self.current_state = new_state
+      self.update_state(self.current_state, (x, y), new_state)
 
       # clean canvas before draw
       self.canvas.delete(ALL)
