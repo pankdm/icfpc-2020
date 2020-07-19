@@ -1,3 +1,6 @@
+# Usage:
+#    python3 src-v3/galaxy_evaluator.py galaxy.txt
+
 import sys
 
 # See video course https://icfpcontest2020.github.io/#/post/2054
