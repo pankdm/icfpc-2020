@@ -33,7 +33,8 @@ def main():
     bot1 = DoNothingBot()
     bot2 = DoNothingBot()
     
-    t = threading.Thread(target=join_and_play_the_game, args=(proxy, key2, bot2, "Player 2"))
+    task = lambda : join_and_play_the_game(proxy, key2, bot2, "Player2")
+    t = threading.Thread(target=task)
     t.start()
 
     join_and_play_the_game(proxy, key1, bot1, "Player 1")
