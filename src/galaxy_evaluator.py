@@ -34,7 +34,7 @@ class Ap(Expr):
     def to_str(self, max_depth=10, depth=None, *args, **krwargs):
         if max_depth is not None:
             depth = depth if depth is not None else 0
-            if max_depth > depth:
+            if depth > max_depth:
                 return f'ap ... ...'
             return f'ap {self.Fun.to_str(max_depth, depth+1)} {self.Arg.to_str(max_depth, depth+1)}'
         else:
