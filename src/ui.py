@@ -18,26 +18,47 @@ class TkUI:
     self.canvas = Canvas(self.root, width=1000, height=1000)
     self.center = (500, 500)
     self.canvas.bind("<Button-1>", self.handle_click)
+    self.canvas.bind("<Double-Button-1>", self.handle_double_click)
     self.canvas.pack()
 
     self.current_state = list_to_cons([1, [11], 0, []])
+    self.current_img_data = nil
     self.interact(0, 0)
+
+  def handle_double_click(self, event):
+      print(f"click all pixels")
+      img_data = self.current_img_data
+      ui_elements = recursive_list_convert(self.current_img_data)[:-1]
+      for pixels in ui_elements:
+          for x, y in pixels:
+              if img_data == self.current_img_data:
+                  break
+              self.interact(x, y)
+              self.interact(x+1, y+1)
+              self.interact(x+1, y)
+              self.interact(x+1, y-1)
+              self.interact(x, y-1)
+              self.interact(x-1, y-1)
+              self.interact(x-1, y)
+              self.interact(x-1, y+1)
+              self.interact(x, y+1)
 
   def handle_click(self, event):
       x = int(round((event.x - self.center[0]) / UI_SCALE))
       y = int(round((event.y - self.center[1]) / UI_SCALE))
       print(f"clicked at {x} {y}")
-
-      self.canvas.delete(ALL)
-      
       self.interact(x, y)
 
   def interact(self, x, y):
       click = Ap(Ap(cons, Atom(str(x))), Atom(str(y)))
       (new_state, img_data) = interact(PROTOCOL, self.current_state, click)
       # print(f"new_state = {new_state} img_data={img_data}")
+      self.current_img_data = img_data
       self.current_state = new_state
 
+      # clean canvas before draw
+      self.canvas.delete(ALL)
+      # quick, draw!
       multipledraw_helper(img_data, draw_dot_impl=self.add_pixel)
 
   def add_pixel(self, x, y, index):
