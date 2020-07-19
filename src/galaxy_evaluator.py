@@ -31,13 +31,24 @@ class Ap(Expr):
         self.Fun = fun
         self.Arg = arg
 
-    def to_str(self, max_depth=10, *args, **krwargs):
+    def to_str(self, max_depth=10, depth=None, *args, **krwargs):
         if max_depth is not None:
-            if max_depth < 0:
+            depth = depth if depth is not None else 0
+            if max_depth > depth:
                 return f'ap ... ...'
-            return f'ap {self.Fun.to_str(max_depth-1)} {self.Arg.to_str(max_depth-1)}'
+            return f'ap {self.Fun.to_str(max_depth, depth+1)} {self.Arg.to_str(max_depth, depth+1)}'
         else:
             return f'ap {self.Fun.to_str(None)} {self.Arg.to_str(None)}'
+
+    def to_padded_str(self, max_depth=10, depth=None, pad_with=' ', *args, **krwargs):
+        depth = 0 if depth is None else depth
+        if max_depth and depth > max_depth:
+            return f'ap ... ...'
+        child_padding = pad_with*(depth+1)
+        fun_repr = self.Fun.to_padded_str(max_depth, depth+1, pad_with) if type(self.Fun) == Ap else str(self.Fun)
+        arg_repr = self.Arg.to_padded_str(max_depth, depth+1, pad_with) if type(self.Arg) == Ap else str(self.Arg)
+        return f'ap\n{child_padding}{fun_repr}\n{child_padding}{arg_repr}'
+
 
 
 
