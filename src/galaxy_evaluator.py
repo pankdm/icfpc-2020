@@ -16,6 +16,7 @@ class Expr:
 
 class Atom(Expr):
     Name = None
+
     def __init__(self, name):
         super().__init__()
         self.Name = name
@@ -29,6 +30,7 @@ class Val(Atom):
     def __init__(self, value):
         super().__init__(str(value))
         self.Value = value
+        self.Evaluated = self
 
     def to_str(self, *args, **krwargs):
         return self.Name
@@ -99,7 +101,7 @@ def tryEval(expr: Expr) -> Expr:
         fun = eval(expr.Fun)
         x = expr.Arg
         if (isinstance(fun, Atom)):
-            if (fun.Name == "neg"): return Atom(-asNum(eval(x)))
+            if (fun.Name == "neg"): return Val(-asNum(eval(x)))
             if (fun.Name == "i"): return x
             if (fun.Name == "nil"): return t
             if (fun.Name == "isnil"): return Ap(x, Ap(t, Ap(t, f)))
@@ -111,9 +113,9 @@ def tryEval(expr: Expr) -> Expr:
             if (isinstance(fun2, Atom)):
                 if (fun2.Name == "t"): return y
                 if (fun2.Name == "f"): return x
-                if (fun2.Name == "add"): return Atom(asNum(eval(y)) + asNum(eval(x)))
-                if (fun2.Name == "mul"): return Atom(asNum(eval(y)) * asNum(eval(x)))
-                if (fun2.Name == "div"): return Atom(asNum(eval(y)) / asNum(eval(x)))
+                if (fun2.Name == "add"): return Val(asNum(eval(y)) + asNum(eval(x)))
+                if (fun2.Name == "mul"): return Val(asNum(eval(y)) * asNum(eval(x)))
+                if (fun2.Name == "div"): return Val(asNum(eval(y)) // asNum(eval(x)))
                 if (fun2.Name == "lt"): return t if asNum(eval(y)) < asNum(eval(x)) else f
                 if (fun2.Name == "eq"): return t if asNum(eval(y)) == asNum(eval(x)) else f
                 if (fun2.Name == "cons"): return evalCons(y, x)
@@ -173,7 +175,10 @@ def parse_next_expr(s) -> Expr :
 
     return Ap(fun, arg)
   else:
-    return Atom(token)
+    try:
+      return Val(int(token))
+    except:
+      return Atom(token)
 
 def read_source(filename='galaxy.txt'):
   with open(filename, 'r') as galaxy_txt:

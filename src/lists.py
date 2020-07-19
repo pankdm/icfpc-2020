@@ -40,7 +40,7 @@ def recursive_list_convert(data):
 def demodulated_list_to_cons(l):
   """Python list to CONS, recursive."""
   if isinstance(l, int):
-    return Atom(str(l))
+    return Val(l)
   elif l is None:
     return nil
   # if len(l) == 0:

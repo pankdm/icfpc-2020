@@ -114,7 +114,7 @@ class TkUI:
       multipledraw_helper(self.current_img_data, draw_dot_impl=self.add_pixel)
 
   def interact(self, x, y):
-      click = Ap(Ap(cons, Atom(str(x))), Atom(str(y)))
+      click = Ap(Ap(cons, Val(x)), Val(y))
       (new_state, img_data) = interact(PROTOCOL, self.current_state, click)
       # print(f"new_state = {new_state} img_data={img_data}")
       self.update_state(self.current_state, self.current_img_data, (x, y), new_state, img_data)
