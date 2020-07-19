@@ -80,11 +80,13 @@ class Proxy:
 
 
 class Player:
-    def __init__(self, proxy, key, bot, log=False, display_name=None):
+    def __init__(self, proxy, key, bot, log=False, display_name=None, ui=None):
         self.player_key = key
         self.bot = bot
         self.log = log
         self.proxy = proxy
+
+        self.ui = ui
 
         self.output = None
         self.display_name = display_name
@@ -123,6 +125,10 @@ class Player:
 
         self.bot.handle_start_response(game_response)
 
+        if self.ui:
+            print(f"updating UI")
+            self.ui.append_response(game_response)
+
         return game_response
 
     def make_commands_request(self, game_response):
@@ -139,5 +145,9 @@ class Player:
         game_response = GameResponse.from_list(response)
         print(f"[{self.display_name}] Got commands response: {game_response}")
 
+        if self.ui:
+            print(f"updating UI")
+            self.ui.append_response(game_response)
+        
         return game_response
 
