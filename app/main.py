@@ -9,12 +9,13 @@ def main():
     player_key = sys.argv[2]
     print('ServerUrl: %s; PlayerKey: %s' % (server_url, player_key))
 
+    full_url = f"{server_url}/aliens/send"
+    proxy = Proxy(full_url)
+
     # NOTE: fix here for different algorithms
     bot = DoNothingBot()
 
-    proxy = Proxy(server_url)
-    player = Player(player_key, bot=bot, proxy=proxy)
-    player_loop(player)
+    join_and_play_the_game(player_key, bot, proxproxy, name="Me")
     print("Done.")
 
 if __name__ == '__main__':
