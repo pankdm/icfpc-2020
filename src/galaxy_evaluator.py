@@ -4,14 +4,20 @@ import sys
 class Expr:
     Evaluated = None
 
+    def to_str(self):
+      return str(self)
+
+    def __repr__(self, *args, **krwargs):
+      return self.to_str()
+
 
 class Atom(Expr):
     Name = None
     def __init__(self, name):
         super().__init__()
         self.Name = name
-    
-    def __repr__(self):
+
+    def to_str(self, *args, **krwargs):
         return str(self.Name)
 
 class Ap(Expr):
@@ -22,8 +28,15 @@ class Ap(Expr):
         self.Fun = fun
         self.Arg = arg
 
-    def __repr__(self):
-        return f"Ap({self.Fun}, {self.Arg})"
+    def to_str(self, max_depth=10, *args, **krwargs):
+        if max_depth is not None:
+            if max_depth < 0:
+                return f'ap ... ...'
+            return f'ap {self.Fun.to_str(max_depth-1)} {self.Arg.to_str(max_depth-1)}'
+        else:
+            return f'ap {self.Fun.to_str(None)} {self.Arg.to_str(None)}'
+
+
 
 class Vect:
     X = None
