@@ -29,9 +29,12 @@ class Ap(Expr):
         self.Arg = arg
 
     def to_str(self, max_depth=10, *args, **krwargs):
-        if max_depth < 0:
-            return f'ap ... ...'
-        return f'ap {self.Fun.to_str(max_depth-1)} {self.Arg.to_str(max_depth-1)}'
+        if max_depth is not None:
+            if max_depth < 0:
+                return f'ap ... ...'
+            return f'ap {self.Fun.to_str(max_depth-1)} {self.Arg.to_str(max_depth-1)}'
+        else:
+            return f'ap {self.Fun.to_str(None)} {self.Arg.to_str(None)}'
 
 
 class Vect:
