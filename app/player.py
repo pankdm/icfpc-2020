@@ -28,6 +28,10 @@ def flatten_cons(data):
     return [flatten_cons(first)] + flat_tail
 
 
+def join_and_play_the_game(key, bot, proxy, name):
+    player = Player(key, bot, proxy=proxy, log=True, display_name=name)
+    player_loop(player)
+
 def player_loop(player):
     print (f'Starting loop for player {player.player_key} ({player.display_name})')
     game_response = player.make_join_request()
@@ -44,35 +48,41 @@ def player_loop(player):
         game_response = player.make_commands_request(game_response)
         print(f"[{player.display_name}] Commands parsed response: {game_response}")
 
-def get_create_data():
-    return [1, 0]
+class Proxy:
+    def __init__(self, full_url):
+        self.full_url = full_url
+    
+    def create_new_game(self):
+        create_new_game_data = [1, 0]
+        return self.send(create_new_game_data)
 
-def send_to_proxy(raw_request):
-    print()
-    # print(f"sending {raw_request}")
-    request = mod(raw_request)
-    # print(f"encoded as {request}")
-    server_url = "https://icfpc2020-api.testkontur.ru"
-    api_key = "apiKey=6e1336a2ffa94971b5f74715a85708b9"
-    res = requests.post(f'{server_url}/aliens/send?{api_key}', data=request)
-    if res.status_code != 200:
-        print('Unexpected server response:')
-        print('HTTP code:', res.status_code)
-        print('Response body:', res.text)
-        exit(2)
-    raw_response = res.text
-    # print(f"received raw response {raw_response}")
-    response = dem(io.StringIO(raw_response))
-    # print(f"decoded as {response}")
-    flat = flatten_cons(response)
-    # print(f"flattened response: {flat}")
-    return flat
+    def send(self, raw_request):
+        print()
+        # print(f"sending {raw_request}")
+        request = mod(raw_request)
+        # print(f"encoded as {request}")
+        res = requests.post(full_url, data=request)
+        if res.status_code != 200:
+            print('Unexpected server response:')
+            print('HTTP code:', res.status_code)
+            print('Response body:', res.text)
+            exit(2)
+        raw_response = res.text
+        # print(f"received raw response {raw_response}")
+        response = dem(io.StringIO(raw_response))
+        # print(f"decoded as {response}")
+        flat = flatten_cons(response)
+        # print(f"flattened response: {flat}")
+        return flat
+
 
 class Player:
-    def __init__(self, player_key, bot, log=False, display_name=None):
+    def __init__(self, player_key, bot, proxy, log=False, display_name=None):
         self.player_key = player_key
         self.bot = bot
         self.log = log
+        self.proxy = proxy
+
         self.output = None
         self.display_name = display_name
         if self.log:
@@ -82,7 +92,7 @@ class Player:
     def make_join_request(self):
         print(f"[{self.display_name}] Joining")
         request_data = [2, int(self.player_key), []]
-        response = send_to_proxy(request_data)
+        response = self.proxy.send(request_data)
         if self.log:
             self.output.write(f"join: {response}\n")
         return GameResponse.from_list(response)
@@ -91,7 +101,7 @@ class Player:
         data = self.bot.get_start_data(game_response)
         print(f"[{self.display_name}] Starting with {data}")
         request_data = [3, int(self.player_key), data]
-        response = send_to_proxy(request_data)
+        response = self.proxy.send(request_data)
         if self.log:
             self.output.write(f"start: {response}\n")
         return GameResponse.from_list(response)
@@ -101,7 +111,7 @@ class Player:
         print(f"[{self.display_name}] Sending commands: {commands}")
         data = [c.to_list() for c in commands]
         request_data = [4, int(self.player_key), data]
-        response = send_to_proxy(request_data)
+        response = self.proxy.send(request_data)
         if self.log:
             self.output.write(f"commands: {response}\n")
         return GameResponse.from_list(response)
