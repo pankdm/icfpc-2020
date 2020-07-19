@@ -30,6 +30,7 @@ def flatten_cons(data):
 
 def player_loop(player):
     print (f'Starting loop for player {player.player_key} ({player.display_name})')
+
     game_response = player.make_join_request()
     print(f"[{player.display_name}] Joined parsed response: {game_response}")
     if not game_response.is_valid:
@@ -38,8 +39,10 @@ def player_loop(player):
     if game_response.game_stage == GAME_STAGE_HAS_FINISHED:
         print("[{player.display_name}] Game has already finished.")
         return
+
     game_response = player.make_start_request(game_response)
     print(f"[{player.display_name}] Start parsed response: {game_response}")
+
     while game_response.is_valid and game_response.game_stage != GAME_STAGE_HAS_FINISHED:
         game_response = player.make_commands_request(game_response)
         print(f"[{player.display_name}] Commands parsed response: {game_response}")
@@ -85,7 +88,11 @@ class Player:
         response = send_to_proxy(request_data)
         if self.log:
             self.output.write(f"join: {response}\n")
-        return GameResponse.from_list(response)
+        
+        game_response = GameResponse.from_list(response)
+        self.bot.handle_join_response(game_response)
+
+        return game_response
 
     def make_start_request(self, game_response):
         data = self.bot.get_start_data(game_response)
@@ -94,7 +101,11 @@ class Player:
         response = send_to_proxy(request_data)
         if self.log:
             self.output.write(f"start: {response}\n")
-        return GameResponse.from_list(response)
+
+        game_response = GameResponse.from_list(response)
+        self.bot.handle_start_response(game_response)
+
+        return game_response
 
     def make_commands_request(self, game_response):
         commands = self.bot.get_commands(game_response)
