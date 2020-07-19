@@ -18,7 +18,7 @@ class TkUI:
     self.canvas = Canvas(self.root, width=1000, height=1000, bg='black')
     self.center = (500, 500)
     self.canvas.bind("<Button-1>", self.handle_click)
-    self.canvas.bind("<Double-Button-1>", self.handle_double_click)
+    # self.canvas.bind("<Double-Button-1>", self.handle_double_click)
     self.canvas.pack()
 
     # Initial states:
