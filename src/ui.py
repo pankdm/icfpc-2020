@@ -36,8 +36,8 @@ class TkUI:
     #
     #  show galaxy, click around to see races:
     self.current_state = list_to_cons(
-      [5, [1, 0, [], [], [], [], [], 16701], 8, []]  # before tutorials
-      # [1, [11], 0, []]
+      # [5, [1, 0, [], [], [], [], [], 16701], 8, []]  # before tutorials
+      [1, [11], 0, []]
       )
     #
     #  some picture with increasing boxes
