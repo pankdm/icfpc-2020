@@ -46,6 +46,7 @@ def get_game_stage(game_response):
         raise ValueError("GameResponse is malformed, expecting first element to be 1: %s" % game_response)
     return get_nth_element(game_response, 1)
 
+
 def main():
     server_url = sys.argv[1]
     player_key = sys.argv[2]
