@@ -23,6 +23,16 @@ class Atom(Expr):
     def to_str(self, *args, **krwargs):
         return str(self.Name)
 
+class Val(Atom):
+    Value = 0
+
+    def __init__(self, value):
+        super().__init__(str(value))
+        self.Value = value
+
+    def to_str(self, *args, **krwargs):
+        return self.Name
+
 class Ap(Expr):
     Fun = None
     Arg = None
@@ -31,7 +41,7 @@ class Ap(Expr):
     def ap_equal(left, right):
         if type(left) != type(right):
             return False
-        if type(left) == Atom and type(right) == Atom:
+        if isinstance(left, Atom) and isinstance(right, Atom):
            return left.Name == right.Name
         if type(left) == Ap and type(right) == Ap:
            return Ap.ap_equal(left.Fun, right.Fun) and Ap.ap_equal(left.Arg, right.Arg)
@@ -60,42 +70,12 @@ class Ap(Expr):
         return f'ap\n{child_padding}{fun_repr}\n{child_padding}{arg_repr}'
 
 
-
-
-class Vect:
-    X = None
-    Y = None
-    def __init__(self, x, y):
-        self.X = x
-        self.Y = y
-
 cons = Atom("cons")
 t = Atom("t")
 f = Atom("f")
 nil = Atom("nil")
 
 functions = {}
-
-# See https://message-from-space.readthedocs.io/en/latest/message39.html
-state: Expr = nil
-vector = Vect(0, 0)
-
-# while(True):
-#     click = Ap(Ap(cons, Atom(vector.X)), Atom(vector.Y))
-#     (newState, images) = interact(state, click)
-#     PRINT_IMAGES(images)
-#     vector = REQUEST_CLICK_FROM_USER()
-#     state = newState
-
-# # See https://message-from-space.readthedocs.io/en/latest/message38.html
-# def interact(state: Expr, event: Expr): # -> (Expr, Expr)
-#     expr = Ap(Ap(Atom("galaxy"), state), event)
-#     res = eval(expr)
-#     # Note: res will be modulatable here (consists of cons, nil and numbers only)
-#     flag, newState, data = GET_LIST_ITEMS_FROM_EXPR(res)
-#     if (asNum(flag) == 0):
-#         return (newState, data)
-#     return interact(newState, SEND_TO_ALIEN_PROXY(data))
 
 def eval(expr: Expr) -> Expr :
     if expr.Evaluated:
@@ -111,6 +91,8 @@ def eval(expr: Expr) -> Expr :
 def tryEval(expr: Expr) -> Expr:
     if expr.Evaluated:
         return expr.Evaluated
+    if (isinstance(expr, Val)):
+        return expr
     if (isinstance(expr, Atom) and expr.Name in functions):
         return functions[expr.Name]
     if (isinstance(expr,Ap)):
@@ -126,19 +108,19 @@ def tryEval(expr: Expr) -> Expr:
         if (isinstance(fun, Ap)):
             fun2 = eval(fun.Fun)
             y = fun.Arg
-            if (isinstance(fun2,Atom)):
+            if (isinstance(fun2, Atom)):
                 if (fun2.Name == "t"): return y
                 if (fun2.Name == "f"): return x
-                if (fun2.Name == "add"): return Atom(asNum(eval(x)) + asNum(eval(y)))
-                if (fun2.Name == "mul"): return Atom(asNum(eval(x)) * asNum(eval(y)))
+                if (fun2.Name == "add"): return Atom(asNum(eval(y)) + asNum(eval(x)))
+                if (fun2.Name == "mul"): return Atom(asNum(eval(y)) * asNum(eval(x)))
                 if (fun2.Name == "div"): return Atom(asNum(eval(y)) / asNum(eval(x)))
                 if (fun2.Name == "lt"): return t if asNum(eval(y)) < asNum(eval(x)) else f
-                if (fun2.Name == "eq"): return t if asNum(eval(x)) == asNum(eval(y)) else f
+                if (fun2.Name == "eq"): return t if asNum(eval(y)) == asNum(eval(x)) else f
                 if (fun2.Name == "cons"): return evalCons(y, x)
-            if (isinstance(fun2,Ap)):
+            if (isinstance(fun2, Ap)):
                 fun3 = eval(fun2.Fun)
                 z = fun2.Arg
-                if (isinstance(fun3,Atom)):
+                if (isinstance(fun3, Atom)):
                     if (fun3.Name == "s"): return Ap(Ap(z, x), Ap(y, x))
                     if (fun3.Name == "c"): return Ap(Ap(z, x), y)
                     if (fun3.Name == "b"): return Ap(z, Ap(y, x))
@@ -152,9 +134,11 @@ def evalCons(a: Expr, b: Expr) -> Expr:
     return res
 
 def asNum(n: Expr) -> int:
-    if (isinstance(n,Atom)):
+    if (isinstance(n, Val)):
+        return n.Value
+    if (isinstance(n, Atom)):
         return int(n.Name)
-    raise TypeError("not a number")
+    raise TypeError(f"{n} is not a number")
 
 def isnil(value):
   return isinstance(value, Atom) and value.Name == "nil"
@@ -221,8 +205,7 @@ def evaluate_galaxy(state, vector):
 def main():
   sys.setrecursionlimit(10000)
   load_galaxy_from_source(sys.argv[1])
-
-  click = Ap(Ap(cons, Atom("0")), Atom("0"))
+  click = Ap(Ap(cons, Val(0)), Val(0))
   result = evaluate_galaxy(nil, click)
   print(result)
 
