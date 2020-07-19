@@ -23,7 +23,7 @@ class AccelerateCommand:
 
   def to_list(self):
     # (0, shipId, vector)
-    return [0, ship_id, list(vector)]
+    return [0, self.ship_id, list(self.vector)]
 
 @dataclass
 class DetonateCommand:
@@ -31,7 +31,7 @@ class DetonateCommand:
 
   def to_list(self):
     # (1, shipId)
-    return [1, ship_id]
+    return [1, self.ship_id]
 
 @dataclass
 class ShootCommand:
@@ -41,7 +41,7 @@ class ShootCommand:
 
   def to_list(self):
     # (2, shipId, target, x3)
-    return [2, ship_id, list(target), x3]
+    return [2, self.ship_id, list(self.target), self.x3]
 
 @dataclass
 class StaticGameInfo:
