@@ -25,6 +25,12 @@ class Bot:
         if self.ship_id is None or self.other_ship_id is None:
             raise ValueError(f"Failed to find ship IDs in {game_response} with role {self.role}")
 
+    def get_my_position(self, game_response):
+        position = None
+        for ship in game_response.game_state.ships:
+            if ship.ship_id == self.ship_id:
+                position = ship.position
+        return position
 
 class DoNothingBot(Bot):
     def get_start_data(self, game_response: GameResponse):
@@ -47,16 +53,24 @@ class NaiveBot(Bot):
 
 class FlyingBot(Bot):
     def get_start_data(self, game_response: GameResponse):
-        return [1, 1, 1, 1]
+        return [100, 10, 10, 1]
 
     def get_commands(self, game_response: GameResponse):
-        # default: do nothing
-        position = (0,0)
-        for ship in game_response.game_state.ships:
-            if ship.ship_id == self.ship_id:
-                position = ship.position
+        position = self.get_my_position(game_response)
+        if position is None:
+            return []
+
+        x, y = position
+
+        if abs(x) > 47 or abs(y) > 47:
+            # Just cool down
+            return []
+        else:
+            x = -1 if x > 0 else 1
+            y = -1 if y > 0 else 1
+
         return [
-            AccelerateCommand(ship_id=self.ship_id, vector=(1, -1))
+            AccelerateCommand(ship_id=self.ship_id, vector=(x, y))
         ]
 
 class ShooterBot(Bot):
