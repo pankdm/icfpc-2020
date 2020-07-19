@@ -28,10 +28,6 @@ def flatten_cons(data):
     return [flatten_cons(first)] + flat_tail
 
 
-def join_and_play_the_game(proxy, key, bot, name):
-    player = Player(proxy, key, bot, log=True, display_name=name)
-    player_loop(player)
-
 def player_loop(player):
     print (f'Starting loop for player {player.player_key} ({player.display_name})')
 
