@@ -51,8 +51,12 @@ class FlyingBot(Bot):
 
     def get_commands(self, game_response: GameResponse):
         # default: do nothing
+        position = (0,0)
+        for ship in game_response.game_state.ships:
+            if ship.ship_id == self.ship_id:
+                position = ship.position
         return [
-            AccelerateCommand(ship_id=self.ship_id, vector=(1, 1))
+            AccelerateCommand(ship_id=self.ship_id, vector=(1, -1))
         ]
 
 class ShooterBot(Bot):

@@ -61,9 +61,9 @@ class Proxy:
 
     def send(self, raw_request):
         print()
-        # print(f"[{threading.current_thread().name}] sending {raw_request}")
+        print(f"[{threading.current_thread().name}] sending {raw_request}")
         request = mod(raw_request)
-        # print(f"[{threading.current_thread().name}] encoded as {request}")
+        print(f"[{threading.current_thread().name}] encoded as {request}")
         res = requests.post(self.full_url, data=request)
         # print(f"[{threading.current_thread().name}] GOT {res}")
         if res.status_code != 200:
