@@ -21,8 +21,14 @@ class TkUI:
     self.canvas.bind("<Double-Button-1>", self.handle_double_click)
     self.canvas.pack()
 
+    # Initial states:
+    #
+    #  boot up sequence
+    # self.current_state = list_to_cons([2, [1, -1], 0, []])
+    #
+    #  show galaxy, click around to see races:
     self.current_state = list_to_cons([1, [11], 0, []])
-    self.current_img_data = nil
+
     self.interact(0, 0)
 
   def handle_double_click(self, event):
