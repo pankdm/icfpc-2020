@@ -7,6 +7,7 @@ from funcs import *
 from galaxy_evaluator import *
 
 UI_SCALE=4
+
 PROTOCOL=evaluate_galaxy #statefuldraw
 
 class TkUI:
