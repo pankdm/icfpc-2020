@@ -40,6 +40,9 @@ class TkUI:
     #  riddle with beams
     # self.current_state = list_to_cons([2, [3, 1], 0, []])
     #
+    #  donut game (tic-tac-toe?)
+    # self.current_state = list_to_cons([3, [0, [0, 0, 0, 0, 0, 0, 0, 0, 0], [], 0], 0, []])
+    #
     #  end game
     # self.current_state = list_to_cons([5, [2, 0, [], [], [], [], [], 39392], 125, []])
 
