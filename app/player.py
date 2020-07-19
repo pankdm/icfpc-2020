@@ -29,29 +29,29 @@ def flatten_cons(data):
 
 
 def player_loop(player):
-    print (f'Starting loop for player {player.player_key}')
+    print (f'Starting loop for player {player.player_key} ({player.display_name})')
     game_response = player.make_join_request()
-    print(f"Joined parsed response: {game_response}")
+    print(f"[{player.display_name}] Joined parsed response: {game_response}")
     if not game_response.is_valid:
-        print("Got invalid response")
+        print("[{player.display_name}] Got invalid response")
         return
     if game_response.game_stage == GAME_STAGE_HAS_FINISHED:
-        print("Game has already finished.")
+        print("[{player.display_name}] Game has already finished.")
         return
     game_response = player.make_start_request(game_response)
-    print(f"Start parsed response: {game_response}")
+    print(f"[{player.display_name}] Start parsed response: {game_response}")
     while game_response.is_valid and game_response.game_stage != GAME_STAGE_HAS_FINISHED:
         game_response = player.make_commands_request(game_response)
-        print(f"Commands parsed response: {game_response}")
+        print(f"[{player.display_name}] Commands parsed response: {game_response}")
 
 def get_create_data():
     return [1, 0]
 
 def send_to_proxy(raw_request):
     print()
-    print(f"sending {raw_request}")
+    # print(f"sending {raw_request}")
     request = mod(raw_request)
-    print(f"encoded as {request}")
+    # print(f"encoded as {request}")
     server_url = "https://icfpc2020-api.testkontur.ru"
     api_key = "apiKey=6e1336a2ffa94971b5f74715a85708b9"
     res = requests.post(f'{server_url}/aliens/send?{api_key}', data=request)
@@ -61,24 +61,26 @@ def send_to_proxy(raw_request):
         print('Response body:', res.text)
         exit(2)
     raw_response = res.text
-    print(f"received raw response {raw_response}")
+    # print(f"received raw response {raw_response}")
     response = dem(io.StringIO(raw_response))
-    print(f"decoded as {response}")
+    # print(f"decoded as {response}")
     flat = flatten_cons(response)
-    print(f"flattened: {flat}")
+    # print(f"flattened response: {flat}")
     return flat
 
 class Player:
-    def __init__(self, player_key, bot, log=False):
+    def __init__(self, player_key, bot, log=False, display_name=None):
         self.player_key = player_key
         self.bot = bot
         self.log = log
         self.output = None
+        self.display_name = display_name
         if self.log:
             ts = datetime.utcnow().isoformat()
             self.output = open(f"game-logs/{ts}.txt", "w")
 
     def make_join_request(self):
+        print(f"[{self.display_name}] Joining")
         request_data = [2, int(self.player_key), []]
         response = send_to_proxy(request_data)
         if self.log:
@@ -87,6 +89,7 @@ class Player:
 
     def make_start_request(self, game_response):
         data = self.bot.get_start_data(game_response)
+        print(f"[{self.display_name}] Starting with {data}")
         request_data = [3, int(self.player_key), data]
         response = send_to_proxy(request_data)
         if self.log:
@@ -95,6 +98,7 @@ class Player:
 
     def make_commands_request(self, game_response):
         commands = self.bot.get_commands(game_response)
+        print(f"[{self.display_name}] Sending commands: {commands}")
         data = [c.to_list() for c in commands]
         request_data = [4, int(self.player_key), data]
         response = send_to_proxy(request_data)
@@ -102,8 +106,3 @@ class Player:
             self.output.write(f"commands: {response}\n")
         return GameResponse.from_list(response)
 
-
-def get_game_stage(game_response):
-    if game_response[0] != 1:
-        raise ValueError("GameResponse is malformed, expecting first element to be 1: %s" % game_response)
-    return game_response[1]

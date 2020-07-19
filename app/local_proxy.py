@@ -46,10 +46,10 @@ def main():
     key2 = create[1][1][1]
 
     bot1 = DoNothingBot()
-    player1 = Player(key1, bot1, log=True)
+    player1 = Player(key1, bot1, log=True, display_name="Player 1")
 
     bot2 = DoNothingBot()
-    player2 = Player(key2, bot2, log=True)
+    player2 = Player(key2, bot2, log=True, display_name="Player 2")
 
     t = threading.Thread(target=player_loop, args=(player1,))
     t.start()
