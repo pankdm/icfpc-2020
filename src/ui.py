@@ -6,7 +6,7 @@ from protocols import *
 from funcs import *
 from galaxy_evaluator import *
 
-UI_SCALE=10
+UI_SCALE=4
 PROTOCOL=evaluate_galaxy #statefuldraw
 
 class TkUI:
@@ -14,6 +14,7 @@ class TkUI:
     self.root = Tk()
 
     self.canvas = Canvas(self.root, width=700, height=700)
+    self.center = (350, 350)
     self.canvas.bind("<Button-1>", self.handle_click)
     self.canvas.pack()
 
@@ -21,8 +22,7 @@ class TkUI:
     self.interact(0, 0)
 
   def handle_click(self, event):
-      
-      (x, y) = (int(event.x / UI_SCALE), int(event.y / UI_SCALE))
+      (x, y) = (int((event.x - self.center[0]) / UI_SCALE), int((event.y - self.center[1]) / UI_SCALE))
       print(f"clicked at {x} {y}")
 
       self.canvas.delete(ALL)
@@ -38,7 +38,12 @@ class TkUI:
       multipledraw_helper(img_data, draw_dot_impl=self.add_pixel)
 
   def add_pixel(self, x, y):
-    self.canvas.create_rectangle(x * UI_SCALE, y * UI_SCALE, (x + 1) * UI_SCALE, (y + 1) * UI_SCALE, fill="black")    
+    self.canvas.create_rectangle(
+      x * UI_SCALE + self.center[0],
+      y * UI_SCALE + self.center[1],
+      (x + 1) * UI_SCALE + self.center[1],
+      (y + 1) * UI_SCALE + self.center[1],
+      fill="black")
 
   def mainloop(self):
     self.root.mainloop()

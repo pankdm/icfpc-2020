@@ -79,7 +79,7 @@ def interact(protocol_evaluator, state, vector):
 
   # Note: res will be modulatable here (consists of cons, nil and numbers only)
   (flag, newState, data) = tuple(cons_list_to_py_list(res))
-  print(f"flag={flag} newState={newState} data={data}")
+  print(f"flag={flag}\nnewState={newState}\ndata={recursive_list_convert(data)}")
   if asNum(flag) == 0:
       return (newState, data)
 
