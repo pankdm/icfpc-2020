@@ -26,8 +26,15 @@ class Atom(Expr):
 class Ap(Expr):
     Fun = None
     Arg = None
-    def __eq__(self, other):
-        return type(other) == Ap and self.Fun == other.Fun and self.Arg == other.Arg
+
+    @staticmethod
+    def ap_equal(left, right):
+        if type(left) != type(right):
+            return False
+        if type(left) == Atom and type(right) == Atom:
+           return left.Name == right.Name
+        if type(left) == Ap and type(right) == Ap:
+           return Ap.ap_equal(left.Fun, right.Fun) and Ap.ap_equal(left.Arg, right.Arg)
 
     def __init__(self, fun, arg):
         super().__init__()

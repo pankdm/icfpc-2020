@@ -27,11 +27,12 @@ class TkUI:
 
   def handle_double_click(self, event):
       print(f"click all pixels")
-      img_data = self.current_img_data
       ui_elements = recursive_list_convert(self.current_img_data)[:-1]
       for pixels in ui_elements:
           for x, y in pixels:
-              if img_data == self.current_img_data:
+              current_ui_elements = recursive_list_convert(self.current_img_data)[:-1]
+              if ui_elements != current_ui_elements:
+                  print('image changed:', ui_elements, current_ui_elements)
                   break
               self.interact(x, y)
               self.interact(x+1, y+1)
