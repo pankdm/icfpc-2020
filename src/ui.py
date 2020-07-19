@@ -7,7 +7,7 @@ from funcs import *
 from galaxy_evaluator import *
 from lists import *
 
-UI_SCALE=4
+UI_SCALE=3
 
 PROTOCOL=evaluate_galaxy #statefuldraw
 
