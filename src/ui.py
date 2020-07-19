@@ -18,20 +18,20 @@ class TkUI:
     self.canvas = Canvas(self.root, width=1000, height=1000, bg='black')
     self.center = (500, 500)
     self.canvas.bind("<Button-1>", self.handle_click)
-    # self.canvas.bind("<Double-Button-1>", self.handle_double_click)
+    self.canvas.bind("<Shift-A>", self.handle_click_all_pixels)
     self.canvas.pack()
 
     # Initial states:
     #
     #  boot up sequence
-    # self.current_state = list_to_cons([2, [1, -1], 0, []])
+    self.current_state = nil
     #
     #  show galaxy, click around to see races:
-    self.current_state = list_to_cons([1, [11], 0, []])
+    # self.current_state = list_to_cons([1, [11], 0, []])
 
     self.interact(0, 0)
 
-  def handle_double_click(self, event):
+  def handle_click_all_pixels(self, event):
       print(f"click all pixels")
       ui_elements = recursive_list_convert(self.current_img_data)[:-1]
       for pixels in ui_elements:
@@ -55,6 +55,7 @@ class TkUI:
       y = int(round((event.y - self.center[1]) / UI_SCALE - 0.5))
       print(f"clicked at {x} {y}")
       self.interact(x, y)
+      self.canvas.focus_set()
 
   def interact(self, x, y):
       click = Ap(Ap(cons, Atom(str(x))), Atom(str(y)))
