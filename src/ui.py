@@ -13,7 +13,7 @@ class TkUI:
   def __init__(self):
     self.root = Tk()
 
-    self.canvas = Canvas(self.root, width=500, height=500)
+    self.canvas = Canvas(self.root, width=700, height=700)
     self.canvas.bind("<Button-1>", self.handle_click)
     self.canvas.pack()
 
@@ -22,7 +22,7 @@ class TkUI:
 
   def handle_click(self, event):
       print(f"clicked at {event.x} {event.y}")
-      (x, y) = (event.x / UI_SCALE, event.y / UI_SCALE)
+      (x, y) = (int(event.x / UI_SCALE), int(event.y / UI_SCALE))
 
       self.canvas.delete(ALL)
       
