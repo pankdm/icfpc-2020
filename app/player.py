@@ -36,22 +36,20 @@ def player_loop(player):
     print (f'Starting loop for player {player.player_key} ({player.display_name})')
 
     game_response = player.make_join_request()
-    print(f"[{player.display_name}] Joined parsed response: {game_response}")
+
     if not game_response.is_valid:
-        print("[{player.display_name}] Got invalid response")
+        print("[{player.display_name}] Got invalid response when joining.")
         return
     if game_response.game_stage == GAME_STAGE_HAS_FINISHED:
-        print("[{player.display_name}] Game has already finished.")
+        print("[{player.display_name}] Game has already finished (but we just joined).")
         return
 
     game_response = player.make_start_request(game_response)
-    print(f"[{player.display_name}] Start parsed response: {game_response}")
 
     while game_response.is_valid and game_response.game_stage != GAME_STAGE_HAS_FINISHED:
         game_response = player.make_commands_request(game_response)
-        print(f"[{player.display_name}] Commands parsed response: {game_response}")
 
-    print(f"[{player.display_name}] done.")
+    print(f"[{player.display_name}] loop done.")
 
 class Proxy:
     def __init__(self, full_url):
@@ -63,21 +61,22 @@ class Proxy:
 
     def send(self, raw_request):
         print()
-        # print(f"sending {raw_request}")
+        # print(f"[{threading.current_thread().name}] sending {raw_request}")
         request = mod(raw_request)
-        # print(f"encoded as {request}")
+        # print(f"[{threading.current_thread().name}] encoded as {request}")
         res = requests.post(self.full_url, data=request)
+        # print(f"[{threading.current_thread().name}] GOT {res}")
         if res.status_code != 200:
             print('Unexpected server response:')
             print('HTTP code:', res.status_code)
             print('Response body:', res.text)
             exit(2)
         raw_response = res.text
-        # print(f"received raw response {raw_response}")
+        # print(f"[{threading.current_thread().name}] received raw response {raw_response}")
         response = dem(io.StringIO(raw_response))
-        # print(f"decoded as {response}")
+        # print(f"[{threading.current_thread().name}] decoded as {response}")
         flat = flatten_cons(response)
-        # print(f"flattened response: {flat}")
+        # print(f"[{threading.current_thread().name}] flattened response: {flat}")
         return flat
 
 
@@ -98,10 +97,13 @@ class Player:
         print(f"[{self.display_name}] Joining")
         request_data = [2, int(self.player_key), []]
         response = self.proxy.send(request_data)
+        
         if self.log:
             self.output.write(f"join: {response}\n")
         
         game_response = GameResponse.from_list(response)
+        print(f"[{self.display_name}] Got join response: {game_response}")
+
         self.bot.handle_join_response(game_response)
 
         return game_response
@@ -111,10 +113,13 @@ class Player:
         print(f"[{self.display_name}] Starting with {data}")
         request_data = [3, int(self.player_key), data]
         response = self.proxy.send(request_data)
+        
         if self.log:
             self.output.write(f"start: {response}\n")
 
         game_response = GameResponse.from_list(response)
+        print(f"[{self.display_name}] Got start response: {game_response}")
+
         self.bot.handle_start_response(game_response)
 
         return game_response
@@ -125,7 +130,12 @@ class Player:
         data = [c.to_list() for c in commands]
         request_data = [4, int(self.player_key), data]
         response = self.proxy.send(request_data)
+        
         if self.log:
             self.output.write(f"commands: {response}\n")
-        return GameResponse.from_list(response)
+        
+        game_response = GameResponse.from_list(response)
+        print(f"[{self.display_name}] Got commands response: {game_response}")
+
+        return game_response
 

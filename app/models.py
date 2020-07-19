@@ -53,7 +53,7 @@ class StaticGameInfo:
 
   @staticmethod
   def from_list(l):
-    print(f"StaticGameInfo {l}")
+    # print(f"StaticGameInfo {l}")
     if not l:
       return StaticGameInfo(
         x0 = None,
@@ -137,13 +137,13 @@ class GameResponse:
 
   @staticmethod
   def from_list(l):
-    print(f"GameResponse {l}")
+    # print(f"GameResponse {l}")
     # (1, gameStage, staticGameInfo, gameState)
     if l == [0]:
       return GameResponse(is_valid=False, game_stage=None, static_game_info=None, game_state=None)
     return GameResponse(
         is_valid = True,
         game_stage = l[1],
-        static_game_info = StaticGameInfo.from_list(l[2]),
-        game_state = GameState.from_list(l[3]),
+        static_game_info = StaticGameInfo.from_list(l[2]) if l[2] else None,
+        game_state = GameState.from_list(l[3]) if l[3] else None,
       )
