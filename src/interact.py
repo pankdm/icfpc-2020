@@ -42,13 +42,17 @@ def draw_helper(functional_data, img_index=0, draw_dot_impl=None):
      else:
        print(f"draw_dot({x}, {y}) img_index={img_index}")
 
-def multipledraw_helper(functional_data, draw_dot_impl=None):
+def multipledraw_helper(functional_data, draw_dot_impl=None, selected_layer=None):
   data = cons_list_to_py_list(functional_data)
   layers = 0
   for (index, item) in enumerate(reversed(data)):
+    if selected_layer is not None:
+      if index != selected_layer:
+        # print (f"skipping layer {index} ({selected_layer}")
+        continue
     layers = layers + 1
     draw_helper(item, img_index=len(data) - 1 - index, draw_dot_impl=draw_dot_impl)
-  print(f'{layers} layers drawn!')
+  print(f'{layers} layers drawn! (selected later = {selected_layer}')
 
 # https://message-from-space.readthedocs.io/en/latest/message38.html
 def interact(protocol_evaluator, state, vector):

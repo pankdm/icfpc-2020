@@ -22,8 +22,12 @@ class TkUI:
     self.canvas.bind("<Button-1>", self.handle_click)
     self.canvas.bind("<Shift-A>", self.handle_click_all_pixels)
     self.canvas.bind("<BackSpace>", self.handle_rewind)
+    self.canvas.bind("<Key>", self.handle_key)
     self.canvas.pack()
     self.current_img_data = None
+
+
+    self.selected_layer = None
 
     # Initial states:
     #
@@ -57,6 +61,20 @@ class TkUI:
     self.state_click_history = []
     self.img_history = [None]
     self.interact(0, 0)
+
+  def handle_key(self, event):
+      ch = event.char
+      print(f"\nKey '{ch}' was pressed: {self.selected_layer}")
+      if ch in ['1', '2', '3', '4', '5', '6', '7']:
+        code = int(ch)
+        layer = code - 1
+        if self.selected_layer == layer:
+          self.selected_layer = None
+        else:
+          self.selected_layer = layer
+        self.draw()
+
+
 
   def handle_rewind(self, event):
       print(f'\n\nAttempting time travel...')
@@ -111,7 +129,10 @@ class TkUI:
       # clean canvas before draw
       self.canvas.delete(ALL)
       # quick, draw!
-      multipledraw_helper(self.current_img_data, draw_dot_impl=self.add_pixel)
+      multipledraw_helper(
+        self.current_img_data, 
+        draw_dot_impl=self.add_pixel,
+        selected_layer=self.selected_layer)
 
   def interact(self, x, y):
       click = Ap(Ap(cons, Val(x)), Val(y))
