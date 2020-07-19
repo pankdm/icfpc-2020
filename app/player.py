@@ -46,6 +46,9 @@ def player_loop(player):
         game_response = player.make_commands_request(game_response)
 
     print(f"[{player.display_name}] loop done.")
+    if player.log:
+        player.output.close()
+        player.space_log.close()
 
 class Proxy:
     def __init__(self, full_url):
@@ -88,6 +91,7 @@ class Player:
         if self.log:
             ts = datetime.utcnow().isoformat()
             self.output = open(f"game-logs/{ts}.txt", "w")
+            self.space_log = open("space-log.txt", "w")
 
     def make_join_request(self):
         print(f"[{self.display_name}] Joining")
@@ -111,6 +115,7 @@ class Player:
         response = self.proxy.send(request_data)
         
         if self.log:
+            self.space_log.write(f"{response}\n")
             self.output.write(f"start: {response}\n")
 
         game_response = GameResponse.from_list(response)
@@ -128,6 +133,7 @@ class Player:
         response = self.proxy.send(request_data)
         
         if self.log:
+            self.space_log.write(f"{response}\n")
             self.output.write(f"commands: {response}\n")
         
         game_response = GameResponse.from_list(response)

@@ -244,3 +244,4 @@ messages-from-space/target/
 .vscode
 .ipynb_checkpoints
 annotations/eval/
+space-log.txt
