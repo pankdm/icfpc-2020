@@ -21,8 +21,9 @@ class TkUI:
     self.interact(0, 0)
 
   def handle_click(self, event):
-      print(f"clicked at {event.x} {event.y}")
+      
       (x, y) = (int(event.x / UI_SCALE), int(event.y / UI_SCALE))
+      print(f"clicked at {x} {y}")
 
       self.canvas.delete(ALL)
       
