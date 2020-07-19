@@ -53,6 +53,7 @@ class StringStream:
     return res
 
 if __name__ == "__main__":
+    from player import flatten_cons
     for line in sys.stdin:
         line = line.strip('\n')
         print ("read", line)
@@ -60,5 +61,6 @@ if __name__ == "__main__":
         f = StringStream(line)
         res = parse(f)
         print ("parsed -> {}".format(res))
+        print (f"flattened: {flatten_cons(res)}")
 
 

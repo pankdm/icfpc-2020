@@ -5,14 +5,17 @@ from dataclasses import dataclass
 @dataclass
 class Command:
   @staticmethod
-  def from_list(l):
+  def from_list(l, ship_id):
+    # print (f"from_list {l}")
+    # Example of command from logs: "appliedCommands":[[0,[-1,1]]]
+    # the ship_id is implicitly assumed
     kind = l[0]
     if kind == 0:
-      return AccelerateCommand(ship_id=l[1], vector=tuple(l[2]))
+      return AccelerateCommand(ship_id=ship_id, vector=tuple(l[1]))
     elif kind == 1:
-      return DetonateCommand(ship_id=l[1])
+      return DetonateCommand(ship_id=ship_id)
     elif kind == 2:
-      return ShootCommand(ship_id=l[1], target=tuple(l[2]), x3=l[3])
+      return ShootCommand(ship_id=ship_id, target=tuple(l[1]), x3=l[2])
     else:
       raise ValueError(f"Unknown command: {l}")
 
@@ -23,7 +26,7 @@ class AccelerateCommand:
 
   def to_list(self):
     # (0, shipId, vector)
-    return [0, self.ship_id, list(self.vector)]
+    return [0, self.ship_id, tuple(self.vector)]
 
 @dataclass
 class DetonateCommand:
@@ -115,7 +118,10 @@ class GameState:
     ships = []
     for ship_list in l[2]:
       ship = Ship.from_list(ship_list[0])
-      ship.commands = [Command.from_list(c) for c in ship_list[1]]
+      # print (f"ship list: {ship_list}")
+      # print (f"ship: {ship}")
+      # print (f"appliedCommands: {ship_list[1]}")
+      ship.commands = [Command.from_list(c, ship_id=ship.ship_id) for c in ship_list[1]]
       ships.append(ship)
     return GameState(
         game_tick = l[0],
@@ -137,7 +143,7 @@ class GameResponse:
 
   @staticmethod
   def from_list(l):
-    # print(f"GameResponse {l}")
+    print(f"GameResponse {l}")
     # (1, gameStage, staticGameInfo, gameState)
     if l == [0]:
       return GameResponse(is_valid=False, game_stage=None, static_game_info=None, game_state=None)
@@ -147,3 +153,8 @@ class GameResponse:
         static_game_info = StaticGameInfo.from_list(l[2]) if l[2] else None,
         game_state = GameState.from_list(l[3]) if l[3] else None,
       )
+
+
+if __name__ == "__main__":
+  input =  [1, 1, [256, 0, [512, 1, 64], [16, 128], [1, 1, 1, 1]], [1, [16, 128], [[[1, 0, [46, 32], [-2, 1], [0, 1, 1, 1], 7, 64, 1], [[0, [1, -1]]]], [[0, 1, [-48, -30], [0, 1], [0, 1, 1, 1], 7, 64, 1], [[0, [1, -1]]]]]]]
+  print (GameResponse.from_list(input))

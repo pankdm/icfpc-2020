@@ -22,7 +22,7 @@ def flatten_cons(data):
     if isinstance(data, int):
         return data
     if len(data) == 2 and isinstance(data[0], int) and isinstance(data[1], int):
-        return data
+        return tuple(data)
     first, tail = data
     flat_tail = flatten_cons(tail)
     return [flatten_cons(first)] + flat_tail
@@ -59,7 +59,7 @@ class Proxy:
         print()
         print(f"[{threading.current_thread().name}] sending {raw_request}")
         request = mod(raw_request)
-        print(f"[{threading.current_thread().name}] encoded as {request}")
+        # print(f"[{threading.current_thread().name}] encoded as {request}")
         res = requests.post(self.full_url, data=request)
         # print(f"[{threading.current_thread().name}] GOT {res}")
         if res.status_code != 200:

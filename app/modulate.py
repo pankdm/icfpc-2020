@@ -13,6 +13,11 @@ def modulate(val):
         res += sign_bits
         res += modulate_num(abs(val))
 
+    elif type(val) == tuple:
+        res = "11"
+        res += modulate(val[0])
+        res += modulate(val[1])
+
     elif type(val) == list:
         res = "11"
         res += modulate(val[0])
