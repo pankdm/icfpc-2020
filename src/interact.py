@@ -60,7 +60,8 @@ def draw_helper(functional_data, draw_dot_impl=None):
   data = cons_list_to_py_list(functional_data)
   for pt_data in data:
      pt = cons_list_to_py_list(pt_data)
-     (x, y) = tuple(pt)
+     x = asNum(pt[0])
+     y = asNum(pt[1])
      if draw_dot_impl:
        draw_dot_impl(x, y)
      else:
@@ -79,7 +80,7 @@ def interact(protocol_evaluator, state, vector):
   # Note: res will be modulatable here (consists of cons, nil and numbers only)
   (flag, newState, data) = tuple(cons_list_to_py_list(res))
   print(f"flag={flag} newState={newState} data={data}")
-  if flag == 0:
+  if asNum(flag) == 0:
       return (newState, data)
 
   return interact(protocol_evaluator, newState, _send_to_alien_proxy(data))
