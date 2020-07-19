@@ -32,12 +32,17 @@ def main():
 
     bot1 = FlyingBot()
     bot2 = FlyingBot()
-    
-    t = threading.Thread(target=join_and_play_the_game, args=(proxy, key2, bot2, "Player 2"))
+
+    player1 = Player(proxy, key1, bot1, log=True, display_name="Player 1")
+    player2 = Player(proxy, key2, bot2, display_name="Player 2")
+
+    task1 = lambda : player_loop(player1)
+    task2 = lambda : player_loop(player2)
+
+    t = threading.Thread(target=task1)
     t.start()
 
-    join_and_play_the_game(proxy, key1, bot1, "Player 1")
-
+    task2()
 
 if __name__ == '__main__':
     main()

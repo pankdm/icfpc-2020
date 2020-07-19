@@ -52,7 +52,7 @@ def multipledraw_helper(functional_data, draw_dot_impl=None, selected_layer=None
         continue
     layers = layers + 1
     draw_helper(item, img_index=len(data) - 1 - index, draw_dot_impl=draw_dot_impl)
-  print(f'{layers} layers drawn! (selected later = {selected_layer}')
+  print(f'{layers} layers drawn! (selected layer = {selected_layer})')
 
 # https://message-from-space.readthedocs.io/en/latest/message38.html
 def interact(protocol_evaluator, state, vector):
