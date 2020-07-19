@@ -26,6 +26,9 @@ class Atom(Expr):
 class Ap(Expr):
     Fun = None
     Arg = None
+    def __eq__(self, other):
+        return type(other) == Ap and self.Fun == other.Fun and self.Arg == other.Arg
+
     def __init__(self, fun, arg):
         super().__init__()
         self.Fun = fun
