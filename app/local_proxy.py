@@ -30,7 +30,7 @@ def main():
     key1 = create[1][0][1]
     key2 = create[1][1][1]
 
-    bot1 = DoNothingBot()
+    bot1 = ShooterBot()
     bot2 = DoNothingBot()
     
     t = threading.Thread(target=join_and_play_the_game, args=(proxy, key2, bot2, "Player 2"))

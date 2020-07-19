@@ -51,6 +51,8 @@ def player_loop(player):
         game_response = player.make_commands_request(game_response)
         print(f"[{player.display_name}] Commands parsed response: {game_response}")
 
+    print(f"[{player.display_name}] done.")
+
 class Proxy:
     def __init__(self, full_url):
         self.full_url = full_url
