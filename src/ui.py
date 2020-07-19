@@ -77,8 +77,9 @@ class TkUI:
     self.canvas.create_rectangle(
       x * UI_SCALE + self.center[0],
       y * UI_SCALE + self.center[1],
-      (x + 1) * UI_SCALE + self.center[1],
+      (x + 1) * UI_SCALE + self.center[0],
       (y + 1) * UI_SCALE + self.center[1],
+      width=0.25,
       activefill='#ff7f00',
       fill=fill_color)
 
