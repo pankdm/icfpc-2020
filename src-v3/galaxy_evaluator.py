@@ -1,6 +1,3 @@
-# Usage:
-#    python3 src/galaxy_evaluator.py galaxy.txt
-
 import sys
 
 # See video course https://icfpcontest2020.github.io/#/post/2054
@@ -48,7 +45,6 @@ class Ap(Expr):
         fun_repr = self.Fun.to_padded_str(max_depth, depth+1, pad_with) if type(self.Fun) == Ap else str(self.Fun)
         arg_repr = self.Arg.to_padded_str(max_depth, depth+1, pad_with) if type(self.Arg) == Ap else str(self.Arg)
         return f'ap\n{child_padding}{fun_repr}\n{child_padding}{arg_repr}'
-
 
 
 
@@ -146,16 +142,6 @@ def asNum(n: Expr) -> int:
         return int(n.Name)
     raise TypeError("not a number")
 
-def isnil(value):
-  return isinstance(value, Atom) and value.Name == "nil"
-
-def isnum(value):
-    try:
-        _ = asNum(value)
-        return True
-    except:
-        return False
-
 class TokenStream:
   def __init__(self, vec):
     self.vec = vec
@@ -196,25 +182,16 @@ def parse_program(code_lines):
     defs[token] = lexems
   return defs
 
-def load_galaxy_from_source(filename):
-  defs = parse_program(read_source(filename))
+def main():
+  sys.setrecursionlimit(10000)
+  defs = parse_program(read_source(sys.argv[1]))
   for name, tokens in defs.items():
     functions[name] = parse_from_tokens(tokens)
 
-def evaluate_galaxy(state, vector):
-  print(f"# evaluate_galaxy state={state} vector={vector}")
-  expr = Ap(Ap(Atom("galaxy"), state), vector)
-  res = eval(expr)
-  # print(res)
-  return res
-
-def main():
-  sys.setrecursionlimit(10000)
-  load_galaxy_from_source(sys.argv[1])
-
   click = Ap(Ap(cons, Atom("0")), Atom("0"))
-  result = evaluate_galaxy(nil, click)
-  print(result)
+  expr = Ap(Ap(Atom("galaxy"), nil), click)
+  res = eval(expr)
+  print(res)
 
 if __name__ == "__main__":
   main()
