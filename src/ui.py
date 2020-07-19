@@ -45,8 +45,8 @@ class TkUI:
               self.interact(x, y+1)
 
   def handle_click(self, event):
-      x = int(round((event.x - self.center[0]) / UI_SCALE))
-      y = int(round((event.y - self.center[1]) / UI_SCALE))
+      x = int(round((event.x - self.center[0]) / UI_SCALE - 0.5))
+      y = int(round((event.y - self.center[1]) / UI_SCALE - 0.5))
       print(f"clicked at {x} {y}")
       self.interact(x, y)
 
