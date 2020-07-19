@@ -44,7 +44,7 @@ class ShootCommand:
 
   def to_list(self):
     # (2, shipId, target, x3)
-    return [2, self.ship_id, list(self.target), self.x3]
+    return [2, self.ship_id, tuple(self.target), self.x3]
 
 @dataclass
 class StaticGameInfo:

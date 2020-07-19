@@ -25,12 +25,18 @@ class Bot:
         if self.ship_id is None or self.other_ship_id is None:
             raise ValueError(f"Failed to find ship IDs in {game_response} with role {self.role}")
 
-    def get_my_position(self, game_response):
+    def get_ship_position(self, ship_id, game_response):
         position = None
         for ship in game_response.game_state.ships:
-            if ship.ship_id == self.ship_id:
+            if ship.ship_id == ship_id:
                 position = ship.position
         return position
+
+    def get_my_position(self, game_response):
+        return self.get_ship_position(self.ship_id, game_response)
+
+    def get_other_position(self, game_response):
+        return self.get_ship_position(self.other_ship_id, game_response)
 
 class DoNothingBot(Bot):
     def get_start_data(self, game_response: GameResponse):
@@ -75,14 +81,14 @@ class FlyingBot(Bot):
 
 class ShooterBot(Bot):
     def get_start_data(self, game_response: GameResponse):
-        return [133,64,10,1]
+        return [100, 10, 10, 1]
 
     def get_commands(self, game_response: GameResponse):
         # default: do nothing
-        target = (0,0)
-        for ship in game_response.game_state.ships:
-            if ship.ship_id == self.other_ship_id:
-                target = ship.position
+        target = self.get_other_position(game_response)
+        if target is None:
+            print("Want to shoot, but don't know target position")
+            return []
         return [
-            ShootCommand(ship_id=self.other_ship_id, target=target, x3=[64,70,4])
+            ShootCommand(ship_id=self.other_ship_id, target=target, x3=0)
         ]        
