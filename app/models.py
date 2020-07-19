@@ -1,5 +1,6 @@
-from typing import Any
+from typing import Any, Optional
 from dataclasses import dataclass
+
 
 @dataclass
 class Command:
@@ -54,11 +55,11 @@ class StaticGameInfo:
   def from_list(l):
     # staticGameInfo = (x0, role, x2, x3, x4)
     return StaticGameInfo(
-        x0: l[0],
-        role: l[1],
-        x0: l[2],
-        x0: l[3],
-        x0: l[4],
+        x0 = l[0],
+        role = l[1],
+        x2 = l[2],
+        x3 = l[3],
+        x4 = l[4],
       )  
 
 SHIP_ROLE_ATTACKER=0
@@ -80,14 +81,14 @@ class Ship:
   def from_list(l):
     # ship = (role, shipId, position, velocity, x4, x5, x6, x7)
     return Ship(
-        role: l[0],
-        ship_id: l[1],
-        position: tuple(l[2]),
-        vector: tuple(l[3]),
-        x4: l[4],
-        x5: l[5],
-        x6: l[6],
-        x6: l[7],
+        role = l[0],
+        ship_id = l[1],
+        position = tuple(l[2]),
+        velocity = tuple(l[3]),
+        x4 = l[4],
+        x5 = l[5],
+        x6 = l[6],
+        x7 = l[7],
       )
 
 @dataclass
@@ -98,6 +99,9 @@ class GameState:
 
   @staticmethod
   def from_list(l):
+    # dirty HACK:
+    l += [-1, -1, []]
+
     # gameState = (gameTick, x1, shipsAndCommands)
     ships = []
     for l in l[2]:
@@ -105,9 +109,9 @@ class GameState:
       ship.commands = [Command.from_list(c) for c in l[1]]
       ships.append(ship)
     return GameState(
-        game_tick: l[0],
-        x1: l[1],
-        ships: ships
+        game_tick = l[0],
+        x1 = l[1],
+        ships = ships
       )
 
 
@@ -118,7 +122,7 @@ GAME_STAGE_HAS_FINISHED=2
 @dataclass
 class GameResponse:
   is_valid: bool
-  game_state: Optional[int]
+  game_stage: Optional[int]
   static_game_info: Optional[StaticGameInfo]
   game_state: Optional[GameState]
 
@@ -126,10 +130,10 @@ class GameResponse:
   def from_list(l):
     # (1, gameStage, staticGameInfo, gameState)
     if l == [0]:
-      return GameResponse(is_valid=False, None, None, None)
+      return GameResponse(is_valid=False, game_stage=None, static_game_info=None, game_state=None)
     return GameResponse(
-        is_valid=True,
-        game_state=l[1],
-        static_game_info=StaticGameInfo.from_list(l[2]),
-        game_state=GameState.from_list(l[3]),
+        is_valid = True,
+        game_stage = l[1],
+        static_game_info = StaticGameInfo.from_list(l[2]),
+        game_state = GameState.from_list(l[3]),
       )

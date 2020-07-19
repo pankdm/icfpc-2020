@@ -99,6 +99,7 @@ def get_game_stage(game_response):
 def player_loop(player):
     print (f'Starting loop for player {player.player_key}')
     game_response = player.make_join_request()
+    print(f"Joined parsed response: {game_response}")
     if not game_response.is_valid:
         print("Got invalid response")
         return
@@ -106,8 +107,10 @@ def player_loop(player):
         print("Game has already finished.")
         return
     game_response = player.make_start_request(game_response)
+    print(f"Start parsed response: {game_response}")
     while game_response.is_valid and game_response.game_stage != GAME_STAGE_HAS_FINISHED:
         game_response = player.make_commands_request(game_response)
+        print(f"Commands parsed response: {game_response}")
 
 
 def main():
