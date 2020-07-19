@@ -1,3 +1,5 @@
+import traceback
+
 from typing import Any, Optional
 from dataclasses import dataclass
 
@@ -10,14 +12,26 @@ class Command:
     # Example of command from logs: "appliedCommands":[[0,[-1,1]]]
     # the ship_id is implicitly assumed
     kind = l[0]
-    if kind == 0:
-      return AccelerateCommand(ship_id=ship_id, vector=tuple(l[1]))
-    elif kind == 1:
-      return DetonateCommand(ship_id=ship_id)
-    elif kind == 2:
-      return ShootCommand(ship_id=ship_id, target=tuple(l[1]), x3=l[2])
-    else:
-      raise ValueError(f"Unknown command: {l}")
+    try:
+      if kind == 0:
+        return AccelerateCommand(ship_id=ship_id, vector=tuple(l[1]))
+      elif kind == 1:
+        return DetonateCommand(ship_id=ship_id)
+      elif kind == 2:
+        return ShootCommand(ship_id=ship_id, target=tuple(l[1]), x3=l[2])
+      else:
+        print(f"Command.from_list got unknown command: {l} ship_id={ship_id}")
+        return UnknownCommand(ship_id=ship_id, raw_data=l)
+    except:
+      traceback.print_exc()
+      print(f"Command parsing failed. Using UnknownCommand as last resort.")
+      return UnknownCommand(ship_id=ship_id, raw_data=l)
+
+
+@dataclass
+class UnknownCommand:
+  ship_id: int 
+  raw_data: list
 
 @dataclass
 class AccelerateCommand:
@@ -156,5 +170,7 @@ class GameResponse:
 
 
 if __name__ == "__main__":
-  input =  [1, 1, [256, 0, [512, 1, 64], [16, 128], [1, 1, 1, 1]], [1, [16, 128], [[[1, 0, [46, 32], [-2, 1], [0, 1, 1, 1], 7, 64, 1], [[0, [1, -1]]]], [[0, 1, [-48, -30], [0, 1], [0, 1, 1, 1], 7, 64, 1], [[0, [1, -1]]]]]]]
-  print (GameResponse.from_list(input))
+  # input =  [1, 1, [256, 0, [512, 1, 64], [16, 128], [1, 1, 1, 1]], [1, [16, 128], [[[1, 0, [46, 32], [-2, 1], [0, 1, 1, 1], 7, 64, 1], [[0, [1, -1]]]], [[0, 1, [-48, -30], [0, 1], [0, 1, 1, 1], 7, 64, 1], [[0, [1, -1]]]]]]]
+  # print (GameResponse.from_list(input))
+  input = [3, [32, 32, 5, 2]]
+  print(Command.from_list(input, 0))
