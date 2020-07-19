@@ -99,14 +99,14 @@ class GameState:
 
   @staticmethod
   def from_list(l):
-    # dirty HACK:
-    l += [-1, -1, []]
+    if not l:
+      return GameState(game_tick=None, x1=None, ships=[])
 
     # gameState = (gameTick, x1, shipsAndCommands)
     ships = []
-    for l in l[2]:
-      ship = Ship.from_list(l[0])
-      ship.commands = [Command.from_list(c) for c in l[1]]
+    for ship_list in l[2]:
+      ship = Ship.from_list(ship_list[0])
+      ship.commands = [Command.from_list(c) for c in ship_list[1]]
       ships.append(ship)
     return GameState(
         game_tick = l[0],

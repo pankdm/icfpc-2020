@@ -43,5 +43,5 @@ class FlyingBot(Bot):
     def get_commands(self, game_response: GameResponse):
         # default: do nothing
         return [
-            # AccelerateCommand
+            AccelerateCommand(ship_id=self.ship_id, vector=(1, 1))
         ]
