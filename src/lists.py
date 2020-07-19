@@ -37,6 +37,27 @@ def recursive_list_convert(data):
       result.append(recursive_list_convert(item))
   return result
 
+def demodulated_list_to_cons(l):
+  """Python list to CONS, recursive."""
+  if isinstance(l, int):
+    return Atom(str(l))
+  elif l is None:
+    return nil
+  # if len(l) == 0:
+  #   return nil
+  # return full_expr
+  print (f"converting {l}")
+  first, tail = l
+  # if isinstance(first, int) and isinstance(tail, int):
+  #   return Ap(Ap(Atom("const"), Atom(str(first)), Atom(str(tail))))
+
+  item_expr = demodulated_list_to_cons(first)
+  tail_expr = demodulated_list_to_cons(tail)
+  full_expr = Ap(Ap(Atom("cons"), item_expr), tail_expr)
+  return full_expr
+
+
+
 def list_to_cons(l):
   """Python list to CONS, recursive."""
 
@@ -50,3 +71,7 @@ def list_to_cons(l):
       item_expr = Atom(str(item))
     full_expr = Ap(Ap(Atom("cons"), item_expr), full_expr)
   return full_expr
+
+
+if __name__ == "__main__":
+  print (demodulated_list_to_cons([1, [41093, None]]))

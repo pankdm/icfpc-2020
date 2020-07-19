@@ -3,15 +3,19 @@ import io
 
 
 def parse(f):
+    # start = f.index
     prefix = f.read(2)
     if prefix == "":
         return None
     elif prefix == "00":
-        return []
+        return None
     elif prefix == "11":
         res1 = parse(f)
         res2 = parse(f)
-        return [res1] + res2
+        # print (f"current slice: {f.slice(start, f.index)}")
+        # print (f"parsed {res1}")
+        # print (f"parsed {res2}")
+        return [res1, res2]
     else:
         num_bits = 0
         while True:
@@ -26,14 +30,34 @@ def parse(f):
             sign = 1 
         else:
             sign = -1
-        return sign * int(number, 2)
+        result = sign * int(number, 2)
+        # print (f"parsed slice {f.slice(start, f.index)} as {result}")
+        return result
 
+
+class StringStream:
+  def __init__(self, s):
+    self.s = s
+    self.index = 0
+
+  def slice(self, start, end):
+    return self.s[start : end]
+
+  def peek(self, num):
+    res = self.s[self.index : self.index + num]
+    return res
+
+  def read(self, num):
+    res = self.s[self.index : self.index + num]
+    self.index += num
+    return res
 
 if __name__ == "__main__":
     for line in sys.stdin:
         line = line.strip('\n')
         print ("read", line)
-        f = io.StringIO(line)
+        
+        f = StringStream(line)
         res = parse(f)
         print ("parsed -> {}".format(res))
 

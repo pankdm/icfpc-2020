@@ -26,7 +26,7 @@ def _send_to_alien_proxy(data):
   print(f"Got {response}")
   demodulated = dem(io.StringIO(response))
   print(f"...parsed as {demodulated}")
-  as_expr = list_to_cons(demodulated)
+  as_expr = demodulated_list_to_cons(demodulated)
   print(f"as_expr {as_expr}")
 
   return as_expr
