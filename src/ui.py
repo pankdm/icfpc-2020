@@ -37,11 +37,14 @@ class TkUI:
     #  glyphs guessing game
     # self.current_state = list_to_cons([4, [1, [122, 203, 410, 164, 444, 484, 202, 77, 251, 56, 456, 435, 28, 329, 257, 265, 501, 18, 190, 423, 384, 434, 266, 69, 34, 437, 203, 152, 160, 425, 245, 428, 99, 107, 192, 372, 346, 344, 169, 478, 393, 502, 201, 497, 313, 32, 281, 510, 436, 22, 237, 80, 325, 405, 184, 358, 57, 276, 359, 189, 284, 277, 198, 244], -1, 0, []], 0, []])
     #
+    #  riddle with beams
+    # self.current_state = list_to_cons([2, [3, 1], 0, []])
+    #
     #  end game
     # self.current_state = list_to_cons([5, [2, 0, [], [], [], [], [], 39392], 125, []])
 
     # start from galaxy screen:
-    self.current_state = list_to_cons([5, [2, 0, [], [], [], [], [], 39656], 125, []])
+    # self.current_state = list_to_cons([5, [2, 0, [], [], [], [], [], 39656], 125, []])
 
     self.interact(0, 0)
 
