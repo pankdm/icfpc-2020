@@ -10,10 +10,12 @@ class Bot:
         for ship in game_response.game_state.ships:
             if ship.role == self.role:
                 self.ship_id = ship.ship_id
-                break
+            else:
+                self.other_ship_id = ship.ship_id
         print(f"Detected ship ID as {self.ship_id}")
-        if self.ship_id is None:
-            raise ValueError(f"Failed to find ship id in {game_response} with role {self.role}")
+        print(f"Detected other ship ID as {self.other_ship_id}")
+        if self.ship_id is None or self.other_ship_id is None:
+            raise ValueError(f"Failed to find ship IDs in {game_response} with role {self.role}")
 
 
 class DoNothingBot(Bot):
@@ -37,7 +39,6 @@ class NaiveBot(Bot):
 
 class FlyingBot(Bot):
     def get_start_data(self, game_response: GameResponse):
-
         return [1, 1, 1, 1]
 
     def get_commands(self, game_response: GameResponse):
