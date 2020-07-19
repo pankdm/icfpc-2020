@@ -49,6 +49,9 @@ class TkUI:
     # start from galaxy screen:
     # self.current_state = list_to_cons([5, [2, 0, [], [], [], [], [], 39656], 125, []])
 
+    # end game?
+    # self.current_state = list_to_cons([10, [], 8, []])
+
     self.interact(0, 0)
 
   def handle_click_all_pixels(self, event):
