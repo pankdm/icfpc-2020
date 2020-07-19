@@ -46,7 +46,7 @@ def demodulated_list_to_cons(l):
   # if len(l) == 0:
   #   return nil
   # return full_expr
-  print (f"converting {l}")
+  # print (f"converting {l}")
   first, tail = l
   # if isinstance(first, int) and isinstance(tail, int):
   #   return Ap(Ap(Atom("const"), Atom(str(first)), Atom(str(tail))))

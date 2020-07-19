@@ -7,7 +7,7 @@ from funcs import *
 from galaxy_evaluator import *
 from lists import *
 
-UI_SCALE=3
+UI_SCALE=4
 
 PROTOCOL=evaluate_galaxy #statefuldraw
 
@@ -15,8 +15,10 @@ class TkUI:
   def __init__(self):
     self.root = Tk()
 
-    self.canvas = Canvas(self.root, width=1000, height=1000, bg='black')
-    self.center = (500, 500)
+    width = 330 * UI_SCALE
+    height = 300 * UI_SCALE
+    self.canvas = Canvas(self.root, width=width, height=height, bg='black')
+    self.center = (width / 2, height / 2)
     self.canvas.bind("<Button-1>", self.handle_click)
     self.canvas.bind("<Shift-A>", self.handle_click_all_pixels)
     self.canvas.pack()
@@ -28,6 +30,9 @@ class TkUI:
     #
     #  show galaxy, click around to see races:
     # self.current_state = list_to_cons([1, [11], 0, []])
+
+    # start from galaxy screen:
+    self.current_state = list_to_cons([5, [2, 0, [], [], [], [], [], 39656], 125, []])
 
     self.interact(0, 0)
 
