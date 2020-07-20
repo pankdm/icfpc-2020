@@ -1,0 +1,4 @@
+sent to aliens: [0]
+sent to aliens: [1, 1]
+sent to aliens: [2, 982945607009919827, []]
+sent to aliens: [3, 982945607009919827, []]
