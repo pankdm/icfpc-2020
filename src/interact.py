@@ -6,8 +6,30 @@ from send import do_send
 from lists import *
 from galaxy_evaluator import *
 
-def _send_to_alien_proxy(data):
-  print("_send_to_alien_proxy")
+import time
+import os
+
+def create_log():
+  timestamp = time.strftime("%Y-%m-%d_%H-%M-%S")
+  # datetime.utcnow().isoformat()
+  # folder = "annotations/tmp/{}".format(timestamp)
+  folder = "send-alien-logs/"
+  os.makedirs(folder, exist_ok=True)
+  filepath = "{}/{}.txt".format(folder, timestamp)
+  return open(filepath, 'w')
+
+logfile = None
+if logfile is None:
+  print("created new log!!!")
+  logfile = create_log()
+
+
+def my_send_to_alien_proxy(data):
+  global logfile
+  print ()
+  print("_send_to_alien_proxy: ", data)
+  logfile.write('sent to aliens: ' + str(data) + '\n')
+  logfile.flush()
 
   # new_cons = py_to_tree(data_as_list)
   # data_as_list_again = tree_to_py(new_cons)
@@ -49,7 +71,9 @@ def multipledraw_helper(data, draw_dot_impl=None, selected_layer=None):
 # https://message-from-space.readthedocs.io/en/latest/message38.html
 def interact(protocol_evaluator, state, vector):
   print ()
-  print("Running protocol...")
+  print(" >>> Running protocol... <<<")
+  print(f"current_state={tree_to_py(state)}\n")
+  print(f"vector={tree_to_py(vector)}\n")
   res = protocol_evaluator(state, vector)
 
   # Note: res will be modulatable here (consists of cons, nil and numbers only)
@@ -66,4 +90,4 @@ def interact(protocol_evaluator, state, vector):
   if flag == 0:
       return (newState, data)
 
-  return interact(protocol_evaluator, newState, _send_to_alien_proxy(data))
+  return interact(protocol_evaluator, newState, my_send_to_alien_proxy(data))
