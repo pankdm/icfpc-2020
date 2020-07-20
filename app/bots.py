@@ -97,13 +97,13 @@ class TrajectoryBot(FlyingBot):
         x, y = ship_state.position
         vx, vy = ship_state.velocity
 
-        N_PREDICTION_STEPS = 13
-        W_CENTER1 = 10
+        N_PREDICTION_STEPS = 14
+        W_CENTER1 = 20
         W_CENTER2 = 4
-        W_CORNER = 3
-        W_FUEL = 20
-        W_PLANET_DIRECTION = 20
-        W_V_DIRECTION = 10
+        W_CORNER = 2
+        W_FUEL = 15
+        W_PLANET_DIRECTION = 10
+        W_V_DIRECTION = 5
         # print(f"params {(N_PREDICTION_STEPS, W_CENTER1, W_CENTER2, W_CORNER, W_FUEL)}")
         
         best_dv = (0, 0)
@@ -124,14 +124,16 @@ class TrajectoryBot(FlyingBot):
                     min_l2_corner_dist = min(min(l2_norm((pos[0]-cx, pos[1]-cy)) \
                      for cx in (16, -16) for cy in (16, -16) ), min_l2_corner_dist)
                     # print(f"dists {(min_linf_center_dist, min_l2_center_dist, min_l2_corner_dist)}")
-                    cost = W_CENTER1*hinge(16 - min_linf_center_dist) \
-                        + W_CENTER2*hinge(24 - min_l2_center_dist) \
-                        + W_CORNER*hinge(5 - min_l2_corner_dist) \
+                    cost = W_CENTER1*hinge(16 - min_linf_center_dist)*(1+sign(int(i<=3))) \
+                        + W_CENTER2*hinge(23 - min_l2_center_dist) \
+                        + W_CORNER*hinge(3 - min_l2_corner_dist) \
                         + W_FUEL*linf_norm((dvx, dvy)) \
                         + W_PLANET_DIRECTION * (int(sign(x) == sign(dvx) and abs(y)<= 18) \
-                             + int(sign(y) == sign(dvy) and abs(x) <= 18) )
+                             + int(sign(y) == sign(dvy) and abs(x) <= 18) ) \
+                        + W_V_DIRECTION * (int(sign(vx) == sign(dvx)) \
+                             + int(sign(vy) == sign(dvy) )) \
+                        + (0.8 + int(min(vx, vy)<=2))*hinge(linf_norm(pos)-48)
                     # print(f"cost {cost}")
-
                 if cost < best_cost:
                     best_dv = (dvx, dvy)
                     best_cost = cost
