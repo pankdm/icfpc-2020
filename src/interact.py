@@ -56,8 +56,8 @@ def interact(protocol_evaluator, state, vector):
   print(f"eval res {res}")
   (flag, newState, data) = tree_to_py(res)
   #newState = eval(Ap(Atom("car"), Ap(Atom("cdr"), res)))
-  newState = py_to_tree(newState)
   print(f"flag={flag}\nnewState={newState}")
+  newState = py_to_tree(newState)
   if state == newState:
     print("State remained unchanged")
   else:
