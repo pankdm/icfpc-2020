@@ -44,7 +44,6 @@ class SpaceUI:
       self.draw()
       self.canvas.focus_set()
 
-
   def handle_key(self, event):
     ch = event.char
     print(f"\nKey '{ch}' was pressed")
@@ -67,27 +66,29 @@ class SpaceUI:
     return y * UI_SCALE + self.center[1]
 
   def draw_gravity_field(self):
+    green = "#3CB043"
+    varargs = {"fill": green}
+
     left = -48
     right = 48
     step = 32
     for cc in [-48, 48]:
-      self.draw_line(cc, left, cc, right)
-      self.draw_line(left, cc, right, cc)
+      self.draw_line(cc, left, cc, right, **varargs)
+      self.draw_line(left, cc, right, cc, **varargs)
     
     coords = [(-48, -16), (48, 16)]
     for a, b in coords:
-      self.draw_line(a, -a, b, -b)
-      self.draw_line(a, a, b, b)
+      self.draw_line(a, -a, b, -b, **varargs)
+      self.draw_line(a, a, b, b, **varargs)
       
 
-  def draw_line(self, x0, y0, x1, y1):
-      green = "#3CB043"
+  def draw_line(self, x0, y0, x1, y1, **varargs):
       self.canvas.create_line(
         self.map_x_coord(x0),
         self.map_y_coord(y0),
         self.map_x_coord(x1),
         self.map_y_coord(y1), 
-        fill=green)
+        varargs)
 
 
   def draw_rectangular(self, p0, p1, **varargs):
@@ -135,10 +136,23 @@ class SpaceUI:
       print (f"drawing {ship}")
       x, y = ship.position
       if ship.role == 0:
-        color = "green"
+        color = "orange"
       else:
-        color = "blue"
+        color = "cyan"
       self.add_spacecraft(x, y, color)
+
+  def draw_actions(self):
+    if self.index >= len(self.responses):
+      return
+    state = self.responses[self.index].game_state
+    for ship in state.ships:
+      x, y = ship.position
+      for command in ship.commands:
+        if isinstance(command, ShootCommand):
+          x_other, y_other = command.target
+          self.draw_line(x, y, x_other, y_other, fill="red")
+          self.draw_rectangular((x_other - 2, y_other - 2), (x_other + 2, y_other + 2), fill="red")
+
 
   def draw(self):
     # clean canvas before draw
@@ -147,6 +161,7 @@ class SpaceUI:
     print (f"tick = {self.index + 1} (out of {len(self.responses)})")
     self.draw_gravity_field()
     self.draw_planet();
+    self.draw_actions();
     self.draw_ships();
 
 def main():

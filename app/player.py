@@ -99,7 +99,7 @@ class Player:
         response = self.proxy.send(request_data)
         
         if self.log:
-            self.output.write(f"join: {response}\n")
+            self.output.write(f"{response}\n")
         
         game_response = GameResponse.from_list(response)
         print(f"[{self.display_name}] Got join response: {game_response}")
@@ -119,7 +119,7 @@ class Player:
         
         if self.log:
             self.space_log.write(f"{response}\n")
-            self.output.write(f"start: {response}\n")
+            self.output.write(f"{response}\n")
 
         game_response = GameResponse.from_list(response)
         print(f"[{self.display_name}] Got start response: {game_response}")
@@ -150,7 +150,7 @@ class Player:
         
         if self.log:
             self.space_log.write(f"{response}\n")
-            self.output.write(f"commands: {response}\n")
+            self.output.write(f"{response}\n")
         
         game_response = GameResponse.from_list(response)
         print(f"[{self.display_name}] Got commands response: {game_response}")
