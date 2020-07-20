@@ -35,11 +35,11 @@ class TkUI:
     # self.current_state = nil
     #
     #  show galaxy, click around to see races:
-    self.current_state = py_to_tree(
-      # [5, [1, 0, [], [], [], [], [], 16701], 8, []]  # before tutorials
-      [1, [11], 0, None]
-      )
-    #
+    self.current_state = py_to_tree([1, [11], 0, None])
+
+    # before tutorials
+    # self.current_state = py_to_tree([6, [1, 8, 5786732064739500194, 1, 0, 0, [], [], 4, [0, [], [[[1, 0, (16, 0), (1, 0), [0, 0, 0, 1], 0, 64, 1], []]]], [8, 1, [448, 1, 64], [], []], [], []], 8, []])
+    
     #  some picture with increasing boxes
     # self.current_state = py_to_tree([2, [4, 5], 0, []])
     #
