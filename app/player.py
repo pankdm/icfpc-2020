@@ -74,9 +74,7 @@ class Proxy:
         # print(f"[{threading.current_thread().name}] received raw response {raw_response}")
         response = dem(io.StringIO(raw_response))
         # print(f"[{threading.current_thread().name}] decoded as {response}")
-        flat = flatten_cons(response)
-        # print(f"[{threading.current_thread().name}] flattened response: {flat}")
-        return flat
+        return response
 
 
 class Player:

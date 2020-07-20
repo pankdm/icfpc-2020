@@ -130,12 +130,12 @@ class GameState:
 
     # gameState = (gameTick, x1, shipsAndCommands)
     ships = []
-    for ship_list in l[2]:
+    for ship_list in (l[2] or []):
       ship = Ship.from_list(ship_list[0])
       # print (f"ship list: {ship_list}")
       # print (f"ship: {ship}")
       # print (f"appliedCommands: {ship_list[1]}")
-      ship.commands = [Command.from_list(c, ship_id=ship.ship_id) for c in ship_list[1]]
+      ship.commands = [Command.from_list(c, ship_id=ship.ship_id) for c in (ship_list[1] or [])]
       ships.append(ship)
     return GameState(
         game_tick = l[0],
