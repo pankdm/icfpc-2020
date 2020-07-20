@@ -89,8 +89,8 @@ class TkUI:
     data = [1, 3]
 
     # tutorial 6
-    self.current_staet = py_to_tree([6, [6, 5, 0, 1, 9, 0, [], [], 4, [], [], [], []], 8, []])
-    data = [1, 6]
+    self.current_staet = py_to_tree([6, [10, 5, 0, 1, 100, 0, [], [], 4, [], [], [], []], 8, []])
+    data = [1, 10]
 
 
 

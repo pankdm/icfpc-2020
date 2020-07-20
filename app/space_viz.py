@@ -70,7 +70,7 @@ class SpaceUI:
     left = -48
     right = 48
     step = 32
-    for cc in range(left, right + step, step):
+    for cc in [-48, 48]:
       self.draw_line(cc, left, cc, right)
       self.draw_line(left, cc, right, cc)
     
