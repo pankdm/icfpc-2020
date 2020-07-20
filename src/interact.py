@@ -24,7 +24,7 @@ if logfile is None:
   logfile = create_log()
 
 
-def _send_to_alien_proxy(data):
+def my_send_to_alien_proxy(data):
   global logfile
   print ()
   print("_send_to_alien_proxy: ", data)
@@ -71,7 +71,9 @@ def multipledraw_helper(data, draw_dot_impl=None, selected_layer=None):
 # https://message-from-space.readthedocs.io/en/latest/message38.html
 def interact(protocol_evaluator, state, vector):
   print ()
-  print("Running protocol...")
+  print(" >>> Running protocol... <<<")
+  print(f"current_state={tree_to_py(state)}\n")
+  print(f"vector={tree_to_py(vector)}\n")
   res = protocol_evaluator(state, vector)
 
   # Note: res will be modulatable here (consists of cons, nil and numbers only)
@@ -88,4 +90,4 @@ def interact(protocol_evaluator, state, vector):
   if flag == 0:
       return (newState, data)
 
-  return interact(protocol_evaluator, newState, _send_to_alien_proxy(data))
+  return interact(protocol_evaluator, newState, my_send_to_alien_proxy(data))

@@ -69,10 +69,35 @@ class TkUI:
 
     # end game?
     # self.current_state = py_to_tree([10, [], 8, []])
+    # tutorial 1 state:
+    # self.current_state = py_to_tree([6, [2, 5, 0, 1, 1, 0, [], [], 4, [], [], [], []], 8, []])
+    # self.current_state = py_to_tree([6, [3, 5, 0, 1, 11, 0, [], [], 4, [], [], [], []], 8, []])
+    # self.current_state = py_to_tree([6, [3, 5, 0, 1, 11, 0, [], [], 4, [], [], [], []], 8, []])
+    # self.current_state = py_to_tree([6, [4, 5, 0, 1, 21, 0, [], [], 4, [], [], [], []], 8, []])
 
     self.state_click_history = []
     self.img_history = [None]
-    self.interact(0, 0)
+
+    data = None
+
+    # tutorial 1
+    self.current_state = py_to_tree([6, [2, 5, 0, 1, 1, 0, [], [], 4, [], [], [], []], 8, []])    
+    data = [1, 2]
+
+    # tutorial 2
+    self.current_staet = py_to_tree([6, [3, 5, 0, 1, 9, 0, [], [], 4, [], [], [], []], 8, []])
+    data = [1, 3]
+
+    # tutorial 6
+    self.current_staet = py_to_tree([6, [6, 5, 0, 1, 9, 0, [], [], 4, [], [], [], []], 8, []])
+    data = [1, 6]
+
+
+
+    if data:
+      self.interact_with_data(data)
+    else:
+      self.interact(0, 0)
 
   def handle_key(self, event):
       ch = event.char
@@ -150,6 +175,14 @@ class TkUI:
       # print(f"new_state = {new_state} img_data={img_data}")
       self.update_state(self.current_state, self.current_img_data, (x, y), new_state, img_data)
       self.draw()
+
+  def interact_with_data(self, data):
+      sent = my_send_to_alien_proxy(data)
+      (new_state, img_data) = interact(PROTOCOL, self.current_state, sent)
+      # print(f"new_state = {new_state} img_data={img_data}")
+      self.update_state(self.current_state, self.current_img_data, (0, 0), new_state, img_data)
+      self.draw()
+
 
   def add_pixel(self, x, y, index):
     colors = ["white", "cyan", "red", "green", "orange", "blue", "yellow", "magenta"]
