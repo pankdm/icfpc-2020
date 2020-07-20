@@ -36,13 +36,18 @@ class KinematicState:
         self.pos = pos
         self.velocity = velocity
     
-    def update(self):
+    def update(self, accelerate=None):
         x, y = self.pos
         vx, vy = self.velocity
 
         gx, gy = get_g_force(x, y)
         vx += gx
         vy += gy
+
+        if accelerate:
+            ax, ay = accelerate
+            vx += ax
+            vy += ay
 
         x += vx
         y += vy
