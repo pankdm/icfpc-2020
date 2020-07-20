@@ -1,4 +1,5 @@
 from models import *
+from physics import get_g_force
 
 class Bot:
     def handle_join_response(self, game_response):
@@ -85,11 +86,12 @@ class ShootAheadHelper:
 
     def get_commands(self, game_response: GameResponse, shooter_ship_id: int, target_ship_id: int):
         target_ship = game_response.get_ship(target_ship_id)
-        other_position = target_ship.position
-        other_velocity = target_ship.velocity
+        p = target_ship.position
+        v = target_ship.velocity
+        g = get_g_force(p[0], p[1])
         target = (
-            other_position[0] + other_velocity[0],
-            other_position[1] + other_velocity[1],
+            p[0] + v[0] + g[0],
+            p[1] + v[1] + g[1],
         )
         return [
             ShootCommand(ship_id=shooter_ship_id, target=target, x3=48)
