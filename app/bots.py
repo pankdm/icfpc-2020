@@ -1,3 +1,5 @@
+import math
+
 from models import *
 from physics import *
 import pprint
@@ -162,26 +164,44 @@ class ShootAheadHelper:
             ShootCommand(ship_id=shooter_ship_id, target=target, x3=power)
         ]
 
+def get_distance(p1, p2):
+    dx = p2[0] - p1[0]
+    dy = p2[1] - p1[1]
+    return math.sqrt(dx * dx + dy * dy)
 
 class ShooterBot(Bot):
     def __init__(self):
-        self.flying_helper = BasicFlyingHelper(self)
         self.shoot_ahead_helper = ShootAheadHelper(self)
+        self.trajectory_bot = TrajectoryBot()
 
     def get_start_data(self, game_response: GameResponse):
-        return [20, 52, 15, 1]
+        if self.role == SHIP_ROLE_ATTACKER:
+            return [134, 64, 10, 1]
+        else:
+            return [100, 48, 8, 1]
 
     def get_commands(self, game_response: GameResponse):
+        self.trajectory_bot.ship_id = self.ship_id
+        commands = self.trajectory_bot.get_commands(game_response)
+
         ship  = game_response.get_ship(self.ship_id)
-        if ship.x5 > ship.x6 / 2:
-            print(f"Skipping shooting, ship's too hot {ship}")
-            return []
         target_ship_id = self.get_other_ship_ids(game_response)[0]
-        
-        return (
-            # self.flying_helper.get_commands(game_response, ship_id=self.ship_id) + 
-            self.shoot_ahead_helper.get_commands(game_response, shooter_ship_id=self.ship_id, target_ship_id=target_ship_id, power=52)
-        )
+        other_ship = game_response.get_ship(target_ship_id)
+
+        max_temp = ship.x6
+        temp = ship.x5
+        coolant = ship.x4[2]
+        shot_power = ship.x4[1]
+        new_temp = temp + shot_power - coolant
+        distance = get_distance(ship.position, other_ship.position)
+        print(f"{self} temp={temp} max_temp={max_temp} coolant={coolant} shot_power={shot_power} new_temp={new_temp} distance={distance}")
+
+        if new_temp < max_temp and distance < 1.8 * shot_power:
+            print(f"{self} WILL SHOOT")
+            commands += self.shoot_ahead_helper.get_commands(
+                game_response, shooter_ship_id=self.ship_id, target_ship_id=target_ship_id, power=shot_power)
+
+        return commands
 
 def get_away_vectors(xy1, xy2):
     x1, y1 = xy1

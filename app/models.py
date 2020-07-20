@@ -18,7 +18,7 @@ class Command:
       elif kind == 1:
         return DetonateCommand(ship_id=ship_id)
       elif kind == 2:
-        return ShootCommand(ship_id=ship_id, target=tuple(l[1]), x3=l[2])
+        return ShootCommand(ship_id=ship_id, target=tuple(l[1]), x3=l[2], xn=l[3:])
       elif kind == 3:
         return ForkCommand(ship_id=ship_id, x4=list(l[1]))
       else:
