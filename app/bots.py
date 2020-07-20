@@ -81,6 +81,59 @@ class FlyingBot(Bot):
     def get_commands(self, game_response: GameResponse):
         return self.flying_helper.get_commands(game_response, self.ship_id)
 
+
+class TrajectoryBot(FlyingBot):
+    def get_commands(self, game_response: GameResponse):
+        ship_state = game_response.get_ship(self.ship_id)
+        x, y = ship_state.position
+        vx, vy = ship_state.velocity
+
+        N_PREDICTION_STEPS = 13
+        W_CENTER1 = 10
+        W_CENTER2 = 4
+        W_CORNER = 3
+        W_FUEL = 20
+        W_PLANET_DIRECTION = 20
+        W_V_DIRECTION = 10
+        # print(f"params {(N_PREDICTION_STEPS, W_CENTER1, W_CENTER2, W_CORNER, W_FUEL)}")
+        
+        best_dv = (0, 0)
+        best_cost = 1000
+        for dvx in (-1, 0, 1):
+            for dvy in (-1, 0, 1):
+                # traj = []
+                # print(f"\n\ndv: {(dvx, dvy)}")
+                ks = KinematicState((x,y), (vx-dvx,vy-dvy))
+                cost = 0
+                min_linf_center_dist = min_l2_center_dist = min_l2_corner_dist = 1000
+                for i in range(N_PREDICTION_STEPS):
+                    ks = ks.update()
+                    pos = ks.pos
+                    # print(f"pos {i}: {pos}")
+                    min_linf_center_dist = min(linf_norm(pos), min_linf_center_dist)
+                    min_l2_center_dist = min(l2_norm(pos), min_l2_center_dist)
+                    min_l2_corner_dist = min(min(l2_norm((pos[0]-cx, pos[1]-cy)) \
+                     for cx in (16, -16) for cy in (16, -16) ), min_l2_corner_dist)
+                    # print(f"dists {(min_linf_center_dist, min_l2_center_dist, min_l2_corner_dist)}")
+                    cost = W_CENTER1*hinge(16 - min_linf_center_dist) \
+                        + W_CENTER2*hinge(24 - min_l2_center_dist) \
+                        + W_CORNER*hinge(5 - min_l2_corner_dist) \
+                        + W_FUEL*linf_norm((dvx, dvy)) \
+                        + W_PLANET_DIRECTION * (int(sign(x) == sign(dvx) and abs(y)<= 18) \
+                             + int(sign(y) == sign(dvy) and abs(x) <= 18) )
+                    # print(f"cost {cost}")
+
+                if cost < best_cost:
+                    best_dv = (dvx, dvy)
+                    best_cost = cost
+                    # print(f"new best dv: {best_dv}, cost {best_cost}\n")
+        
+        # print(f"Overall best dv {best_dv}, cost {best_cost} \n \n")
+        return [AccelerateCommand(ship_id=self.ship_id, vector=best_dv)] if best_dv != (0, 0) else []
+
+
+
+
 class ShootAheadHelper:
     def __init__(self, bot):
         self.bot = bot

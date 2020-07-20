@@ -19,6 +19,18 @@ def get_g_force(x, y):
         return (-sign(x), -sign(y))
 
 
+def linf_norm(vec):
+    return max(abs(vec[0]), abs(vec[1]))
+
+def l1_norm(vec):
+    return abs(vec[0])+abs(vec[1])
+
+def l2_norm(vec):
+    return (vec[0]**2 + vec[1]**2)**0.5
+
+def hinge(x):
+    return 0 if (x<=0) else x
+
 class KinematicState:
     def __init__(self, pos, velocity):
         self.pos = pos
