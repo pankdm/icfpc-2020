@@ -10,6 +10,13 @@ UI_SCALE=3
 # in pixels
 SPACE_SHIP_SIZE = 2
 
+def get_ship_color(ship):
+  if ship.role == 0:
+    return "orange"
+  else:
+    return "cyan"
+
+
 class SpaceUI:
   def __init__(self, responses):
     self.root = Tk()
@@ -135,11 +142,7 @@ class SpaceUI:
     for ship in state.ships:
       print (f"drawing {ship}")
       x, y = ship.position
-      if ship.role == 0:
-        color = "orange"
-      else:
-        color = "cyan"
-      self.add_spacecraft(x, y, color)
+      self.add_spacecraft(x, y, get_ship_color(ship))
 
   def draw_actions(self):
     if self.index >= len(self.responses):
@@ -153,6 +156,15 @@ class SpaceUI:
           self.draw_line(x, y, x_other, y_other, fill="red")
           self.draw_rectangular((x_other - 2, y_other - 2), (x_other + 2, y_other + 2), fill="red")
 
+  def draw_ship_info(self):
+    if self.index >= len(self.responses):
+      return
+
+    state = self.responses[self.index].game_state
+    for (i, ship) in enumerate(state.ships):
+      text = str(ship).replace(", commands=", ",\ncommands=")
+      self.canvas.create_text(20, 20 + 40 * i, anchor=W, font="Monaco", text=text, fill=get_ship_color(ship))
+
 
   def draw(self):
     # clean canvas before draw
@@ -160,9 +172,10 @@ class SpaceUI:
 
     print (f"tick = {self.index + 1} (out of {len(self.responses)})")
     self.draw_gravity_field()
-    self.draw_planet();
-    self.draw_actions();
-    self.draw_ships();
+    self.draw_planet()
+    self.draw_actions()
+    self.draw_ships()
+    self.draw_ship_info()
 
 def main():
   responses = []

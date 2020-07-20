@@ -34,7 +34,7 @@ class Bot:
 class DoNothingBot(Bot):
     def get_start_data(self, game_response: GameResponse):
         # default: not sure what it means
-        return [446, 0, 0, 1]
+        return [64, 48, 14, 1] # [446, 0, 0, 1]
         # return [1, 1, 1, 1]
 
     def get_commands(self, game_response: GameResponse):
@@ -83,7 +83,7 @@ class ShootAheadHelper:
     def __init__(self, bot):
         self.bot = bot
 
-    def get_commands(self, game_response: GameResponse, shooter_ship_id:int, target_ship_id: int):
+    def get_commands(self, game_response: GameResponse, shooter_ship_id: int, target_ship_id: int):
         target_ship = game_response.get_ship(target_ship_id)
         other_position = target_ship.position
         other_velocity = target_ship.velocity
@@ -92,7 +92,7 @@ class ShootAheadHelper:
             other_position[1] + other_velocity[1],
         )
         return [
-            ShootCommand(ship_id=shooter_ship_id, target=target, x3=86)
+            ShootCommand(ship_id=shooter_ship_id, target=target, x3=48)
         ]
 
 
