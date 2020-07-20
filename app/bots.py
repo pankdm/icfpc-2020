@@ -35,8 +35,9 @@ class Bot:
 class DoNothingBot(Bot):
     def get_start_data(self, game_response: GameResponse):
         # default: not sure what it means
-        return [64, 48, 14, 1] # [446, 0, 0, 1]
-        # return [1, 1, 1, 1]
+        # return [64, 48, 14, 1] # [446, 0, 0, 1]
+        # return [5, 5, 5, 5]
+        return [1, 1, 1, 1]
 
     def get_commands(self, game_response: GameResponse):
         # default: do nothing
@@ -75,7 +76,7 @@ class FlyingBot(Bot):
         self.flying_helper = BasicFlyingHelper(self)
 
     def get_start_data(self, game_response: GameResponse):
-        return [100, 10, 10, 1]
+        return [200, 10, 10, 1]
 
     def get_commands(self, game_response: GameResponse):
         return self.flying_helper.get_commands(game_response, self.ship_id)
@@ -84,7 +85,7 @@ class ShootAheadHelper:
     def __init__(self, bot):
         self.bot = bot
 
-    def get_commands(self, game_response: GameResponse, shooter_ship_id: int, target_ship_id: int):
+    def get_commands(self, game_response: GameResponse, shooter_ship_id: int, target_ship_id: int, power: int):
         target_ship = game_response.get_ship(target_ship_id)
         p = target_ship.position
         v = target_ship.velocity
@@ -94,7 +95,7 @@ class ShootAheadHelper:
             p[1] + v[1] + g[1],
         )
         return [
-            ShootCommand(ship_id=shooter_ship_id, target=target, x3=48)
+            ShootCommand(ship_id=shooter_ship_id, target=target, x3=power)
         ]
 
 
@@ -104,12 +105,17 @@ class ShooterBot(Bot):
         self.shoot_ahead_helper = ShootAheadHelper(self)
 
     def get_start_data(self, game_response: GameResponse):
-        return [64, 48, 14, 1]
+        return [20, 52, 15, 1]
 
     def get_commands(self, game_response: GameResponse):
+        ship  = game_response.get_ship(self.ship_id)
+        if ship.x5 > ship.x6 / 2:
+            print(f"Skipping shooting, ship's too hot {ship}")
+            return []
         target_ship_id = self.get_other_ship_ids(game_response)[0]
+        
         return (
-            self.flying_helper.get_commands(game_response, ship_id=self.ship_id) + 
-            self.shoot_ahead_helper.get_commands(game_response, shooter_ship_id=self.ship_id, target_ship_id=target_ship_id)
+            # self.flying_helper.get_commands(game_response, ship_id=self.ship_id) + 
+            self.shoot_ahead_helper.get_commands(game_response, shooter_ship_id=self.ship_id, target_ship_id=target_ship_id, power=52)
         )
         
