@@ -169,6 +169,9 @@ def get_distance(p1, p2):
     dy = p2[1] - p1[1]
     return math.sqrt(dx * dx + dy * dy)
 
+def can_detonate(p1, p2):
+    return abs(p2[0] - p1[0]) < 8 and abs(p2[1] - p1[1]) < 8
+
 class ShooterBot(Bot):
     def __init__(self):
         self.shoot_ahead_helper = ShootAheadHelper(self)
@@ -188,6 +191,10 @@ class ShooterBot(Bot):
         target_ship_id = self.get_other_ship_ids(game_response)[0]
         other_ship = game_response.get_ship(target_ship_id)
 
+        if self.role == SHIP_ROLE_ATTACKER and can_detonate(ship.position, other_ship.position) and len(self.get_other_ship_ids(game_response)) == 1:
+            print(f"{self} WILL DETONATE")
+            return [DetonateCommand(ship_id=self.ship_id)]
+
         max_temp = ship.x6
         temp = ship.x5
         coolant = ship.x4[2]
@@ -196,7 +203,7 @@ class ShooterBot(Bot):
         distance = get_distance(ship.position, other_ship.position)
         print(f"{self} temp={temp} max_temp={max_temp} coolant={coolant} shot_power={shot_power} new_temp={new_temp} distance={distance}")
 
-        if new_temp < max_temp and distance < 1.8 * shot_power:
+        if new_temp < max_temp and distance < 1.3 * shot_power:
             print(f"{self} WILL SHOOT")
             commands += self.shoot_ahead_helper.get_commands(
                 game_response, shooter_ship_id=self.ship_id, target_ship_id=target_ship_id, power=shot_power)
