@@ -148,7 +148,6 @@ class ForkBot(Bot):
         team_ship_ids = []
         for ship in game_response.game_state.ships:
             if ship.role == self.role:
-                print ("")
                 team_ship_ids.append(ship.ship_id)
 
         if self.num_forked == 0:
