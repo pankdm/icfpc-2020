@@ -13,7 +13,7 @@ def main():
     proxy = Proxy(full_url)
 
     # NOTE: fix here for different algorithms
-    bot = FlyingBot()
+    bot = TrajectoryBot()
 
     player = Player(proxy, player_key, bot, display_name="Me")
     player_loop(player)
