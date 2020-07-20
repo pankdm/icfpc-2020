@@ -4,7 +4,7 @@ from models import *
 from physics import *
 import pprint
 
-from lookup_table import LOOKUP_TABLE
+from good_geo import LOOKUP_TABLE
 
 class Bot:
     def handle_join_response(self, game_response):
@@ -228,34 +228,27 @@ def apply_point(pt, delta):
 
 class StationaryBot(Bot):
     def __init__(self):
-        self.take = None
-        self.current_tick = 0
+        self.moved = False
         self.flying_helper = BasicFlyingHelper(self)
-
 
     def get_start_data(self, game_response: GameResponse):
         return [200, 10, 10, 1]
 
     def get_commands(self, game_response: GameResponse):
-        if self.take is None:
+        move = None
+        if not self.moved:
             ship = game_response.get_ship(self.ship_id)
-            position = ship.position
-            self.take = LOOKUP_TABLE.get(position, {})
+            move = LOOKUP_TABLE.get((ship.position, ship.velocity))
 
         res = []
-        if self.take:
-            print (f"We have vector of respones: {self.take}")
-            vec = self.take.get(self.current_tick, None)
-            if vec:
-                print (f"Mathcing tick: {vec}")
-                res = [AccelerateCommand(ship_id=self.ship_id, vector=vec)]
-        else:
-            assert False
+        if move:
+            print (f"We have acceleration to orbit {move}")
+            res = [AccelerateCommand(ship_id=self.ship_id, vector=(-move[0], -move[1]))]
+            self.moved = True
+        elif not self.moved:
             res = self.flying_helper.get_commands(game_response, self.ship_id)
         
-        self.current_tick += 1
         return res
-
 
 
 class ForkBot(Bot):
