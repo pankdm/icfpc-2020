@@ -7,6 +7,7 @@ from lists import *
 from galaxy_evaluator import *
 
 def _send_to_alien_proxy(data):
+  print ()
   print("_send_to_alien_proxy")
 
   # new_cons = py_to_tree(data_as_list)

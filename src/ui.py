@@ -143,6 +143,7 @@ class TkUI:
       self.draw()
 
   def add_pixel(self, x, y, index):
+    colors = ["white", "cyan", "red", "green", "orange", "blue", "yellow", "magenta"]
     # colors = ["white", "blue", "red", "green"]
     fade = 0.5**index
     intensity = round(255.0*fade)
@@ -155,7 +156,7 @@ class TkUI:
       (y + 1) * UI_SCALE + self.center[1],
       width=0.25,
       activefill='#ff7f00',
-      fill=fill_color)
+      fill=colors[index])
 
   def mainloop(self):
     self.root.mainloop()
