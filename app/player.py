@@ -107,7 +107,7 @@ class Player:
         try:
             self.bot.handle_join_response(game_response)
         except:
-            traceback.print_stack()
+            traceback.print_exc()
 
         return game_response
 
@@ -127,7 +127,7 @@ class Player:
         try:
             self.bot.handle_start_response(game_response)
         except:
-            traceback.print_stack()
+            traceback.print_exc()
             
         if self.ui:
             print(f"updating UI")
@@ -139,7 +139,7 @@ class Player:
         try:
             commands = self.bot.get_commands(game_response)
         except:
-            traceback.print_stack()
+            traceback.print_exc()
             print(f"Bot failed with exception. Just sending no commands to stay alive.")
             commands = []
 

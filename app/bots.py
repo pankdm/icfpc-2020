@@ -15,19 +15,21 @@ class Bot:
             return
 
         self.ship_id = None
-        self.other_ship_ids = []
         for ship in game_response.game_state.ships:
             if ship.role == self.role:
                 self.ship_id = ship.ship_id
-            else:
-                self.other_ship_ids.append(ship.ship_id)
-        self.other_ship_id = self.other_ship_ids[0]
 
         print(f"Detected ship ID as {self.ship_id}")
-        print(f"Detected other ship IDs as {self.other_ship_ids}")
 
-        if self.ship_id is None or self.other_ship_id is None:
-            raise ValueError(f"Failed to find at least 2 ship IDs in {game_response} with role {self.role}")
+        if self.ship_id is None:
+            raise ValueError(f"Failed to find initial ship IDs in {game_response} with role {self.role}")
+
+    def get_other_ship_ids(self, game_response):
+        return [
+            ship.ship_id 
+            for ship in game_response.game_state.ships
+            if ship.ship_id != self.ship_id
+        ]
 
 class DoNothingBot(Bot):
     def get_start_data(self, game_response: GameResponse):
@@ -48,12 +50,13 @@ class NaiveBot(Bot):
         # default: do nothing
         return []
 
-class FlyingBot(Bot):
-    def get_start_data(self, game_response: GameResponse):
-        return [100, 10, 10, 1]
+class BasicFlyingHelper:
+    def __init__(self, bot):
+        self.bot = bot
 
-    def get_commands(self, game_response: GameResponse):
-        x, y = game_response.get_ship(self.ship_id).position
+    def get_commands(self, game_response: GameResponse, ship_id: int):
+        """Issues commands to keep the given ship flying."""
+        x, y = game_response.get_ship(ship_id).position
 
         if abs(x) > 47 or abs(y) > 47:
             # Just cool down
@@ -63,21 +66,48 @@ class FlyingBot(Bot):
             y = -1 if y > 0 else 1
 
         return [
-            AccelerateCommand(ship_id=self.ship_id, vector=(x, y))
+            AccelerateCommand(ship_id=ship_id, vector=(x, y))
         ]
 
-class ShooterBot(Bot):
+class FlyingBot(Bot):
+    def __init__(self):
+        self.flying_helper = BasicFlyingHelper(self)
+
     def get_start_data(self, game_response: GameResponse):
-        return [64, 48, 14, 1]
+        return [100, 10, 10, 1]
 
     def get_commands(self, game_response: GameResponse):
-        other_position = game_response.get_ship(self.other_ship_id).position
-        other_velocity = game_response.get_ship(self.other_ship_id).velocity
+        return self.flying_helper.get_commands(game_response, self.ship_id)
+
+class ShootAheadHelper:
+    def __init__(self, bot):
+        self.bot = bot
+
+    def get_commands(self, game_response: GameResponse, shooter_ship_id:int, target_ship_id: int):
+        target_ship = game_response.get_ship(target_ship_id)
+        other_position = target_ship.position
+        other_velocity = target_ship.velocity
         target = (
             other_position[0] + other_velocity[0],
             other_position[1] + other_velocity[1],
         )
         return [
-            # AccelerateCommand(ship_id=self.ship_id, vector=(-1, 1)),
-            ShootCommand(ship_id=self.ship_id, target=target, x3=86)
+            ShootCommand(ship_id=shooter_ship_id, target=target, x3=86)
         ]
+
+
+class ShooterBot(Bot):
+    def __init__(self):
+        self.flying_helper = BasicFlyingHelper(self)
+        self.shoot_ahead_helper = ShootAheadHelper(self)
+
+    def get_start_data(self, game_response: GameResponse):
+        return [64, 48, 14, 1]
+
+    def get_commands(self, game_response: GameResponse):
+        target_ship_id = self.get_other_ship_ids(game_response)[0]
+        return (
+            self.flying_helper.get_commands(game_response, ship_id=self.ship_id) + 
+            self.shoot_ahead_helper.get_commands(game_response, shooter_ship_id=self.ship_id, target_ship_id=target_ship_id)
+        )
+        

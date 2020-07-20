@@ -23,7 +23,7 @@ class Command:
         print(f"Command.from_list got unknown command: {l} ship_id={ship_id}")
         return UnknownCommand(ship_id=ship_id, raw_data=l)
     except:
-      traceback.print_stack()
+      traceback.print_exc()
       print(f"Command parsing failed. Using UnknownCommand as last resort.")
       return UnknownCommand(ship_id=ship_id, raw_data=l)
 
