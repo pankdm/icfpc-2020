@@ -4,15 +4,15 @@ from physics import *
 class Bot:
     def handle_join_response(self, game_response):
         if not game_response.is_valid or game_response.game_stage == GAME_STAGE_HAS_FINISHED:
-            print(f"Skipping role detection for {game_response}")
+            print(f"{self} Skipping role detection for {game_response}")
             return
 
         self.role = game_response.static_game_info.role
-        print(f"Detected role as {self.role}")
+        print(f"{self} Detected role as {self.role}")
 
     def handle_start_response(self, game_response):
         if not game_response.is_valid or game_response.game_stage == GAME_STAGE_HAS_FINISHED:
-            print(f"Skipping ship ID detection for {game_response}")
+            print(f"{self} Skipping ship ID detection for {game_response}")
             return
 
         self.ship_id = None
@@ -20,10 +20,16 @@ class Bot:
             if ship.role == self.role:
                 self.ship_id = ship.ship_id
 
-        print(f"Detected ship ID as {self.ship_id}")
+        print(f"{self} Detected ship ID as {self.ship_id}")
 
         if self.ship_id is None:
             raise ValueError(f"Failed to find initial ship IDs in {game_response} with role {self.role}")
+
+    def get_start_data(self, game_response: GameResponse):
+        raise RuntimeError("not implemented")
+
+    def get_commands(self, game_response: GameResponse):
+        raise RuntimeError("not implemented")
 
     def get_other_ship_ids(self, game_response):
         return [
@@ -226,3 +232,28 @@ class ForkBot(Bot):
         for ship_id in team_ship_ids:
             commands.extend(self.flying_helper.get_commands(game_response, ship_id))
         return commands
+
+class RoleSmartBot(Bot):
+    def __init__(self, attacker, defender):
+        self.attacker = attacker
+        self.defender = defender
+
+    def handle_join_response(self, game_response):
+        self.role = game_response.static_game_info.role
+        if self.role == SHIP_ROLE_ATTACKER:
+            print(f"{self} will use the ATTACKER strategy with bot {self.attacker}.")
+            self.bot = self.attacker
+        else:
+            print(f"{self} will use the DEFENDER strategy with bot {self.defender}.")
+            self.bot = self.defender
+
+        self.bot.handle_join_response(game_response)
+
+    def handle_start_response(self, game_response):
+        self.bot.handle_start_response(game_response)
+
+    def get_start_data(self, game_response: GameResponse):
+        return self.bot.get_start_data(game_response)
+
+    def get_commands(self, game_response: GameResponse):
+        return self.bot.get_commands(game_response)
