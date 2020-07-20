@@ -78,6 +78,6 @@ class ShooterBot(Bot):
             other_position[1] + other_velocity[1],
         )
         return [
-            AccelerateCommand(ship_id=self.ship_id, vector=(-1, 1)),
-            ShootCommand(ship_id=self.other_ship_id, target=target, x3=8)
+            # AccelerateCommand(ship_id=self.ship_id, vector=(-1, 1)),
+            ShootCommand(ship_id=self.ship_id, target=target, x3=86)
         ]
