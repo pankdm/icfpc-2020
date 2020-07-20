@@ -18,7 +18,7 @@ class Command:
       elif kind == 1:
         return DetonateCommand(ship_id=ship_id)
       elif kind == 2:
-        return ShootCommand(ship_id=ship_id, target=tuple(l[1]), x3=l[2])
+        return ShootCommand(ship_id=ship_id, target=tuple(l[1]), x3=l[2], xn=l[3:])
       else:
         print(f"Command.from_list got unknown command: {l} ship_id={ship_id}")
         return UnknownCommand(ship_id=ship_id, raw_data=l)
@@ -55,6 +55,7 @@ class ShootCommand:
   ship_id: int 
   target: (int, int)
   x3: Any
+  xn: list = None  # only received from the server, never sent from the client
 
   def to_list(self):
     # (2, shipId, target, x3)

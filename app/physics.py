@@ -11,9 +11,9 @@ def sign(x):
 
 
 def get_g_force(x, y):
-    if y > abs(x):
+    if abs(y) > abs(x):
         return (0, -sign(y))
-    if x > abs(y):
+    if abs(x) > abs(y):
         return (-sign(x), 0)
     else:
         return (-sign(x), -sign(y))
@@ -46,3 +46,4 @@ if __name__ == "__main__":
     expect_eq(get_g_force(10, 10), (-1, -1))
     expect_eq(get_g_force(10, 0), (-1, 0))
     expect_eq(get_g_force(10, -10), (-1, 1))
+    expect_eq(get_g_force(-47, 4), (1, 0))
