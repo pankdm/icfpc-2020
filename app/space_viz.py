@@ -3,6 +3,7 @@
 
 from tkinter import *
 from models import *
+from physics import *
 
 UI_SCALE=3
 
@@ -155,6 +156,28 @@ class SpaceUI:
           x_other, y_other = command.target
           self.draw_line(x, y, x_other, y_other, fill="red")
           self.draw_rectangular((x_other - 2, y_other - 2), (x_other + 2, y_other + 2), fill="red")
+        if isinstance(command, AccelerateCommand):
+          vx, vy = command.vector
+          self.draw_line(x, y, x + 5*vx, y + 5*vy, fill="green")
+
+
+
+  def draw_trajectory(self, steps):
+    if self.index >= len(self.responses):
+      return
+    game_state = self.responses[self.index].game_state
+    for ship in game_state.ships:
+      pos = ship.position
+      velocity = ship.velocity
+      state = KinematicState(pos, velocity)
+      for i in range(steps):
+        if ship.role == 0:
+          color = "orange"
+        else:
+          color = "cyan"
+        new_state = state.update()
+        self.draw_line(state.pos[0], state.pos[1], new_state.pos[0], new_state.pos[1], fill=color)
+        state = new_state
 
   def draw_ship_info(self):
     if self.index >= len(self.responses):
@@ -173,6 +196,7 @@ class SpaceUI:
     print (f"tick = {self.index + 1} (out of {len(self.responses)})")
     self.draw_gravity_field()
     self.draw_planet()
+    self.draw_trajectory(steps = 15)
     self.draw_actions()
     self.draw_ships()
     self.draw_ship_info()

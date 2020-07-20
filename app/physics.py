@@ -19,6 +19,23 @@ def get_g_force(x, y):
         return (-sign(x), -sign(y))
 
 
+class KinematicState:
+    def __init__(self, pos, velocity):
+        self.pos = pos
+        self.velocity = velocity
+    
+    def update(self):
+        x, y = self.pos
+        vx, vy = self.velocity
+
+        gx, gy = get_g_force(x, y)
+        vx += gx
+        vy += gy
+
+        x += vx
+        y += vy
+        return KinematicState( (x, y), (vx, vy))
+
 
 def expect_eq(a, b):
     print (f"comparing {a} and {b}")
