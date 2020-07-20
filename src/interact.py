@@ -6,9 +6,30 @@ from send import do_send
 from lists import *
 from galaxy_evaluator import *
 
+import time
+import os
+
+def create_log():
+  timestamp = time.strftime("%Y-%m-%d_%H-%M-%S")
+  # datetime.utcnow().isoformat()
+  # folder = "annotations/tmp/{}".format(timestamp)
+  folder = "send-alien-logs/"
+  os.makedirs(folder, exist_ok=True)
+  filepath = "{}/{}.txt".format(folder, timestamp)
+  return open(filepath, 'w')
+
+logfile = None
+if logfile is None:
+  print("created new log!!!")
+  logfile = create_log()
+
+
 def _send_to_alien_proxy(data):
+  global logfile
   print ()
-  print("_send_to_alien_proxy")
+  print("_send_to_alien_proxy: ", data)
+  logfile.write('sent to aliens: ' + str(data) + '\n')
+  logfile.flush()
 
   # new_cons = py_to_tree(data_as_list)
   # data_as_list_again = tree_to_py(new_cons)
