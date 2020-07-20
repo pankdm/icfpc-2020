@@ -23,7 +23,7 @@ class Command:
         print(f"Command.from_list got unknown command: {l} ship_id={ship_id}")
         return UnknownCommand(ship_id=ship_id, raw_data=l)
     except:
-      traceback.print_exc()
+      traceback.print_stack()
       print(f"Command parsing failed. Using UnknownCommand as last resort.")
       return UnknownCommand(ship_id=ship_id, raw_data=l)
 
@@ -154,6 +154,13 @@ class GameResponse:
   game_stage: Optional[int]
   static_game_info: Optional[StaticGameInfo]
   game_state: Optional[GameState]
+
+
+  def get_ship(self, ship_id):
+    for ship in self.game_state.ships:
+      if ship.ship_id == ship_id:
+        return ship
+    return None
 
   @staticmethod
   def from_list(l):

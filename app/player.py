@@ -106,7 +106,10 @@ class Player:
         game_response = GameResponse.from_list(response)
         print(f"[{self.display_name}] Got join response: {game_response}")
 
-        self.bot.handle_join_response(game_response)
+        try:
+            self.bot.handle_join_response(game_response)
+        except:
+            traceback.print_stack()
 
         return game_response
 
@@ -123,8 +126,11 @@ class Player:
         game_response = GameResponse.from_list(response)
         print(f"[{self.display_name}] Got start response: {game_response}")
 
-        self.bot.handle_start_response(game_response)
-
+        try:
+            self.bot.handle_start_response(game_response)
+        except:
+            traceback.print_stack()
+            
         if self.ui:
             print(f"updating UI")
             self.ui.append_response(game_response)
@@ -132,7 +138,13 @@ class Player:
         return game_response
 
     def make_commands_request(self, game_response):
-        commands = self.bot.get_commands(game_response)
+        try:
+            commands = self.bot.get_commands(game_response)
+        except:
+            traceback.print_stack()
+            print(f"Bot failed with exception. Just sending no commands to stay alive.")
+            commands = []
+
         print(f"[{self.display_name}] Sending commands: {commands}")
         data = [c.to_list() for c in commands]
         request_data = [4, int(self.player_key), data]

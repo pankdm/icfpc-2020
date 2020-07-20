@@ -15,28 +15,19 @@ class Bot:
             return
 
         self.ship_id = None
+        self.other_ship_ids = []
         for ship in game_response.game_state.ships:
             if ship.role == self.role:
                 self.ship_id = ship.ship_id
             else:
-                self.other_ship_id = ship.ship_id
+                self.other_ship_ids.append(ship.ship_id)
+        self.other_ship_id = self.other_ship_ids[0]
+
         print(f"Detected ship ID as {self.ship_id}")
-        print(f"Detected other ship ID as {self.other_ship_id}")
+        print(f"Detected other ship IDs as {self.other_ship_ids}")
+
         if self.ship_id is None or self.other_ship_id is None:
-            raise ValueError(f"Failed to find ship IDs in {game_response} with role {self.role}")
-
-    def get_ship_position(self, ship_id, game_response):
-        position = None
-        for ship in game_response.game_state.ships:
-            if ship.ship_id == ship_id:
-                position = ship.position
-        return position
-
-    def get_my_position(self, game_response):
-        return self.get_ship_position(self.ship_id, game_response)
-
-    def get_other_position(self, game_response):
-        return self.get_ship_position(self.other_ship_id, game_response)
+            raise ValueError(f"Failed to find at least 2 ship IDs in {game_response} with role {self.role}")
 
 class DoNothingBot(Bot):
     def get_start_data(self, game_response: GameResponse):
@@ -62,11 +53,7 @@ class FlyingBot(Bot):
         return [100, 10, 10, 1]
 
     def get_commands(self, game_response: GameResponse):
-        position = self.get_my_position(game_response)
-        if position is None:
-            return []
-
-        x, y = position
+        x, y = game_response.get_ship(self.ship_id).position
 
         if abs(x) > 47 or abs(y) > 47:
             # Just cool down
@@ -81,14 +68,16 @@ class FlyingBot(Bot):
 
 class ShooterBot(Bot):
     def get_start_data(self, game_response: GameResponse):
-        return [100, 10, 10, 1]
+        return [64, 48, 14, 1]
 
     def get_commands(self, game_response: GameResponse):
-        # default: do nothing
-        target = self.get_other_position(game_response)
-        if target is None:
-            print("Want to shoot, but don't know target position")
-            return []
+        other_position = game_response.get_ship(self.other_ship_id).position
+        other_velocity = game_response.get_ship(self.other_ship_id).velocity
+        target = (
+            other_position[0] + other_velocity[0],
+            other_position[1] + other_velocity[1],
+        )
         return [
-            ShootCommand(ship_id=self.other_ship_id, target=target, x3=0)
-        ]        
+            AccelerateCommand(ship_id=self.ship_id, vector=(-1, 1)),
+            ShootCommand(ship_id=self.other_ship_id, target=target, x3=8)
+        ]
