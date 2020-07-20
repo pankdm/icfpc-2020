@@ -18,7 +18,9 @@ class Command:
       elif kind == 1:
         return DetonateCommand(ship_id=ship_id)
       elif kind == 2:
-        return ShootCommand(ship_id=ship_id, target=tuple(l[1]), x3=l[2], xn=l[3:])
+        return ShootCommand(ship_id=ship_id, target=tuple(l[1]), x3=l[2])
+      elif kind == 3:
+        return ForkCommand(ship_id=ship_id, x4=list(l[1]))
       else:
         print(f"Command.from_list got unknown command: {l} ship_id={ship_id}")
         return UnknownCommand(ship_id=ship_id, raw_data=l)
@@ -60,6 +62,15 @@ class ShootCommand:
   def to_list(self):
     # (2, shipId, target, x3)
     return [2, self.ship_id, tuple(self.target), self.x3]
+
+@dataclass
+class ForkCommand:
+  ship_id: int
+  x4: list
+
+  def to_list(self):
+    return [3, self.ship_id, list(self.x4)]
+  
 
 @dataclass
 class StaticGameInfo:

@@ -54,7 +54,7 @@ class SpaceUI:
 
   def handle_key(self, event):
     ch = event.char
-    print(f"\nKey '{ch}' was pressed")
+    # print(f"\nKey '{ch}' was pressed")
     if ch == 's':
       if self.index > 0:
         self.index -= 1
@@ -141,7 +141,7 @@ class SpaceUI:
       return
     state = self.responses[self.index].game_state
     for ship in state.ships:
-      print (f"drawing {ship}")
+      # print (f"drawing {ship}")
       x, y = ship.position
       self.add_spacecraft(x, y, get_ship_color(ship))
 
@@ -196,7 +196,7 @@ class SpaceUI:
     print (f"tick = {self.index + 1} (out of {len(self.responses)})")
     self.draw_gravity_field()
     self.draw_planet()
-    self.draw_trajectory(steps = 15)
+    self.draw_trajectory(steps = 10)
     self.draw_actions()
     self.draw_ships()
     self.draw_ship_info()

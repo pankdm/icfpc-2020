@@ -92,6 +92,8 @@ class Player:
             ts = datetime.utcnow().isoformat()
             self.output = open(f"game-logs/{ts}.txt", "w")
             self.space_log = open("space-log.txt", "w")
+            self.output.flush()
+            self.space_log.flush()
 
     def make_join_request(self):
         print(f"[{self.display_name}] Joining")
@@ -120,6 +122,9 @@ class Player:
         if self.log:
             self.space_log.write(f"{response}\n")
             self.output.write(f"{response}\n")
+            self.output.flush()
+            self.space_log.flush()
+
 
         game_response = GameResponse.from_list(response)
         print(f"[{self.display_name}] Got start response: {game_response}")
@@ -151,6 +156,9 @@ class Player:
         if self.log:
             self.space_log.write(f"{response}\n")
             self.output.write(f"{response}\n")
+            self.output.flush()
+            self.space_log.flush()
+
         
         game_response = GameResponse.from_list(response)
         print(f"[{self.display_name}] Got commands response: {game_response}")

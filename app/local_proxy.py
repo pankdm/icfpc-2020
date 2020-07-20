@@ -37,7 +37,7 @@ def main():
     key2 = create[1][1][1]
 
     bot1 = FlyingBot()
-    bot2 = FlyingBot()
+    # bot2 = ShooterBot()
 
     player1 = Player(proxy, key1, bot1, log=True, display_name="Player 1", ui = ui)
     player2 = Player(proxy, key2, bot2, display_name="Player 2")

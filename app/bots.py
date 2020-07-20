@@ -1,5 +1,5 @@
 from models import *
-from physics import get_g_force
+from physics import *
 
 class Bot:
     def handle_join_response(self, game_response):
@@ -118,4 +118,59 @@ class ShooterBot(Bot):
             # self.flying_helper.get_commands(game_response, ship_id=self.ship_id) + 
             self.shoot_ahead_helper.get_commands(game_response, shooter_ship_id=self.ship_id, target_ship_id=target_ship_id, power=52)
         )
-        
+
+def get_away_vectors(xy1, xy2):
+    x1, y1 = xy1
+    x2, y2 = xy2
+
+    if abs(x2 - x1) + abs(y2 - y1) <= 5:
+        dx = sign(x2 - x1)
+        dy = sign(y2 - y1)
+        if dx == 0: dx += 1
+        if dy == 0: dy += 1
+        return ((dx, dy), (-dx, -dy))
+    return None
+
+def apply_point(pt, delta):
+    return (pt[0] + delta[0], pt[1] + delta[1])
+
+
+class ForkBot(Bot):
+    def __init__(self):
+        self.flying_helper = BasicFlyingHelper(self)
+        self.starting_stats = [64, 64, 10, 4]
+        self.num_forked = 0
+
+    def get_start_data(self, game_response: GameResponse):
+        return self.starting_stats
+
+    def get_commands(self, game_response: GameResponse):
+        team_ship_ids = []
+        for ship in game_response.game_state.ships:
+            if ship.role == self.role:
+                print ("")
+                team_ship_ids.append(ship.ship_id)
+
+        if self.num_forked == 0:
+            self.num_forked += 1
+            return [ ForkCommand(
+                        ship_id=self.ship_id,
+                        x4=map(lambda x: x // 2, self.starting_stats))
+                    ]
+        commands = []
+        if len(team_ship_ids) >= 2:
+            ship_id1 = team_ship_ids[0]
+            ship_id2 = team_ship_ids[1]
+
+            pos1 = game_response.get_ship(ship_id1).position
+            pos2 = game_response.get_ship(ship_id2).position
+            vectors = get_away_vectors(pos1, pos2)
+            if vectors:
+                return [
+                    AccelerateCommand(ship_id=ship_id1, vector=vectors[0]),
+                    AccelerateCommand(ship_id=ship_id2, vector=vectors[1])
+                ]
+            
+        for ship_id in team_ship_ids:
+            commands.extend(self.flying_helper.get_commands(game_response, ship_id))
+        return commands
