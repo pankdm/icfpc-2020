@@ -6,44 +6,36 @@ from send import do_send
 from lists import *
 from galaxy_evaluator import *
 
-
-
 def _send_to_alien_proxy(data):
   print("_send_to_alien_proxy")
-  data_as_list = recursive_list_convert(data)
-  print(f"data_as_list ={data_as_list}")
 
-  # new_cons = list_to_cons(data_as_list)
-  # data_as_list_again = recursive_list_convert(new_cons)
+  # new_cons = py_to_tree(data_as_list)
+  # data_as_list_again = tree_to_py(new_cons)
   # print(f"new_cons {new_cons}")
   # print(f"data_as_list_again {data_as_list_again}")
   # print(f"same? {data_as_list == data_as_list_again}")
   # exit()
 
-  modulated = mod(data_as_list)
+  modulated = mod(data)
   print(f"Sending as {modulated}")
   response = do_send(modulated)
   print(f"Got {response}")
   demodulated = dem(io.StringIO(response))
   print(f"...parsed as {demodulated}")
-  as_expr = demodulated_list_to_cons(demodulated)
+  as_expr = py_to_tree(demodulated)
   print(f"as_expr {as_expr}")
 
   return as_expr
 
-def draw_helper(functional_data, img_index=0, draw_dot_impl=None):
-  data = cons_list_to_py_list(functional_data)
+def draw_helper(data, img_index=0, draw_dot_impl=None):
   for pt_data in data:
-     pt = cons_list_to_py_list(pt_data)
-     x = asNum(pt[0])
-     y = asNum(pt[1])
+     (x, y) = pt_data
      if draw_dot_impl:
        draw_dot_impl(x, y, img_index)
      else:
        print(f"draw_dot({x}, {y}) img_index={img_index}")
 
-def multipledraw_helper(functional_data, draw_dot_impl=None, selected_layer=None):
-  data = cons_list_to_py_list(functional_data)
+def multipledraw_helper(data, draw_dot_impl=None, selected_layer=None):
   layers = 0
   for (index, item) in enumerate(reversed(data)):
     if selected_layer is not None:
@@ -61,16 +53,17 @@ def interact(protocol_evaluator, state, vector):
   res = protocol_evaluator(state, vector)
 
   # Note: res will be modulatable here (consists of cons, nil and numbers only)
-  (flag, newState, data) = tuple(cons_list_to_py_list(res))
-  before = recursive_list_convert(state)
-  after = recursive_list_convert(newState)
-  print(f"flag={flag}\nnewState={after}")  # data={recursive_list_convert(data)}
-  if before == after:
+  print(f"eval res {res}")
+  (flag, newState, data) = tree_to_py(res)
+  #newState = eval(Ap(Atom("car"), Ap(Atom("cdr"), res)))
+  newState = py_to_tree(newState)
+  print(f"flag={flag}\nnewState={newState}")
+  if state == newState:
     print("State remained unchanged")
   else:
     print (" >>> NEW STATE!!!")
 
-  if asNum(flag) == 0:
+  if flag == 0:
       return (newState, data)
 
   return interact(protocol_evaluator, newState, _send_to_alien_proxy(data))

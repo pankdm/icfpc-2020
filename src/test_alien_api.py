@@ -17,5 +17,5 @@ f.close()
 
 demodulated = dem(io.StringIO(response))
 print(f"...parsed as {demodulated}")
-as_expr = demodulated_list_to_cons(demodulated)
+as_expr = py_to_tree(demodulated)
 print(f"as_expr {as_expr}")

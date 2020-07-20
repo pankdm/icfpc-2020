@@ -2,10 +2,10 @@
 # The default Python 3 doesn't include Tkinter bindings.
 
 from tkinter import *
-from protocols import *
 from funcs import *
 from galaxy_evaluator import *
 from lists import *
+from interact import *
 
 UI_SCALE=3
 
@@ -35,31 +35,31 @@ class TkUI:
     # self.current_state = nil
     #
     #  show galaxy, click around to see races:
-    self.current_state = list_to_cons(
+    self.current_state = py_to_tree(
       # [5, [1, 0, [], [], [], [], [], 16701], 8, []]  # before tutorials
-      [1, [11], 0, []]
+      [1, [11], 0, None]
       )
     #
     #  some picture with increasing boxes
-    # self.current_state = list_to_cons([2, [4, 5], 0, []])
+    # self.current_state = py_to_tree([2, [4, 5], 0, []])
     #
     #  glyphs guessing game
-    # self.current_state = list_to_cons([4, [1, [122, 203, 410, 164, 444, 484, 202, 77, 251, 56, 456, 435, 28, 329, 257, 265, 501, 18, 190, 423, 384, 434, 266, 69, 34, 437, 203, 152, 160, 425, 245, 428, 99, 107, 192, 372, 346, 344, 169, 478, 393, 502, 201, 497, 313, 32, 281, 510, 436, 22, 237, 80, 325, 405, 184, 358, 57, 276, 359, 189, 284, 277, 198, 244], -1, 0, []], 0, []])
+    # self.current_state = py_to_tree([4, [1, [122, 203, 410, 164, 444, 484, 202, 77, 251, 56, 456, 435, 28, 329, 257, 265, 501, 18, 190, 423, 384, 434, 266, 69, 34, 437, 203, 152, 160, 425, 245, 428, 99, 107, 192, 372, 346, 344, 169, 478, 393, 502, 201, 497, 313, 32, 281, 510, 436, 22, 237, 80, 325, 405, 184, 358, 57, 276, 359, 189, 284, 277, 198, 244], -1, 0, []], 0, []])
     #
     #  riddle with beams
-    # self.current_state = list_to_cons([2, [3, 1], 0, []])
+    # self.current_state = py_to_tree([2, [3, 1], 0, []])
     #
     #  donut game (tic-tac-toe?)
-    # self.current_state = list_to_cons([3, [0, [0, 0, 0, 0, 0, 0, 0, 0, 0], [], 0], 0, []])
+    # self.current_state = py_to_tree([3, [0, [0, 0, 0, 0, 0, 0, 0, 0, 0], [], 0], 0, []])
     #
     #  end game
-    # self.current_state = list_to_cons([5, [2, 0, [], [], [], [], [], 39392], 125, []])
+    # self.current_state = py_to_tree([5, [2, 0, [], [], [], [], [], 39392], 125, []])
 
     # start from galaxy screen:
-    # self.current_state = list_to_cons([5, [2, 0, [], [], [], [], [], 39656], 125, []])
+    # self.current_state = py_to_tree([5, [2, 0, [], [], [], [], [], 39656], 125, []])
 
     # end game?
-    # self.current_state = list_to_cons([10, [], 8, []])
+    # self.current_state = py_to_tree([10, [], 8, []])
 
     self.state_click_history = []
     self.img_history = [None]
@@ -77,18 +77,16 @@ class TkUI:
           self.selected_layer = layer
         self.draw()
 
-
-
   def handle_rewind(self, event):
       print(f'\n\nAttempting time travel...')
       self.rewind_state()
 
   def handle_click_all_pixels(self, event):
       print(f"click all pixels")
-      ui_elements = recursive_list_convert(self.current_img_data)[:-1]
+      ui_elements = tree_to_py(self.current_img_data)[:-1]
       for pixels in ui_elements:
           for x, y in pixels:
-              current_ui_elements = recursive_list_convert(self.current_img_data)[:-1]
+              current_ui_elements = tree_to_py(self.current_img_data)[:-1]
               if ui_elements != current_ui_elements:
                   print('image changed:', ui_elements, current_ui_elements)
                   break
@@ -110,7 +108,7 @@ class TkUI:
       self.canvas.focus_set()
 
   def update_state(self, current_state, img_data, click, next_state, next_img_data):
-      if recursive_list_convert(current_state) != recursive_list_convert(next_state):
+      if tree_to_py(current_state) != tree_to_py(next_state):
           self.state_click_history.append((current_state, click))
           self.img_history.append(img_data)
           self.current_state = next_state
@@ -164,9 +162,9 @@ class TkUI:
 
 
 def main():
-  # as_expr = list_to_cons([1,2,3,[4]])
+  # as_expr = py_to_tree([1,2,3,[4]])
   # print(f"as_expr {as_expr}")
-  # as_list = recursive_list_convert(as_expr)
+  # as_list = tree_to_py(as_expr)
   # print(f"as_list {as_list}")
   # exit()
 

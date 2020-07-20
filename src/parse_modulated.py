@@ -1,21 +1,21 @@
 import sys
 import io
 
-
 def parse(f):
-    # start = f.index
     prefix = f.read(2)
     if prefix == "":
-        return None
+        raise ValueError("Trying to parse empty token")
     elif prefix == "00":
         return None
     elif prefix == "11":
         res1 = parse(f)
         res2 = parse(f)
-        # print (f"current slice: {f.slice(start, f.index)}")
-        # print (f"parsed {res1}")
-        # print (f"parsed {res2}")
-        return [res1, res2]
+        if res2 is None:
+            return [res1]
+        elif type(res2) == list:
+            return [res1] + res2
+        else:
+            return (res1, res2)
     else:
         num_bits = 0
         while True:
