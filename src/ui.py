@@ -28,6 +28,7 @@ class TkUI:
 
 
     self.selected_layer = None
+    self.current_state = nil
 
     # Initial states:
     #
@@ -50,7 +51,7 @@ class TkUI:
     #
 
     # before tutorial
-    self.current_state = py_to_tree([5, [2, 0, [], [], [], [], [], 14571], 8, []])
+    # self.current_state = py_to_tree([5, [2, 0, [], [], [], [], [], 14571], 8, []])
 
     #  glyphs guessing game
     # self.current_state = py_to_tree([4, [1, [122, 203, 410, 164, 444, 484, 202, 77, 251, 56, 456, 435, 28, 329, 257, 265, 501, 18, 190, 423, 384, 434, 266, 69, 34, 437, 203, 152, 160, 425, 245, 428, 99, 107, 192, 372, 346, 344, 169, 478, 393, 502, 201, 497, 313, 32, 281, 510, 436, 22, 237, 80, 325, 405, 184, 358, 57, 276, 359, 189, 284, 277, 198, 244], -1, 0, []], 0, []])
@@ -81,16 +82,16 @@ class TkUI:
     data = None
 
     # tutorial 1
-    self.current_state = py_to_tree([6, [2, 5, 0, 1, 1, 0, [], [], 4, [], [], [], []], 8, []])    
-    data = [1, 2]
+    # self.current_state = py_to_tree([6, [2, 5, 0, 1, 1, 0, [], [], 4, [], [], [], []], 8, []])    
+    # data = [1, 2]
 
-    # tutorial 2
-    self.current_staet = py_to_tree([6, [3, 5, 0, 1, 9, 0, [], [], 4, [], [], [], []], 8, []])
-    data = [1, 3]
+    # # tutorial 2
+    # self.current_state = py_to_tree([6, [3, 5, 0, 1, 9, 0, [], [], 4, [], [], [], []], 8, []])
+    # data = [1, 3]
 
-    # tutorial 6
-    self.current_staet = py_to_tree([6, [10, 5, 0, 1, 100, 0, [], [], 4, [], [], [], []], 8, []])
-    data = [1, 10]
+    # # tutorial 6
+    # self.current_state = py_to_tree([6, [10, 5, 0, 1, 100, 0, [], [], 4, [], [], [], []], 8, []])
+    # data = [1, 10]
 
 
 

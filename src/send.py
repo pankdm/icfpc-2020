@@ -1,7 +1,10 @@
 import requests
 
-_API_KEY="6e1336a2ffa94971b5f74715a85708b9"
-_URL="https://icfpc2020-api.testkontur.ru"
+# _API_KEY="6e1336a2ffa94971b5f74715a85708b9"
+# _URL="https://icfpc2020-api.testkontur.ru"
+
+_API_KEY=None
+_URL="https://api.pegovka.space"
 
 GLOBAL_COUNTER = 0
 
